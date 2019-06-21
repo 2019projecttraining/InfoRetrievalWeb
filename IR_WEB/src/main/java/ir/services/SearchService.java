@@ -7,9 +7,9 @@ import ir.models.PatentsForView;
 @Service
 public interface SearchService {
 
-	//基本查询
+	//鍩虹鎼滅储
 	public PatentsForView search(String keyWords);
 	
-	//TODO 其余的高级查询
+	//TODO 楂樼骇鎼滅储
 	
 }

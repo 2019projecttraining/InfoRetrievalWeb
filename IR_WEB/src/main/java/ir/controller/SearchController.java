@@ -14,12 +14,12 @@ public class SearchController {
 	@Autowired
 	private SearchService searchService;
 	
-	@RequestMapping("Ó³ÉäÒ³ÃæµØÖ·")//ÉèÖÃÓ³ÉäµÄµØÖ·£¬¼´Ê²Ã´ÑùµÄurlÇëÇó»áÊ¹ÓÃÕâ¸ö·½·¨·µ»Ø
+	@RequestMapping("è®¾ç½®æ˜ å°„ç›®æ ‡åç§°")//å³ä»€ä¹ˆæ ·çš„é¡µé¢ä¼šæ˜ å°„åˆ°è¿™ä¸ªæ–¹æ³•ä¸Š
 	public ModelAndView searchWithKeyWords(String keyWords) {
 		PatentsForView result=searchService.search(keyWords);
 		ModelAndView modelAndView=new ModelAndView();
-		modelAndView.setViewName("Ä£°åÃû³Æ");//ÉèÖÃ·µ»ØµÄÄ£°åÃû³Æ
-		modelAndView.addObject("PatentsForView", result);//·µ»Ø½á¹û¶ÔÏó
+		modelAndView.setViewName("æ¨¡æ¿åç§°");//è®¾ç½®æ¨¡æ¿åç§°
+		modelAndView.addObject("PatentsForView", result);//åŠ å…¥è¿”å›çš„ç»“æœ
 		return modelAndView;
 	}
 }

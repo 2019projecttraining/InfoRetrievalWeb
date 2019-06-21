@@ -2,6 +2,6 @@ package ir.models;
 
 public class PatentsForView {
 
-	//·µ»Ø¸øÇ°¶ËµÄÊı¾İÏî
+	//ä¼ é€’å‰ç«¯é¡µé¢éœ€è¦çš„å€¼
 	
 }

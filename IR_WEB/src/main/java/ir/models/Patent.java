@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class Patent {
 
-	//TODO ÂÞÁÐÊý¾ÝÏî
+	//TODO æ·»åŠ ä¸“åˆ©å±žæ€§
 	
 }
