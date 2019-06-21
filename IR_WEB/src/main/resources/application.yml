@@ -1,0 +1,41 @@
+server: 
+   tomcat:
+      access_log_enabled: true
+      basedir: target/tomcat 
+
+spring:
+   thymeleaf: 
+      cache: false  
+   jpa: 
+      show-sql: true
+      hibernate:
+         # Hibernate ddl auto (create, create-drop, update)
+         ddl-auto: update
+         #spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect  
+         naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy  
+      #spring.jpa.database=org.hibernate.dialect.MySQL5InnoDBDialect 
+      properties:
+         hibernate:
+            dialect: org.hibernate.dialect.MySQL5Dialect
+   datasource: 
+      primary: 
+         dataSourceProperties: 
+            characterEncoding: utf-8
+            serverName: localhost
+            portNumber: 3306
+            databaseName: show_book
+         dataSourceClassName: com.mysql.cj.jdbc.MysqlDataSource
+         username: root
+         password: 123456
+      default-auto-commit: true 
+      auto-commit: true
+      maximum-pool-size: 100
+      max-idle: 10
+      max-wait: 10000
+      min-idle: 5
+      initial-size: 5
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 18800
+      minEvictableIdleTimeMillis: 300000

@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'ir'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.springframework.session:spring-session-jdbc'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.1.1'
+    compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.1.1'
+    compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.1.1'
+    compile group: 'org.apache.lucene', name: 'lucene-analyzers-smartcn', version: '8.1.1'
+    
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+}
