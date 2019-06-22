@@ -26,18 +26,12 @@ public class SearchController {
 	 * @return
 	 */
 	@GetMapping("设置映射目标名称")//即什么样的页面会映射到这个方法上
-	public ModelAndView searchWithKeyWords(@RequestParam String keyWords,
-			@RequestParam(value="pinyin",required=false) String firstLetterOfNamePinyin,
-			@RequestParam(value="time_from",defaultValue="NO_VALUE",required=false) String timeFrom,
-			@RequestParam(value="time_to",defaultValue="NO_VALUE",required=false) String timeTo,
-			@RequestParam(value="time_order",defaultValue="DESC",required=false) String timeOrder,
-			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGranted,
-			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVE",required=false) String sortedType) {
-		
-		
-		
-		
-		
+	public ModelAndView searchWithKeyWords(@RequestParam String keyWords,//关键字
+			@RequestParam(value="pinyin",defaultValue="NO_LIMIT",required=false) String firstLetterOfNamePinyin,//拼音首字母
+			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
+			@RequestParam(value="time_to",defaultValue="NO_VALUE",required=false) String timeTo,//截至时间
+			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGranted,//是否授权
+			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVE",required=false) String sortedType) {//排序类型
 		
 		PatentsForView result=searchService.search(keyWords);
 		ModelAndView modelAndView=new ModelAndView();
