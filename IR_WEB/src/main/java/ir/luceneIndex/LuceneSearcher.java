@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LuceneSearcher extends IndexSearcher{
 	
-	public final static String LUCENE_INDEX_FILE_PATH="";
+	public final static String LUCENE_INDEX_FILE_PATH="TODO";
 	
 	static {
 		//指定索引库存放路径
