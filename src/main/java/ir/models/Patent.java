@@ -10,7 +10,11 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
-
+/**
+ * 专利实体映射类
+ * @author 杨涛
+ *
+ */
 @Data
 @Entity
 @Table(name="t_patents",uniqueConstraints= {@UniqueConstraint(columnNames= {"id"})})
