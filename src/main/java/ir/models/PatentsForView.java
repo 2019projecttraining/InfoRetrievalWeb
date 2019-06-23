@@ -2,6 +2,7 @@ package ir.models;
 
 import java.util.List;
 /**
+ * 传递前端页面需要的值
  * 
  * @author 杨涛
  *
