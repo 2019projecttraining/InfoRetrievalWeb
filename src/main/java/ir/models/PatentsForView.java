@@ -1,7 +1,11 @@
 package ir.models;
 
 import java.util.List;
-
+/**
+ * 
+ * @author 杨涛
+ *
+ */
 public class PatentsForView {
 
 	//传递前端页面需要的值
