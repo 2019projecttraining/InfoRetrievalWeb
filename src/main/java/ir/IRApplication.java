@@ -3,6 +3,11 @@ package ir;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * 全局入口
+ * 
+ * @author 余定邦
+ */
 @SpringBootApplication
 public class IRApplication {
 

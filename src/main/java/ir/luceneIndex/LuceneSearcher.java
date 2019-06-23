@@ -11,10 +11,17 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.stereotype.Service;
 
+import ir.config.Configuration;
+
+/**
+ * 读取lucene索引文件，提供接下来的查询服务
+ * 
+ * @author HPuser
+ */
 @Service
 public class LuceneSearcher extends IndexSearcher{
 	
-	public final static String LUCENE_INDEX_FILE_PATH="TODO";
+	public final static String LUCENE_INDEX_FILE_PATH=Configuration.getConfig("lucene-index-file-path");
 	
 	static {
 		//指定索引库存放路径
