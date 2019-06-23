@@ -3,4 +3,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'IR_WEB'
+rootProject.name = 'InfoRetrievalWeb'
