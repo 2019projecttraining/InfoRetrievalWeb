@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.springframework.stereotype.Service;
+
 import ir.config.Configuration;
 import ir.models.WordEntry;
 /**
@@ -15,7 +17,7 @@ import ir.models.WordEntry;
  * @author 杨涛
  *
  */
-
+@Service
 public class SimilarWords {
 	
 //	private void train(String path) throws IOException {
@@ -28,14 +30,23 @@ public class SimilarWords {
 	
 	private final static String path1=Configuration.getConfig("C:\\Users\\HPuser\\Desktop\\分词结果\\javaVector.bin");
 	private final static String path2=Configuration.getConfig("C:\\Users\\HPuser\\Desktop\\分词结果\\nounWords.txt");
-	
+	/**
+	 * 加载模型
+	 * @param vec
+	 * @return
+	 * @throws IOException
+	 */
 	public Word2VEC getModel(Word2VEC vec) throws IOException {
 		long start = System.currentTimeMillis();  
 		vec.loadJavaModel(path1);
 		System.out.println("load model time " + (System.currentTimeMillis() - start));
 		return vec;
 	}
-	
+	/**
+	 * 加载名词表
+	 * @return
+	 * @throws IOException
+	 */
 	public Set<String> getNounWords() throws IOException {
 		long start = System.currentTimeMillis();  
 		BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -48,7 +59,14 @@ public class SimilarWords {
 		System.out.println("load noun time " + (System.currentTimeMillis() - start));
 		return nounWords;
 	}
-	
+	/**
+	 * 根据阈值获取近义词
+	 * @param word
+	 * @param limit
+	 * @param vec
+	 * @return
+	 * @throws IOException
+	 */
 	public Set<WordEntry> getSimilarWordsByLimit(String word,double limit,Word2VEC vec) throws IOException{//vec需提前加载模型
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
@@ -59,7 +77,14 @@ public class SimilarWords {
 		 }
 		 return S2;
 	}
-	
+	/**
+	 * TopN个近义词
+	 * @param word
+	 * @param n
+	 * @param vec
+	 * @return
+	 * @throws IOException
+	 */
 	public Set<WordEntry> getSimilarWordsByTopN(String word,int n,Word2VEC vec) throws IOException{
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
@@ -70,7 +95,15 @@ public class SimilarWords {
 		 }
 		 return S2;
 	}
-	
+	/**
+	 * 根据阈值获取名词近义词
+	 * @param word
+	 * @param limit
+	 * @param nounWords
+	 * @param vec
+	 * @return
+	 * @throws IOException
+	 */
 	public Set<WordEntry> getSimilarNounWords(String word,double limit,Set<String> nounWords,Word2VEC vec) throws IOException{ 
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
