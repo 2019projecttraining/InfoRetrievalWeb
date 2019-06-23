@@ -7,6 +7,12 @@ import ir.models.Patent;
 import ir.repositories.PatentRepositoty;
 import ir.services.PatentService;
 
+/**
+ * 提供使用专利ID获取专利细节的服务
+ * 
+ * @author 余定邦
+ *
+ */
 @Service
 public class PatentServiceImpl implements PatentService{
 	
