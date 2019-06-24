@@ -30,7 +30,7 @@ public class Configuration {
 		return config.get(key);
 	}
 	
-	public static void readInfoRetrievalWebProperties() {
+	private static void readInfoRetrievalWebProperties() {
 		try {
 			URL fileUrl = Configuration.class.getClassLoader().getResource("ir_web.properties");
 			
@@ -49,7 +49,7 @@ public class Configuration {
             while(it.hasNext()){
                 String key=it.next();
                 config.put(key, prop.getProperty(key));
-                //System.out.println(key+":"+prop.getProperty(key));
+                System.out.println("加载配置 \'"+key+"\' = "+prop.getProperty(key));
             }
             in.close();
             

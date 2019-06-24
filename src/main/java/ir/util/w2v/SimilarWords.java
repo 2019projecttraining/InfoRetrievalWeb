@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -28,8 +30,8 @@ public class SimilarWords {
 //	    learn.saveModel(new File("C:\\Users\\HPuser\\Desktop\\分词结果\\javaVector.bin"));
 //	}
 	
-	private final static String path1=Configuration.getConfig("C:\\Users\\HPuser\\Desktop\\分词结果\\javaVector.bin");
-	private final static String path2=Configuration.getConfig("C:\\Users\\HPuser\\Desktop\\分词结果\\nounWords.txt");
+	private final static String path1=Configuration.getConfig("similar-words-model-path");
+	private final static String path2=Configuration.getConfig("noun-words-file-path");
 	private final static Word2VEC vec;
 	private final static Set<String> nounWords;
 	
@@ -84,6 +86,7 @@ public class SimilarWords {
 		System.out.println("load noun time " + (System.currentTimeMillis() - start));
 		return nounWords;
 	}
+	
 	/**
 	 * 根据相似性阈值获取近义词
 	 * @param word
@@ -125,7 +128,7 @@ public class SimilarWords {
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<WordEntry> getSimilarNounWords(String word,double limit) throws IOException{ 
+	public Set<WordEntry> getSimilarNounWordsByLimit(String word,double limit) throws IOException{ 
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
 		 for(WordEntry w: S) {
@@ -142,12 +145,28 @@ public class SimilarWords {
 		 }
 		 return S2;
 	}
+	/**
+	 * 获取TopN个名词近义词
+	 * @param word
+	 * @param n
+	 * @return
+	 * @throws IOException
+	 */
+	public Set<WordEntry> getSimilarNounWordsByTopN(String word,int n) throws IOException{
+		Set<WordEntry> S=getSimilarNounWordsByLimit(word,0);
+		System.out.println();
+		List<WordEntry> l=new ArrayList<>(S);
+		if(n<l.size())
+			l=l.subList(0, n);
+		Set<WordEntry> S2=new TreeSet<WordEntry>(l);
+		return S2;
+	}
 	
-//	public static void main(String[] args) throws IOException {
-//		SimilarWords s=new SimilarWords();
-//		//s.train("C:\\Users\\HPuser\\Desktop\\分词结果\\patent_fenci.txt");
-//		long start = System.currentTimeMillis();
-//		System.out.println(s.getSimilarNounWords("显示屏", 0.1));
-//	    System.out.println("use time " + (System.currentTimeMillis() - start));
-//	}
+	public static void main(String[] args) throws IOException {
+		SimilarWords s=new SimilarWords();
+		//s.train("C:\\Users\\HPuser\\Desktop\\patent_fenci.txt");
+		long start = System.currentTimeMillis();
+		System.out.println(s.getSimilarNounWordsByTopN("显示屏", 1));
+	    System.out.println("use time " + (System.currentTimeMillis() - start));
+	}
 }
