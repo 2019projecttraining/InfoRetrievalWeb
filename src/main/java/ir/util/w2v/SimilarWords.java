@@ -162,11 +162,11 @@ public class SimilarWords {
 		return S2;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		SimilarWords s=new SimilarWords();
-		//s.train("C:\\Users\\HPuser\\Desktop\\patent_fenci.txt");
-		long start = System.currentTimeMillis();
-		System.out.println(s.getSimilarNounWordsByTopN("显示屏", 1));
-	    System.out.println("use time " + (System.currentTimeMillis() - start));
-	}
+//	public static void main(String[] args) throws IOException {
+//		SimilarWords s=new SimilarWords();
+//		//s.train("C:\\Users\\HPuser\\Desktop\\patent_fenci.txt");
+//		long start = System.currentTimeMillis();
+//		System.out.println(s.getSimilarNounWordsByTopN("显示屏", 1));
+//	    System.out.println("use time " + (System.currentTimeMillis() - start));
+//	}
 }
