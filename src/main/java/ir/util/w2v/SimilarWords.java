@@ -3,6 +3,7 @@ package ir.util.w2v;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Set;
@@ -11,9 +12,8 @@ import java.util.TreeSet;
 import org.springframework.stereotype.Service;
 
 import ir.config.Configuration;
-import ir.models.WordEntry;
 /**
- * 
+ * 获取某个词的近义词们
  * @author 杨涛
  *
  */
@@ -30,15 +30,30 @@ public class SimilarWords {
 	
 	private final static String path1=Configuration.getConfig("C:\\Users\\HPuser\\Desktop\\分词结果\\javaVector.bin");
 	private final static String path2=Configuration.getConfig("C:\\Users\\HPuser\\Desktop\\分词结果\\nounWords.txt");
+	private final static Word2VEC vec;
+	private final static Set<String> nounWords;
+	
+	static {
+		
+		vec=getModel();
+		nounWords=getNounWords();
+	}
+	
 	/**
 	 * 加载模型
 	 * @param vec
 	 * @return
 	 * @throws IOException
 	 */
-	public Word2VEC getModel(Word2VEC vec) throws IOException {
+	private static Word2VEC getModel(){
+		Word2VEC vec=new Word2VEC();
 		long start = System.currentTimeMillis();  
-		vec.loadJavaModel(path1);
+		try {
+			vec.loadJavaModel(path1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("加载近义词模型失败!");
+		}
 		System.out.println("load model time " + (System.currentTimeMillis() - start));
 		return vec;
 	}
@@ -47,27 +62,36 @@ public class SimilarWords {
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<String> getNounWords() throws IOException {
+	private static Set<String> getNounWords(){
 		long start = System.currentTimeMillis();  
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-		        new FileInputStream(new File(path2))));
+		BufferedReader br;
 		String temp=null;
 		Set<String> nounWords=new TreeSet<>();
-		while((temp=br.readLine())!=null) {
-			 nounWords.add(temp);
-		 }
+		try {
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path2))));
+			try {
+				while((temp=br.readLine())!=null) {
+					 nounWords.add(temp);
+				}
+				br.close();
+			} catch (IOException e) {
+				System.err.println("加载名词表失败!");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("加载名词表失败!");
+		}
+		
 		System.out.println("load noun time " + (System.currentTimeMillis() - start));
 		return nounWords;
 	}
 	/**
-	 * 根据阈值获取近义词
+	 * 根据相似性阈值获取近义词
 	 * @param word
 	 * @param limit
-	 * @param vec
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<WordEntry> getSimilarWordsByLimit(String word,double limit,Word2VEC vec) throws IOException{//vec需提前加载模型
+	public Set<WordEntry> getSimilarWordsByLimit(String word,double limit) throws IOException{
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
 		 for(WordEntry w: S) {
@@ -78,14 +102,13 @@ public class SimilarWords {
 		 return S2;
 	}
 	/**
-	 * TopN个近义词
+	 * 获取TopN个近义词
 	 * @param word
 	 * @param n
-	 * @param vec
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<WordEntry> getSimilarWordsByTopN(String word,int n,Word2VEC vec) throws IOException{
+	public Set<WordEntry> getSimilarWordsByTopN(String word,int n) throws IOException{
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
 		 int count=0;
@@ -99,12 +122,10 @@ public class SimilarWords {
 	 * 根据阈值获取名词近义词
 	 * @param word
 	 * @param limit
-	 * @param nounWords
-	 * @param vec
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<WordEntry> getSimilarNounWords(String word,double limit,Set<String> nounWords,Word2VEC vec) throws IOException{ 
+	public Set<WordEntry> getSimilarNounWords(String word,double limit) throws IOException{ 
 		 Set<WordEntry> S=vec.distance(word);
 		 Set<WordEntry> S2=new TreeSet<WordEntry>();
 		 for(WordEntry w: S) {
@@ -125,10 +146,8 @@ public class SimilarWords {
 //	public static void main(String[] args) throws IOException {
 //		SimilarWords s=new SimilarWords();
 //		//s.train("C:\\Users\\HPuser\\Desktop\\分词结果\\patent_fenci.txt");
-//		Word2VEC wv=new Word2VEC();
 //		long start = System.currentTimeMillis();
-//		wv=s.getModel(wv);
-//		System.out.println(s.getSimilarNounWords("显示屏", 0.1,s.getNounWords(),wv));
+//		System.out.println(s.getSimilarNounWords("显示屏", 0.1));
 //	    System.out.println("use time " + (System.currentTimeMillis() - start));
 //	}
 }

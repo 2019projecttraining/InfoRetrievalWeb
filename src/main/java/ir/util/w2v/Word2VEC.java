@@ -12,8 +12,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ir.models.WordEntry;
-
 public class Word2VEC {
 
 	public static void main(String[] args) throws IOException {

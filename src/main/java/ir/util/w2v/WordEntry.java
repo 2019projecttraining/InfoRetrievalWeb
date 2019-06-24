@@ -1,6 +1,10 @@
-package ir.models;
+package ir.util.w2v;
 
-
+/**
+ * 词及其相似度
+ * @author 杨涛
+ *
+ */
 public class WordEntry implements Comparable<WordEntry> {
     public String name;
     public float score;
