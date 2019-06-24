@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Web Data Manage ">
+        <meta name="keywords" content="second,trade,p2p">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+
+        <title>专利搜索引擎</title>
+
+        <link rel="icon" type="image" href="../static/i/favicon.jpg">
+        <link rel="stylesheet" href="../static/css/amazeui.min.css">
+  		<link rel="stylesheet" href="../static/css/admin.css">
+
+        <style>
+            html{
+                min-width: 600px;
+            }
+            body{
+                background:url(../static/i/background.jpg) no-repeat;
+                background-size:100% 100%;
+            }
+            a{
+                cursor: pointer;
+            }
+
+
+            #top{
+                margin-top: 50px
+            }
+            #labels{
+                margin-left: 20%;
+                margin-top: 20px
+            }
+        </style>
+
+        <script src="../static/js/jquery-3.3.1.js"></script>
+        <script src="../static/js/amazeui.js"></script>
+        <script src="../static/js/verify.js"></script>
+        
+        
+
+    </head>
+
+    <body>
+        
+		<header class="am-topbar am-topbar-inverse admin-header">
+		  <div class="am-topbar-brand">
+		    <strong>专利</strong> <small>检索</small>
+		  </div>
+		  <div class="am-topbar-right" id="doc-topbar-collapse">
+		  	
+		  </div>
+		  
+		</header>
+		
+        <div class="am-cf admin-main">
+        
+        <!-- content start -->
+  		<div class="admin-content">
+    		<div class="admin-content-body">
+				
+      			<hr>
+      			<div class="am-g">
+      			  <form action="/show/search?page=0" class="" role="search" method="post">
+      				<div class="am-u-sm-12 am-u-md-2">
+			          <div class="am-form-group">
+			            <select name="sort_type" data-am-selected="{btnSize: 'sm'}">
+			              <option value="COMPREHENSIVENESS">综合查询</option>
+			              <option value="RELEVANCE">相关优先</option>
+			              <option value="PROSPECTIVENESS">权威优先</option>
+			            </select>
+			          </div>
+			        </div>
+			        <div class="am-u-sm-12 am-u-md-2">
+			          <div class="am-form-group">
+			            <select name="is_granted" data-am-selected="{btnSize: 'sm'}">
+			              <option value="NO_LIMIT">无限制</option>
+			              <option value="GRANTED">查已授权</option>
+			              <option value="NOT_GRANTED">查未授权</option>
+			            </select>
+			          </div>
+			        </div>
+			        <div class="am-u-sm-12 am-u-md-2">
+			          <div class="am-form-group">
+			            <select name="pinyin" data-am-selected="{btnSize: 'sm'}">
+			              <option value="A">A</option>
+			              <option value="B">B</option>
+			              <option value="C">C</option>
+			              <option value="D">D</option>
+			              <option value="E">E</option>
+			              <option value="F">F</option>
+			              <option value="G">G</option>
+			              <option value="H">H</option>
+			              <option value="I">I</option>
+			              <option value="J">J</option>
+			              <option value="K">K</option>
+			              <option value="L">L</option>
+			              <option value="M">M</option>
+			              <option value="N">N</option>
+			              <option value="O">O</option>
+			              <option value="P">P</option>
+			              <option value="Q">Q</option>
+			              <option value="R">R</option>
+			              <option value="S">S</option>
+			              <option value="T">T</option>
+			              <option value="U">U</option>
+			              <option value="V">V</option>
+			              <option value="W">W</option>
+			              <option value="X">X</option>
+			              <option value="Y">Y</option>
+			              <option value="Z">Z</option>
+			            </select>
+			          </div>
+			        </div>
+			        
+			        <div class="am-u-sm-12 am-u-md-2">
+			          <div class="am-input-group am-input-group-sm">
+			            <input type="text" name="time_from" class="am-form-field" placeholder="开始日期"  data-am-datepicker readonly required />
+			          </div>
+			        </div>
+			        
+			        <div class="am-u-sm-12 am-u-md-2">
+			          <div class="am-input-group am-input-group-sm">
+			            <input type="text" name="time_to" class="am-form-field" placeholder="结束日期"  data-am-datepicker readonly required />
+			          </div>
+			        </div>
+			        
+			        
+			        <div class="am-u-sm-12 am-u-md-2">
+			          <div class="am-input-group am-input-group-sm">
+			            <input type="text" name="keyWords" class="am-form-field" placeholder="键入索引词">
+			          <span class="am-input-group-btn">
+			            <button type="submit" class="am-btn am-btn-default" type="button">搜索</button>
+			          </span>
+			          </div>
+			        </div>
+			      </form>
+			    </div>
+      			
+				<div class="am-g">
+		        	<div class="am-u-sm-12">
+		        	<form class="am-form">
+		        		<table class="am-table am-table-striped am-table-hover table-main">
+		        			<thead>
+		        				<tr>
+		        				<td><b>专利号</b></td>
+		        				<td><b>专利摘要</b></td>
+		        				<td><b>专利地址</b></td>
+		        				<td><b>专利申请人</b></td>
+		        				<td><b>公开日期</b></td>
+		        				<td><b>申请号码</b></td>
+		        				<td><b>公开号码</b></td>
+		        				<td><b>分类号</b></td>
+		        				<td><b>申请日期</b></td>
+		        				<td><b>授权状态</b></td>
+		        				<td><b>发明者</b></td>
+		        				<td><b>标题</b></td>
+		        				<td><b>年份</b></td>
+		        				</tr>
+		        			</thead>
+		        			<tr th:each="m : ${PatentsForView。patents}">
+		        				<td th:text="${m.id}">
+		        				<td th:text="${m.patent_Abstract}">
+		        				<td th:text="${m.address }">
+		        				<td th:text="${m.applicant}">
+		        				<td th:text="${m.application_date}">
+		        				<td th:text="${m.application_number}">
+		        				<td th:text="${m.application_publish_number}">
+		        				<td th:text="${m.classification_number}">
+		        				<td th:text="${m.filling_date}">
+		        				<td th:text="${m.grant_status}">
+		        				<td th:text="${m.inventor}">
+		        				<td th:text="${m.title}">
+		        				<td th:text="${m.year}">
+		        			</tr>
+		        		</table>
+		        		</form>
+		        		<div class="am-cf">
+		        			<h3>共<span th:text="${number}"></span>条信息</h3>
+		              		<div class="am-fr">
+		                		<ul id="paginator" class="am-pagination">
+		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}-1)}">«</a></li>
+		                  			<li class="am-active"><a href="#" th:text="${page}"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+1)}" th:text="${page}+1"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+2)}" th:text="${page}+2"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+3)}" th:text="${page}+3"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+4)}" th:text="${page}+4"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+1)}">»</a></li>
+		                		</ul>
+		              		</div>
+		            	</div>   
+		        	</div>
+		        </div>
+		    </div>
+			<footer class="admin-content-footer">
+	    		<hr>
+	    		<p class="am-padding-left">Designed by SDU YangTao</p>
+	  		</footer>
+		</div>
+		</div>
+    </body>
+</html>
