@@ -1,4 +1,4 @@
-package ir.services.w2v;
+package ir.util.w2v;
 
 import java.io.*;
 import java.lang.reflect.Array;

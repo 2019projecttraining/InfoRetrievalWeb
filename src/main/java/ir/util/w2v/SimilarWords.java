@@ -1,4 +1,4 @@
-package ir.services.w2v;
+package ir.util.w2v;
 
 import java.io.BufferedReader;
 import java.io.File;
