@@ -10,7 +10,7 @@ import ir.models.PatentsForView;
 @Service
 public interface SearchService {
 
-	public PatentsForView search(String keyWords,FirstLetterOfNamePinyin letter,String timeFrom,String timeTo,
-			IsGranted isGranted,SortedType sortedType);
+	public PatentsForView search(String keyWords,int page,FirstLetterOfNamePinyin letter,String timeFrom,
+			String timeTo,IsGranted isGranted,SortedType sortedType);
 	
 }

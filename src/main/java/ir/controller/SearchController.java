@@ -33,7 +33,8 @@ public class SearchController {
 	 * @return
 	 */
 	@GetMapping("设置映射目标名称")//即什么样的页面会映射到这个方法上
-	public ModelAndView searchWithKeyWords(@RequestParam String keyWords,//关键字
+	public ModelAndView searchWithKeyWords(@RequestParam String keyWords,
+			@RequestParam(defaultValue="1",required=false) int page,//页码
 			@RequestParam(value="pinyin",defaultValue="NO_LIMIT",required=false) String firstLetterOfNamePinyin,//拼音首字母
 			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
 			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo,//截至时间
@@ -67,7 +68,7 @@ public class SearchController {
 			
 		PatentsForView result;
 		try {
-			result=searchService.search(keyWords, letter, timeFrom, timeTo, isGranted, sortedType);
+			result=searchService.search(keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType);
 		}catch (Exception e) {
 			// TODO: handle exception
 			return null;
@@ -76,6 +77,7 @@ public class SearchController {
 		ModelAndView modelAndView=new ModelAndView();
 		modelAndView.setViewName("模板名称");//设置模板名称
 		modelAndView.addObject("PatentsForView", result);//加入返回的结果
+		modelAndView.addObject("Page", page);
 		return modelAndView;
 		
 	}

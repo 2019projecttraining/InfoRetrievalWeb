@@ -33,8 +33,8 @@ public class SearchServiceImpl implements SearchService{
 	private Analyzer analyzer=SegmentAnalyzer.anaylzer;
 
 	@Override
-	public PatentsForView search(String keyWords, FirstLetterOfNamePinyin letter, String timeFrom, String timeTo,
-			IsGranted isGranted, SortedType sortedType){
+	public PatentsForView search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
+			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
 		//TODO
 		return null;
 	}
