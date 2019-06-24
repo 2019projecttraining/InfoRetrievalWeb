@@ -16,7 +16,7 @@ import ir.enumDefine.SortedType;
 import ir.luceneIndex.LuceneSearcher;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
-import ir.util.SegmentAnalyzer;
+import ir.util.seg.SegmentAnalyzer;
 
 /**
  * 实现查询业务

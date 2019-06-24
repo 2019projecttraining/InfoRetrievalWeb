@@ -1,4 +1,4 @@
-package ir.util;
+package ir.util.seg;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
