@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import javax.naming.ConfigurationException;
+
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
@@ -21,9 +23,15 @@ import ir.config.Configuration;
 @Service
 public class LuceneSearcher extends IndexSearcher{
 	
-	public final static String LUCENE_INDEX_FILE_PATH=Configuration.getConfig("lucene-index-file-path");
+	private final static String CONFIG_KEY="lucene-index-file-path";
+	
+	public final static String LUCENE_INDEX_FILE_PATH=Configuration.getConfig(CONFIG_KEY);
 	
 	static {
+		if(LUCENE_INDEX_FILE_PATH==null) {
+			System.err.println("警告！lucene索引位置未配置");
+			throw new RuntimeException();
+		}
 		//指定索引库存放路径
 		//E:\Lucene_index
 		Directory directory;
