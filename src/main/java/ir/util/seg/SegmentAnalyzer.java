@@ -50,14 +50,14 @@ public class SegmentAnalyzer {
 		try {
 			try {
 				if(ANALYZER_NAME==null) {
-					return hanlpAnalyzer();
+					return new SmartChineseAnalyzer();
 				}
 			}catch (Exception e) {
 				return new SmartChineseAnalyzer();
 			}
 			switch(ANALYZER_NAME.toLowerCase()) {
-				case "hanlp":
-					return hanlpAnalyzer();
+//				case "hanlp":
+//					return hanlpAnalyzer();
 					
 				case "standard":
 					return new StandardAnalyzer();
@@ -65,8 +65,8 @@ public class SegmentAnalyzer {
 				case "ik":
 					return new IKAnalyzer();
 					
-				case "mmseg4j":
-					return new ComplexAnalyzer();
+//				case "mmseg4j":
+//					return new ComplexAnalyzer();
 					
 				case "smart-chinese":
 				default:

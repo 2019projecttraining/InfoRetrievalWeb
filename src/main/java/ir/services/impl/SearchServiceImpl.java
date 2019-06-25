@@ -54,6 +54,9 @@ public class SearchServiceImpl implements SearchService{
 	public PatentsForView search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
 		//TODO
+		
+		System.out.println("in");
+		
 		int start = (page - 1) * pageSize;// 当前页的起始条数
         int end = start + pageSize;// 当前页的结束条数（不能包含）
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
@@ -63,10 +66,10 @@ public class SearchServiceImpl implements SearchService{
         	q1=new TermQuery(new Term("grant_status", "1"));//通过专利查询
         	builder.add(q1, Occur.MUST);
         }
-        else {
+        else if(isGranted==IsGranted.NOT_GRANTED){
         	q1=new TermQuery(new Term("grant_status", "0"));//未通过专利查询
         	builder.add(q1, Occur.MUST);
-        	}
+        }
         Query q2=null;
         if(timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
         	q2=TermRangeQuery.newStringRange("filing_date", "0000.00.00", timeTo, false, true);//日期范围查询
@@ -81,12 +84,12 @@ public class SearchServiceImpl implements SearchService{
         
         String[] fields = { "abstract", "applicant", "title"};
         
-		List<String> words = null;
-		try {
-			words=analyze(keyWords,analyzer);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		List<String> words = null;
+//		try {
+//			words=analyze(keyWords,analyzer);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		Query multiFieldQuery;
 		try {
 			multiFieldQuery = new MultiFieldQueryParser(fields, analyzer).parse(keyWords);
@@ -97,16 +100,20 @@ public class SearchServiceImpl implements SearchService{
         BooleanQuery booleanQuery=builder.build();
 
 		TopDocs topDocs=null;
+		
+		
+		
 		try {
 			topDocs = luceneSearcher.search(booleanQuery, end);
+			System.out.println("查询结束");
 			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
 	            //scoreDoc.doc 属性就是doucumnet对象的id
 	            Document doc = luceneSearcher.doc(scoreDoc.doc);
 	            System.out.println(doc.getField("id"));
 	            System.out.println(doc.getField("abstract"));
 	            System.out.println(doc.getField("inventor"));
-	            //System.out.println(doc.getField("ABSTRACT"));
-	            //System.out.println(doc.getField("INVENTOR"));
+	            System.out.println(doc.getField("filing_date"));
+	            System.out.println(doc.getField("grant_status"));
 	            /*System.out.println(doc.getField("fileName"));
 	            System.out.println(doc.getField("fileContent"));
 	            System.out.println(doc.getField("filePath"));
@@ -157,6 +164,6 @@ public class SearchServiceImpl implements SearchService{
 	}
 	public static void main(String[] args) {
 		SearchServiceImpl s=new SearchServiceImpl();
-		s.search("", 2, FirstLetterOfNamePinyin.A, "2012.01.02", "2018.09.02", IsGranted.NO_LIMIT, SortedType.COMPREHENSIVENESS);
+		s.search("计算机", 2, FirstLetterOfNamePinyin.A, "2012.01.02", "2018.09.02", IsGranted.GRANTED, SortedType.COMPREHENSIVENESS);
 	}
 }

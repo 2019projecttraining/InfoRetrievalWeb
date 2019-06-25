@@ -188,13 +188,13 @@
 		        			<h3>共<span th:text="${number}"></span>条信息</h3>
 		              		<div class="am-fr">
 		                		<ul id="paginator" class="am-pagination">
-		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}-1)}">«</a></li>
-		                  			<li class="am-active"><a href="#" th:text="${page}"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+1)}" th:text="${page}+1"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+2)}" th:text="${page}+2"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+3)}" th:text="${page}+3"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+4)}" th:text="${page}+4"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/show/books(page=${page}+1)}">»</a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}-1)}">«</a></li>
+		                  			<li class="am-active"><a href="#" th:text="${Page}"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+1)}" th:text="${Page}+1"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+2)}" th:text="${Page}+2"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+3)}" th:text="${Page}+3"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+4)}" th:text="${Page}+4"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+1)}">»</a></li>
 		                		</ul>
 		              		</div>
 		            	</div>   

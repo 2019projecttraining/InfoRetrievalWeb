@@ -10,5 +10,5 @@ import ir.models.Patent;
  * 
  * @author 余定邦
  */
-@Repository
+//@Repository
 public interface PatentRepositoty extends JpaRepository<Patent, String>{}

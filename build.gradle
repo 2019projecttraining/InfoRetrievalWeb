@@ -39,6 +39,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	
 	compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.1.1'
+	compile group: 'org.apache.lucene', name: 'lucene-backward-codecs', version: '8.1.1'
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.1.1'
     compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.1.1'
     compile group: 'org.apache.lucene', name: 'lucene-analyzers-smartcn', version: '8.1.1'

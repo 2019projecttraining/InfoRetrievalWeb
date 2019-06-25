@@ -13,15 +13,15 @@ import ir.services.PatentService;
  * @author 余定邦
  *
  */
-@Service
-public class PatentServiceImpl implements PatentService{
-	
-	@Autowired
-	private PatentRepositoty patentRepositoty;
-
-	@Override
-	public Patent getPatentDetail(String patentId) {
-		return patentRepositoty.getOne(patentId);
-	}
-
-}
+//@Service
+//public class PatentServiceImpl implements PatentService{
+//	
+//	@Autowired
+//	private PatentRepositoty patentRepositoty;
+//
+//	@Override
+//	public Patent getPatentDetail(String patentId) {
+//		return patentRepositoty.getOne(patentId);
+//	}
+//
+//}
