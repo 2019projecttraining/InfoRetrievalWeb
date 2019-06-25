@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,15 +24,14 @@ public class Configuration {
 	private final static Map<String,String> config;
 	
 	static {
-		config=new HashMap<>();
-		readInfoRetrievalWebProperties();
+		config=readInfoRetrievalWebProperties();
 	}
 
 	public static String getConfig(String key) {
 		return config.get(key);
 	}
 	
-	private static void readInfoRetrievalWebProperties() {
+	private static Map<String,String> readInfoRetrievalWebProperties() {
 		try {
 			URL fileUrl = Configuration.class.getClassLoader().getResource("ir_web.properties");
 			
@@ -44,14 +45,18 @@ public class Configuration {
 			Properties prop = new Properties();   
 			
             InputStream in = new BufferedInputStream (new FileInputStream(file));
-            prop.load(in);     ///加载属性列表
+            prop.load(new InputStreamReader(in, "utf-8"));     ///加载属性列表
             Iterator<String> it=prop.stringPropertyNames().iterator();
+            
+            Map<String,String> temp=new HashMap<>();
             while(it.hasNext()){
                 String key=it.next();
-                config.put(key, prop.getProperty(key));
+                temp.put(key, prop.getProperty(key));
                 System.out.println("加载配置 \'"+key+"\' = "+prop.getProperty(key));
             }
             in.close();
+            
+            return Collections.unmodifiableMap(temp);
             
             ///保存属性到b.properties文件
 //	            FileOutputStream oFile = new FileOutputStream("b.properties", true);//true表示追加打开
