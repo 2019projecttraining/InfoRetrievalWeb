@@ -51,7 +51,7 @@ public class SearchServiceImpl implements SearchService{
 	private static final int pageSize=10; 
 
 	@Override
-	public PatentsForView search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
+	public String search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
 		//TODO
 		
@@ -102,18 +102,26 @@ public class SearchServiceImpl implements SearchService{
 		TopDocs topDocs=null;
 		
 		
-		
+		StringBuilder sb=new StringBuilder();
 		try {
 			topDocs = luceneSearcher.search(booleanQuery, end);
 			System.out.println("查询结束");
 			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
 	            //scoreDoc.doc 属性就是doucumnet对象的id
 	            Document doc = luceneSearcher.doc(scoreDoc.doc);
-	            System.out.println(doc.getField("id"));
-	            System.out.println(doc.getField("abstract"));
-	            System.out.println(doc.getField("inventor"));
-	            System.out.println(doc.getField("filing_date"));
-	            System.out.println(doc.getField("grant_status"));
+	            
+	            
+	   
+	            sb.append(doc.getField("id").toString().replaceAll("[<|>]", "")).append("<br/>");
+	            sb.append(doc.getField("abstract").toString().replaceAll("[<|>]", "")).append("<br/>");
+	            sb.append(doc.getField("inventor").toString().replaceAll("[<|>]", "")).append("<br/>");
+	            sb.append(doc.getField("filing_date").toString().replaceAll("[<|>]", "")).append("<br/>");
+	            sb.append(doc.getField("grant_status").toString().replaceAll("[<|>]", "")).append("<br/>");
+	            
+	            sb.append("<br/><br/>");
+	           
+	            
+
 	            /*System.out.println(doc.getField("fileName"));
 	            System.out.println(doc.getField("fileContent"));
 	            System.out.println(doc.getField("filePath"));
@@ -149,7 +157,7 @@ public class SearchServiceImpl implements SearchService{
 //		}
 
 		
-		return null;
+		return sb.toString();
 	}
 	
 	public static List<String> analyze(String text, Analyzer analyzer) throws IOException{

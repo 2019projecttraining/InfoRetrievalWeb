@@ -78,7 +78,8 @@ public class SearchController {
 			return null;
 		}
 			
-		PatentsForView result;
+		//PatentsForView result;
+		String result;
 		try {
 			result=searchService.search(keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType);
 		}catch (Exception e) {
@@ -91,7 +92,7 @@ public class SearchController {
 //		modelAndView.addObject("PatentsForView", result);//加入返回的结果
 //		modelAndView.addObject("Page", page);
 //		return modelAndView;
-		return "success";
+		return result;
 	}
 	
 	/**
