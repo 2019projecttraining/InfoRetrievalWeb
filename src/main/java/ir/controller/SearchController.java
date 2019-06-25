@@ -53,6 +53,14 @@ public class SearchController {
 		}	
 		
 		try {
+			timeFrom=timeFrom.replace('-', '.');
+			timeTo=timeTo.replace('-', '.');
+		}catch (Exception e) {
+			// TODO: to error page
+			return null;
+		}
+		
+		try {
 			isGranted=IsGranted.valueOf(isGrantedString);
 		}catch (Exception e) {
 			// TODO: to error page
