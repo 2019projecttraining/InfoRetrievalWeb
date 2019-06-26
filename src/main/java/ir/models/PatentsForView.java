@@ -12,6 +12,15 @@ public class PatentsForView {
 	//传递前端页面需要的值
 	private List<Patent> patents;
 
+	private String hitsNum;
+
+	public String getHitsNum() {
+		return hitsNum;
+	}
+
+	public void setHitsNum(String hitsNum) {
+		this.hitsNum = hitsNum;
+	}
 	public List<Patent> getPatents() {
 		return patents;
 	}

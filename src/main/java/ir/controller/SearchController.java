@@ -99,6 +99,7 @@ public class SearchController {
 		modelAndView.addObject("is_granted", isGrantedString);
 		modelAndView.addObject("sort_type", sortedTypeString);
 		modelAndView.addObject("keyWords",keyWords);
+		modelAndView.addObject("number",result.getHitsNum());
 		return modelAndView;
 	}
 	

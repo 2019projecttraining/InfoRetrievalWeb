@@ -102,6 +102,7 @@
 				        <div class="am-u-sm-12 am-u-md-3">
 				          <div class="am-form-group">
 				            <select name="pinyin" data-am-selected="{btnSize: 'sm'}">
+				              <option value="NO_LIMIT">无限制</option>
 				              <option value="A">A</option>
 				              <option value="B">B</option>
 				              <option value="C">C</option>
@@ -153,6 +154,7 @@
 		        			<thead>
 		        				<tr>
 		        				<td><b>专利号</b></td>
+		        				<td><b>标题</b></td>		        				
 		        				<td><b>专利摘要</b></td>
 		        				<td><b>专利地址</b></td>
 		        				<td><b>专利申请人</b></td>
@@ -163,12 +165,12 @@
 		        				<td><b>申请日期</b></td>
 		        				<td><b>授权状态</b></td>
 		        				<td><b>发明者</b></td>
-		        				<td><b>标题</b></td>
 		        				<td><b>年份</b></td>
 		        				</tr>
 		        			</thead>
 		        			<tr th:each="m : ${patentsForView.patents}">
 		        				<td th:text="${m.id}">
+		        				<td th:text="${m.title}">		        				
 		        				<td th:text="${m.patent_Abstract}">
 		        				<td th:text="${m.address }">
 		        				<td th:text="${m.applicant}">
@@ -179,7 +181,6 @@
 		        				<td th:text="${m.filling_date}">
 		        				<td th:text="${m.grant_status}">
 		        				<td th:text="${m.inventor}">
-		        				<td th:text="${m.title}">
 		        				<td th:text="${m.year}">
 		        			</tr>
 		        		</table>
@@ -188,7 +189,7 @@
 		        			<h3>共<span th:text="${number}"></span>条信息</h3>
 		              		<div class="am-fr">
 		                		<ul id="paginator" class="am-pagination">
-		                  			<li><a th:href="@{http://localhost:8080/search(page=${page}-1)}">«</a></li>
+		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}-1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}">«</a></li>
 		                  			<li class="am-active"><a href="#" th:text="${page}"></a></li>
 		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+1"></a></li>
 		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+2,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+2"></a></li>

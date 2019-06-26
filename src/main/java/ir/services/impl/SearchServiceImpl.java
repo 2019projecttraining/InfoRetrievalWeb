@@ -142,6 +142,7 @@ public class SearchServiceImpl implements SearchService{
 				patents.add(p);
 			}
 			pv.setPatents(patents);
+			pv.setHitsNum(topDocs.totalHits.toString().replaceAll(" hits", ""));
 
 //			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
 //	            //scoreDoc.doc 属性就是doucumnet对象的id
