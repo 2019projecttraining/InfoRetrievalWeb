@@ -65,14 +65,14 @@
     		<div class="admin-content-body">
 				
 			    <hr>
-      			  <form action="/search?page=0" class="" role="search" method="get">
+      			  <form action="/show/search?page=0" class="" role="search" method="post">
       			  
       				<div class="am-g">
 	      			    <div class="am-u-sm-12 am-u-md-12">
 				          <div class="am-input-group am-input-group-sm">
 				            <input type="text" name="keyWords" class="am-form-field" placeholder="键入索引词">
 				          <span class="am-input-group-btn">
-				            <button type="submit" class="am-btn am-btn-default">搜索</button>
+				            <button type="submit" class="am-btn am-btn-default" type="button">搜索</button>
 				          </span>
 				          </div>
 				        </div>
@@ -146,6 +146,60 @@
 			    	</div>
 			      </form>
       			
+				<div class="am-g">
+		        	<div class="am-u-sm-12">
+		        	<form class="am-form">
+		        		<table class="am-table am-table-striped am-table-hover table-main">
+		        			<thead>
+		        				<tr>
+		        				<td><b>专利号</b></td>
+		        				<td><b>专利摘要</b></td>
+		        				<td><b>专利地址</b></td>
+		        				<td><b>专利申请人</b></td>
+		        				<td><b>公开日期</b></td>
+		        				<td><b>申请号码</b></td>
+		        				<td><b>公开号码</b></td>
+		        				<td><b>分类号</b></td>
+		        				<td><b>申请日期</b></td>
+		        				<td><b>授权状态</b></td>
+		        				<td><b>发明者</b></td>
+		        				<td><b>标题</b></td>
+		        				<td><b>年份</b></td>
+		        				</tr>
+		        			</thead>
+		        			<tr th:each="m : ${PatentsForView。patents}">
+		        				<td th:text="${m.id}">
+		        				<td th:text="${m.patent_Abstract}">
+		        				<td th:text="${m.address }">
+		        				<td th:text="${m.applicant}">
+		        				<td th:text="${m.application_date}">
+		        				<td th:text="${m.application_number}">
+		        				<td th:text="${m.application_publish_number}">
+		        				<td th:text="${m.classification_number}">
+		        				<td th:text="${m.filling_date}">
+		        				<td th:text="${m.grant_status}">
+		        				<td th:text="${m.inventor}">
+		        				<td th:text="${m.title}">
+		        				<td th:text="${m.year}">
+		        			</tr>
+		        		</table>
+		        		</form>
+		        		<div class="am-cf">
+		        			<h3>共<span th:text="${number}"></span>条信息</h3>
+		              		<div class="am-fr">
+		                		<ul id="paginator" class="am-pagination">
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}-1)}">«</a></li>
+		                  			<li class="am-active"><a href="#" th:text="${Page}"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+1)}" th:text="${Page}+1"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+2)}" th:text="${Page}+2"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+3)}" th:text="${Page}+3"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+4)}" th:text="${Page}+4"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/show/books(Page=${Page}+1)}">»</a></li>
+		                		</ul>
+		              		</div>
+		            	</div>   
+		        	</div>
+		        </div>
 		    </div>
 			<footer class="admin-content-footer">
 	    		<hr>
