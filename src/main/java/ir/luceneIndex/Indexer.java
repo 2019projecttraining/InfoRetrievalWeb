@@ -36,20 +36,25 @@ import org.apache.lucene.store.FSDirectory;
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 public class Indexer {
+	/**
+	 * å†™å…¥ç´¢å¼•æ–‡ä»¶
+	 * 
+	 * @author WC
+	 */
 	public static void luceneCreateIndex() throws Exception {
-		// Ö¸¶¨Ë÷Òý´æ·ÅµÄÎ»ÖÃ
+		// æŒ‡å®šç´¢å¼•å­˜æ”¾çš„ä½ç½®
 		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
 		System.out.println("pathname" + Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
-		// ´´½¨Ò»¸ö·Ö´ÊÆ÷
+		// åˆ›å»ºä¸€ä¸ªåˆ†è¯å™¨
 		// StandardAnalyzer analyzer = new StandardAnalyzer();
 		// CJKAnalyzer cjkAnalyzer = new CJKAnalyzer();
-		// ÖÇÄÜÖÐÎÄ·Ö´ÊÆ÷
+		// æ™ºèƒ½ä¸­æ–‡åˆ†è¯å™¨
 		SmartChineseAnalyzer smartChineseAnalyzer = new SmartChineseAnalyzer();
-		// ´´½¨indexwriterConfig(²ÎÊý·Ö´ÊÆ÷)
+		// åˆ›å»ºindexwriterConfig(å‚æ•°åˆ†è¯å™¨)
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(smartChineseAnalyzer);
-		// ´´½¨indexwriter¶ÔÏó(ÎÄ¼þ¶ÔÏó,Ë÷ÒýÅäÖÃ¶ÔÏó)
+		// åˆ›å»ºindexwriterå¯¹è±¡(æ–‡ä»¶å¯¹è±¡,ç´¢å¼•é…ç½®å¯¹è±¡)
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		// ¶Ácsv
+		// è¯»csv
 		String[] headers = new String[] { "id", "abstract", "address", "applicant", "application_date",
 				"application_number", "application_publish_number", "classification_number", "filing_date",
 				"grant_status", "inventor", "title", "year" };
@@ -61,9 +66,9 @@ public class Indexer {
 		for (CSVRecord record : parser) {
 
 			System.out.println(record.get("title"));
-			// preserved_type±£»¤Óò²»·Ö´Ê
-			// default_typeÄ¬ÈÏ·Ö´Ê
-			// ·Ö´ÊÄ£Ê½DOCS
+			// preserved_typeä¿æŠ¤åŸŸä¸åˆ†è¯
+			// default_typeé»˜è®¤åˆ†è¯
+			// åˆ†è¯æ¨¡å¼DOCS
 			FieldType preserved_type = new FieldType();
 			preserved_type.setTokenized(false);
 			preserved_type.setStored(true);
@@ -73,8 +78,8 @@ public class Indexer {
 			default_type.setStored(true);
 			default_type.setIndexOptions(IndexOptions.DOCS);
 
-			// ´´½¨ÎÄ¼þÓòÃû
-			// ÓòµÄÃû³Æ ÓòµÄÄÚÈÝ fieldtype
+			// åˆ›å»ºæ–‡ä»¶åŸŸå
+			// Field(åŸŸçš„åç§°,åŸŸçš„å†…å®¹,fieldtype)
 			Field id_field = new Field("id", record.get("id"), preserved_type);
 			Field abstract_field = new Field("abstract", record.get("abstract"), default_type);
 			Field address_field = new Field("address", record.get("address"), default_type);
@@ -115,24 +120,26 @@ public class Indexer {
 			indexableFields.add(title_field);
 			indexableFields.add(year_field);
 
-			// Ìí¼ÓÐÕÃûÓòÒÔ¼°Ê××ÖÄ¸Óò
+			// æ·»åŠ å§“ååŸŸä»¥åŠé¦–å­—æ¯åŸŸ
+			// å§“ååŸŸæ”¹ä¸ºå¤šå€¼åŸŸ
 			String inventorS = record.get("inventor");
 			String inventor[] = inventorS.split(";");
 			for (String out : inventor) {
-				String firstW="";
+				String firstW = "";
 				System.out.println(out);
 				if (out.charAt(0) >= 'A' && out.charAt(0) <= 'Z' || out.charAt(0) >= 'a' && out.charAt(0) <= 'z') {
 					firstW = String.valueOf(out.charAt(0));
 					// System.out.println(firstW);
 				} else {
 					String temp[] = PinyinHelper.toHanyuPinyinStringArray(out.charAt(0));
-					if(temp!=null) firstW = String.valueOf(temp[0].charAt(0));
+					if (temp != null)
+						firstW = String.valueOf(temp[0].charAt(0));
 					System.out.println(firstW);
 				}
 				firstW = firstW.toUpperCase();
-				// ÐÕÃûÓò
+				// å§“ååŸŸ
 				Field inventor_field = new Field("inventor", out, preserved_type);
-				// Ê××ÖÄ¸ÓòFirstWorld
+				// é¦–å­—æ¯åŸŸFirstWorld
 				Field inventor_firstW_field = new Field("inventor_firstW", firstW, preserved_type);
 
 				indexableFields.add(inventor_field);
@@ -140,26 +147,26 @@ public class Indexer {
 			}
 
 			// indexableFields.add(fileSizeField);
-			// ´´½¨Ë÷Òý ²¢Ð´ÈëË÷Òý¿â
+			// åˆ›å»ºç´¢å¼• å¹¶å†™å…¥ç´¢å¼•åº“
 			indexWriter.addDocument(indexableFields);
 
 		}
 		reader.close();
-		// ¹Ø±ÕindexWriter
+		// å…³é—­indexWriter
 		indexWriter.close();
 	}
 
-	// Ä¬ÈÏµÄ¶àÌõ¼þ²éÑ¯
+	// å¤šæ¡ä»¶æŸ¥è¯¢
 	public static void boolean_search(String content) throws IOException {
-		// ÖÆ¶¨Ë÷Òý¿â´æ·ÅÂ·¾¶
+		// æŒ‡å®šç´¢å¼•åº“å­˜æ”¾è·¯å¾„
 		// E:\Lucene_Path\Lucene_index
 		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
-		// ´´½¨indexReader¶ÔÏó
+		// åˆ›å»ºindexReaderå¯¹è±¡
 		IndexReader indexReader = DirectoryReader.open(directory);
-		// ´´½¨indexSearcher¶ÔÏó
+		// åˆ›å»ºindexSearcherå¯¹è±¡
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 
-		/** ´´½¨¶àÌõ¼þ²éÑ¯ **/
+		/** åˆ›å»ºå¤šæ¡ä»¶æŸ¥è¯¢ **/
 		// BooleanQuery query = new BooleanQuery();
 		// String searchField="INVENTOR";
 		// String keyword=content;
@@ -170,12 +177,12 @@ public class Indexer {
 		TermQuery query5 = new TermQuery(new Term("title", content));
 		TermQuery query6 = new TermQuery(new Term("year", content));
 		BooleanQuery.Builder builder = new BooleanQuery.Builder();
-		// 1£®MUSTºÍMUST£ºÈ¡µÃÁ¬¸ö²éÑ¯×Ó¾äµÄ½»¼¯¡£
-		// 2£®MUSTºÍMUST_NOT£º±íÊ¾²éÑ¯½á¹ûÖÐ²»ÄÜ°üº¬MUST_NOTËù¶ÔÓ¦µÃ²éÑ¯×Ó¾äµÄ¼ìË÷½á¹û¡£
-		// 3£®SHOULDÓëMUST_NOT£ºÁ¬ÓÃÊ±£¬¹¦ÄÜÍ¬MUSTºÍMUST_NOT¡£
-		// 4£®SHOULDÓëMUSTÁ¬ÓÃÊ±£¬½á¹ûÎªMUST×Ó¾äµÄ¼ìË÷½á¹û,µ«ÊÇSHOULD¿ÉÓ°ÏìÅÅÐò¡£
-		// 5£®SHOULDÓëSHOULD£º±íÊ¾¡°»ò¡±¹ØÏµ£¬×îÖÕ¼ìË÷½á¹ûÎªËùÓÐ¼ìË÷×Ó¾äµÄ²¢¼¯¡£
-		// 6£®MUST_NOTºÍMUST_NOT£ºÎÞÒâÒå£¬¼ìË÷ÎÞ½á¹û¡£
+		// 1ï¼ŽMUSTå’ŒMUSTï¼šå–å¾—è¿žä¸ªæŸ¥è¯¢å­å¥çš„äº¤é›†ã€‚
+		// 2ï¼ŽMUSTå’ŒMUST_NOTï¼šè¡¨ç¤ºæŸ¥è¯¢ç»“æžœä¸­ä¸èƒ½åŒ…å«MUST_NOTæ‰€å¯¹åº”å¾—æŸ¥è¯¢å­å¥çš„æ£€ç´¢ç»“æžœã€‚
+		// 3ï¼ŽSHOULDä¸ŽMUST_NOTï¼šè¿žç”¨æ—¶ï¼ŒåŠŸèƒ½åŒMUSTå’ŒMUST_NOTã€‚
+		// 4ï¼ŽSHOULDä¸ŽMUSTè¿žç”¨æ—¶ï¼Œç»“æžœä¸ºMUSTå­å¥çš„æ£€ç´¢ç»“æžœ,ä½†æ˜¯SHOULDå¯å½±å“æŽ’åºã€‚
+		// 5ï¼ŽSHOULDä¸ŽSHOULDï¼šè¡¨ç¤ºâ€œæˆ–â€å…³ç³»ï¼Œæœ€ç»ˆæ£€ç´¢ç»“æžœä¸ºæ‰€æœ‰æ£€ç´¢å­å¥çš„å¹¶é›†ã€‚
+		// 6ï¼ŽMUST_NOTå’ŒMUST_NOTï¼šæ— æ„ä¹‰ï¼Œæ£€ç´¢æ— ç»“æžœã€‚
 		builder.add(query1, Occur.SHOULD);
 		builder.add(query2, Occur.SHOULD);
 		builder.add(query3, Occur.SHOULD);
@@ -184,15 +191,15 @@ public class Indexer {
 		builder.add(query6, Occur.SHOULD);
 		BooleanQuery booleanQuery = builder.build();
 
-		// ÆÕÍ¨²éÑ¯ ÓòÃû ²éÑ¯ÄÚÈÝ
+		// æ™®é€šæŸ¥è¯¢ åŸŸå æŸ¥è¯¢å†…å®¹
 		// TermQuery query = new TermQuery(new Term("abstract", content));
 
-		// Ö´ÐÐ²éÑ¯
+		// æ‰§è¡ŒæŸ¥è¯¢
 		TopDocs topDocs = indexSearcher.search(booleanQuery, 10);
-		System.out.println("²éÑ¯½á¹ûµÄ×ÜÊý" + topDocs.totalHits);
-		// ±éÀú²éÑ¯½á¹û
+		System.out.println("æŸ¥è¯¢ç»“æžœçš„æ€»æ•°" + topDocs.totalHits);
+		// éåŽ†æŸ¥è¯¢ç»“æžœ
 		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-			// scoreDoc.doc ÊôÐÔ¾ÍÊÇdoucumnet¶ÔÏóµÄid
+			// scoreDoc.doc å±žæ€§å°±æ˜¯doucumnetå¯¹è±¡çš„id
 			Document doc = indexSearcher.doc(scoreDoc.doc);
 			System.out.println(doc.getField("id"));
 			System.out.println(doc.getField("abstract"));
@@ -210,26 +217,26 @@ public class Indexer {
 	}
 
 	public static void single_search(String field, String content) throws IOException {
-		// ÖÆ¶¨Ë÷Òý¿â´æ·ÅÂ·¾¶
+		// åˆ¶å®šç´¢å¼•åº“å­˜æ”¾è·¯å¾„
 		// E:\Lucene_Path\Lucene_index
 		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
-		// ´´½¨indexReader¶ÔÏó
+		// åˆ›å»ºindexReaderå¯¹è±¡
 		IndexReader indexReader = DirectoryReader.open(directory);
-		// ´´½¨indexSearcher¶ÔÏó
+		// åˆ›å»ºindexSearcherå¯¹è±¡
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 
-		// ÆÕÍ¨²éÑ¯ ÓòÃû ²éÑ¯ÄÚÈÝ
+		// æ™®é€šæŸ¥è¯¢ åŸŸå æŸ¥è¯¢å†…å®¹
 		TermQuery query = new TermQuery(new Term(field, content));
-
-		// Ö´ÐÐ²éÑ¯
+		// æ‰§è¡ŒæŸ¥è¯¢
 		TopDocs topDocs = indexSearcher.search(query, 10);
-		System.out.println("²éÑ¯½á¹ûµÄ×ÜÊý" + topDocs.totalHits);
-		// ±éÀú²éÑ¯½á¹û
+		System.out.println("æŸ¥è¯¢ç»“æžœçš„æ€»æ•°" + topDocs.totalHits);
+		// éåŽ†æŸ¥è¯¢ç»“æžœ
 		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-			// scoreDoc.doc ÊôÐÔ¾ÍÊÇdoucumnet¶ÔÏóµÄid
+			// scoreDoc.doc å±žæ€§å°±æ˜¯doucumnetå¯¹è±¡çš„id
 			Document doc = indexSearcher.doc(scoreDoc.doc);
 			System.out.println(doc.getField("id"));
 			System.out.println(doc.getField("abstract"));
+			/** å§“ååŸŸå˜ä¸ºå¤šå€¼åŸŸ è¾“å‡ºæ–¹æ³•å˜æ›´ **/
 			String inventorS[] = doc.getValues("inventor");
 			for (String name : inventorS)
 				System.out.println(name);
@@ -239,7 +246,7 @@ public class Indexer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//luceneCreateIndex();
-		single_search("inventor_firstW","A");
+		// luceneCreateIndex();
+		single_search("inventor_firstW", "A");
 	}
 }
