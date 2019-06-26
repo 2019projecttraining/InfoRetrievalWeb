@@ -15,7 +15,6 @@ import lombok.Data;
  * @author 杨涛
  *
  */
-@Data
 @Entity
 @Table(name="t_patents",uniqueConstraints= {@UniqueConstraint(columnNames= {"id"})})
 public class Patent {
@@ -110,6 +109,136 @@ public class Patent {
 				+ ", application_publish_number=" + application_publish_number + ", classification_number="
 				+ classification_number + ", filling_date=" + filling_date + ", grant_status=" + grant_status
 				+ ", inventor=" + inventor + ", title=" + title + ", year=" + year +"]";
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getPatent_Abstract() {
+		return patent_Abstract;
+	}
+
+
+	public void setPatent_Abstract(String patent_Abstract) {
+		this.patent_Abstract = patent_Abstract;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public String getApplicant() {
+		return applicant;
+	}
+
+
+	public void setApplicant(String applicant) {
+		this.applicant = applicant;
+	}
+
+
+	public String getApplication_date() {
+		return application_date;
+	}
+
+
+	public void setApplication_date(String application_date) {
+		this.application_date = application_date;
+	}
+
+
+	public String getApplication_number() {
+		return application_number;
+	}
+
+
+	public void setApplication_number(String application_number) {
+		this.application_number = application_number;
+	}
+
+
+	public String getApplication_publish_number() {
+		return application_publish_number;
+	}
+
+
+	public void setApplication_publish_number(String application_publish_number) {
+		this.application_publish_number = application_publish_number;
+	}
+
+
+	public String getClassification_number() {
+		return classification_number;
+	}
+
+
+	public void setClassification_number(String classification_number) {
+		this.classification_number = classification_number;
+	}
+
+
+	public String getFilling_date() {
+		return filling_date;
+	}
+
+
+	public void setFilling_date(String filling_date) {
+		this.filling_date = filling_date;
+	}
+
+
+	public int getGrant_status() {
+		return grant_status;
+	}
+
+
+	public void setGrant_status(int grant_status) {
+		this.grant_status = grant_status;
+	}
+
+
+	public String getInventor() {
+		return inventor;
+	}
+
+
+	public void setInventor(String inventor) {
+		this.inventor = inventor;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public int getYear() {
+		return year;
+	}
+
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 	
