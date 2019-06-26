@@ -59,5 +59,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-csv
 	compile group: 'org.apache.commons', name: 'commons-csv', version: '1.7'
 	
+	// https://mvnrepository.com/artifact/com.belerweb/pinyin4j
+	compile group: 'com.belerweb', name: 'pinyin4j', version: '2.5.1'
+	
 	
 }

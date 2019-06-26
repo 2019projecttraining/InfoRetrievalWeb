@@ -1,13 +1,12 @@
 package ir.luceneIndex;
 
-
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.management.Query;
- 
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.csv.*;
 import org.apache.commons.csv.CSVFormat.Predefined;
@@ -33,157 +32,214 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
- 
+
+import net.sourceforge.pinyin4j.PinyinHelper;
+
 public class Indexer {
-	public static void luceneCreateIndex() throws Exception{
-        //æŒ‡å®šç´¢å¼•å­˜æ”¾çš„ä½ç½®
-        Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
-        System.out.println("pathname"+Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
-        //åˆ›å»ºä¸€ä¸ªåˆ†è¯å™¨
-        //StandardAnalyzer analyzer = new StandardAnalyzer();
-        //CJKAnalyzer cjkAnalyzer = new CJKAnalyzer();
-        SmartChineseAnalyzer smartChineseAnalyzer = new SmartChineseAnalyzer();
-        //åˆ›å»ºindexwriterConfig(å‚æ•°åˆ†è¯å™¨)
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(smartChineseAnalyzer);
-        //åˆ›å»ºindexwriterå¯¹è±¡(æ–‡ä»¶å¯¹è±¡,ç´¢å¼•é…ç½®å¯¹è±¡)
-        IndexWriter indexWriter = new IndexWriter(directory,indexWriterConfig);
-        //åŽŸå§‹æ–‡ä»¶
-        //File file = new File("D:\\Lucene_Path\\test1");
+	public static void luceneCreateIndex() throws Exception {
+		// Ö¸¶¨Ë÷Òý´æ·ÅµÄÎ»ÖÃ
+		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
+		System.out.println("pathname" + Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
+		// ´´½¨Ò»¸ö·Ö´ÊÆ÷
+		// StandardAnalyzer analyzer = new StandardAnalyzer();
+		// CJKAnalyzer cjkAnalyzer = new CJKAnalyzer();
+		// ÖÇÄÜÖÐÎÄ·Ö´ÊÆ÷
+		SmartChineseAnalyzer smartChineseAnalyzer = new SmartChineseAnalyzer();
+		// ´´½¨indexwriterConfig(²ÎÊý·Ö´ÊÆ÷)
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(smartChineseAnalyzer);
+		// ´´½¨indexwriter¶ÔÏó(ÎÄ¼þ¶ÔÏó,Ë÷ÒýÅäÖÃ¶ÔÏó)
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		// ¶Ácsv
+		String[] headers = new String[] { "id", "abstract", "address", "applicant", "application_date",
+				"application_number", "application_publish_number", "classification_number", "filing_date",
+				"grant_status", "inventor", "title", "year" };
+		String csvPath = "D:\\Lucene_Path\\patent_new.csv";
 
-        //è¯»csv
-        String[] headers = new String[] {"id","abstract","address","applicant",
-        		"application_date","application_number","application_publish_number",
-        		"classification_number","filing_date","grant_status",
-        		"inventor","title","year"};
-        String csvPath = "D:\\Lucene_Path\\patent_new.csv";
-        
-        FileReader reader = new FileReader(csvPath);
-        CSVParser parser = CSVFormat.DEFAULT.withHeader(headers).parse(reader);
-        
-        for (CSVRecord record : parser)
-        {
-           System.out.println(record.get("title"));
-           
-           
+		FileReader reader = new FileReader(csvPath);
+		CSVParser parser = CSVFormat.DEFAULT.withHeader(headers).parse(reader);
 
-           //preserved_typeä¿æŠ¤åŸŸä¸åˆ†è¯
-           //default_typeé»˜è®¤åˆ†è¯
-           //åˆ†è¯æ¨¡å¼DOCS
-           FieldType preserved_type = new FieldType();
-           preserved_type.setTokenized(false);
-           preserved_type.setStored(true);
-           preserved_type.setIndexOptions(IndexOptions.DOCS);
-           FieldType default_type = new FieldType();
-           default_type.setTokenized(true);
-           default_type.setStored(true);
-           default_type.setIndexOptions(IndexOptions.DOCS);
+		for (CSVRecord record : parser) {
 
-           //åˆ›å»ºæ–‡ä»¶åŸŸå
-           //åŸŸçš„åç§° åŸŸçš„å†…å®¹ fieldtype
-           Field id_field = new Field("id", record.get("id"), preserved_type);
-           Field abstract_field = new Field("abstract", record.get("abstract"), default_type);
-           Field address_field = new Field("address", record.get("address"), default_type);
-           Field applicant_field = new Field("applicant", record.get("applicant"), preserved_type);
-           
-           Field application_date_field = new Field("application_date", record.get("application_date"), preserved_type);
-           Field application_number_field = new Field("application_number", record.get("application_number"), preserved_type);
-           Field application_publish_number_field = new Field("application_publish_number", record.get("application_publish_number"), preserved_type);
-           
-           Field classification_number_field = new Field("classification_number", record.get("classification_number"),preserved_type);
-           Field filing_date_field = new Field("filing_date", record.get("filing_date"), preserved_type);
-           Field grant_status_field = new Field("grant_status", record.get("grant_status"), preserved_type);
-           
-           Field inventor_field = new Field("inventor", record.get("inventor"), preserved_type);
-           Field title_field = new Field("title", record.get("title"), default_type);
-           Field year_field = new Field("year", record.get("year"), preserved_type);
+			System.out.println(record.get("title"));
+			// preserved_type±£»¤Óò²»·Ö´Ê
+			// default_typeÄ¬ÈÏ·Ö´Ê
+			// ·Ö´ÊÄ£Ê½DOCS
+			FieldType preserved_type = new FieldType();
+			preserved_type.setTokenized(false);
+			preserved_type.setStored(true);
+			preserved_type.setIndexOptions(IndexOptions.DOCS);
+			FieldType default_type = new FieldType();
+			default_type.setTokenized(true);
+			default_type.setStored(true);
+			default_type.setIndexOptions(IndexOptions.DOCS);
 
+			// ´´½¨ÎÄ¼þÓòÃû
+			// ÓòµÄÃû³Æ ÓòµÄÄÚÈÝ fieldtype
+			Field id_field = new Field("id", record.get("id"), preserved_type);
+			Field abstract_field = new Field("abstract", record.get("abstract"), default_type);
+			Field address_field = new Field("address", record.get("address"), default_type);
+			Field applicant_field = new Field("applicant", record.get("applicant"), preserved_type);
 
-           //System.out.println(lines[11]);
-           //System.out.println(lines[3]);
-           //System.out.println(record.get("year"));
-           
-           Document indexableFields = new Document();
-           indexableFields.add(id_field);
-           indexableFields.add(abstract_field);
-           indexableFields.add(address_field);
-           indexableFields.add(applicant_field);
-           
-           indexableFields.add(application_date_field);
-           indexableFields.add(application_number_field);
-           indexableFields.add(application_publish_number_field);
+			Field application_date_field = new Field("application_date", record.get("application_date"),
+					preserved_type);
+			Field application_number_field = new Field("application_number", record.get("application_number"),
+					preserved_type);
+			Field application_publish_number_field = new Field("application_publish_number",
+					record.get("application_publish_number"), preserved_type);
 
-           indexableFields.add(classification_number_field);
-           indexableFields.add(filing_date_field);
-           indexableFields.add(grant_status_field);
-           
-           indexableFields.add(inventor_field);
-           indexableFields.add(title_field);
-           indexableFields.add(year_field);
-           
-           //indexableFields.add(fileSizeField);
-           //åˆ›å»ºç´¢å¼• å¹¶å†™å…¥ç´¢å¼•åº“
-           indexWriter.addDocument(indexableFields);
-           
-        }
-        reader.close();
-        //å…³é—­indexWriter
-        indexWriter.close();
-    }
-	public static void searchIndex(String content) throws IOException {
-        //åˆ¶å®šç´¢å¼•åº“å­˜æ”¾è·¯å¾„
-        //E:\Lucene_Path\Lucene_index
-        Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
-        //åˆ›å»ºindexReaderå¯¹è±¡
-        IndexReader indexReader = DirectoryReader.open(directory);
-        //åˆ›å»ºindexSearcherå¯¹è±¡
-        IndexSearcher indexSearcher = new IndexSearcher(indexReader);
-        
-        /**åˆ›å»ºå¤šæ¡ä»¶æŸ¥è¯¢**/
-        //BooleanQuery query = new BooleanQuery();
-        /*String searchField="INVENTOR";
-        String q1="æŽ";
-        String q2="ç¿";
-        String q3="æ™º";
-        TermQuery query1=new TermQuery(new Term(searchField,q1));
-        TermQuery query2=new TermQuery(new Term(searchField,q2));
-        TermQuery query3=new TermQuery(new Term(searchField,q3));
-        BooleanQuery.Builder  builder=new BooleanQuery.Builder();
-        // 1ï¼ŽMUSTå’ŒMUSTï¼šå–å¾—è¿žä¸ªæŸ¥è¯¢å­å¥çš„äº¤é›†ã€‚
-        // 2ï¼ŽMUSTå’ŒMUST_NOTï¼šè¡¨ç¤ºæŸ¥è¯¢ç»“æžœä¸­ä¸èƒ½åŒ…å«MUST_NOTæ‰€å¯¹åº”å¾—æŸ¥è¯¢å­å¥çš„æ£€ç´¢ç»“æžœã€‚
-        // 3ï¼ŽSHOULDä¸ŽMUST_NOTï¼šè¿žç”¨æ—¶ï¼ŒåŠŸèƒ½åŒMUSTå’ŒMUST_NOTã€‚
-        // 4ï¼ŽSHOULDä¸ŽMUSTè¿žç”¨æ—¶ï¼Œç»“æžœä¸ºMUSTå­å¥çš„æ£€ç´¢ç»“æžœ,ä½†æ˜¯SHOULDå¯å½±å“æŽ’åºã€‚
-        // 5ï¼ŽSHOULDä¸ŽSHOULDï¼šè¡¨ç¤ºâ€œæˆ–â€å…³ç³»ï¼Œæœ€ç»ˆæ£€ç´¢ç»“æžœä¸ºæ‰€æœ‰æ£€ç´¢å­å¥çš„å¹¶é›†ã€‚
-        // 6ï¼ŽMUST_NOTå’ŒMUST_NOTï¼šæ— æ„ä¹‰ï¼Œæ£€ç´¢æ— ç»“æžœã€‚
-        builder.add(query1, Occur.MUST);
-        builder.add(query2, Occur.MUST);
-        builder.add(query3, Occur.MUST);
-        BooleanQuery booleanQuery=builder.build();*/
+			Field classification_number_field = new Field("classification_number", record.get("classification_number"),
+					preserved_type);
+			Field filing_date_field = new Field("filing_date", record.get("filing_date"), preserved_type);
+			Field grant_status_field = new Field("grant_status", record.get("grant_status"), preserved_type);
 
-        //æ™®é€šæŸ¥è¯¢ åŸŸå æŸ¥è¯¢å†…å®¹
-        TermQuery query = new TermQuery(new Term("abstract", content));
+			// Field inventor_field = new Field("inventor", record.get("inventor"),
+			// preserved_type);
+			Field title_field = new Field("title", record.get("title"), default_type);
+			Field year_field = new Field("year", record.get("year"), preserved_type);
 
-        
-        //æ‰§è¡ŒæŸ¥è¯¢
-        TopDocs topDocs = indexSearcher.search(query, 10);
-        System.out.println("æŸ¥è¯¢ç»“æžœçš„æ€»æ•°"+topDocs.totalHits);
-        //éåŽ†æŸ¥è¯¢ç»“æžœ
-        for (ScoreDoc scoreDoc: topDocs.scoreDocs){
-            //scoreDoc.doc å±žæ€§å°±æ˜¯doucumnetå¯¹è±¡çš„id
-            Document doc = indexSearcher.doc(scoreDoc.doc);
-            System.out.println(doc.getField("id"));
-            System.out.println(doc.getField("abstract"));
-            System.out.println(doc.getField("inventor"));
-            //System.out.println(doc.getField("ABSTRACT"));
-            //System.out.println(doc.getField("INVENTOR"));
-            /*System.out.println(doc.getField("fileName"));
-            System.out.println(doc.getField("fileContent"));
-            System.out.println(doc.getField("filePath"));
-            System.out.println(doc.getField("fileSize"));*/
-        }
-        indexReader.close();
-    }
+			Document indexableFields = new Document();
+			indexableFields.add(id_field);
+			indexableFields.add(abstract_field);
+			indexableFields.add(address_field);
+			indexableFields.add(applicant_field);
+
+			indexableFields.add(application_date_field);
+			indexableFields.add(application_number_field);
+			indexableFields.add(application_publish_number_field);
+
+			indexableFields.add(classification_number_field);
+			indexableFields.add(filing_date_field);
+			indexableFields.add(grant_status_field);
+
+			// indexableFields.add(inventor_field);
+			indexableFields.add(title_field);
+			indexableFields.add(year_field);
+
+			// Ìí¼ÓÐÕÃûÓòÒÔ¼°Ê××ÖÄ¸Óò
+			String inventorS = record.get("inventor");
+			String inventor[] = inventorS.split(";");
+			for (String out : inventor) {
+				String firstW="";
+				System.out.println(out);
+				if (out.charAt(0) >= 'A' && out.charAt(0) <= 'Z' || out.charAt(0) >= 'a' && out.charAt(0) <= 'z') {
+					firstW = String.valueOf(out.charAt(0));
+					// System.out.println(firstW);
+				} else {
+					String temp[] = PinyinHelper.toHanyuPinyinStringArray(out.charAt(0));
+					if(temp!=null) firstW = String.valueOf(temp[0].charAt(0));
+					System.out.println(firstW);
+				}
+				firstW = firstW.toUpperCase();
+				// ÐÕÃûÓò
+				Field inventor_field = new Field("inventor", out, preserved_type);
+				// Ê××ÖÄ¸ÓòFirstWorld
+				Field inventor_firstW_field = new Field("inventor_firstW", firstW, preserved_type);
+
+				indexableFields.add(inventor_field);
+				indexableFields.add(inventor_firstW_field);
+			}
+
+			// indexableFields.add(fileSizeField);
+			// ´´½¨Ë÷Òý ²¢Ð´ÈëË÷Òý¿â
+			indexWriter.addDocument(indexableFields);
+
+		}
+		reader.close();
+		// ¹Ø±ÕindexWriter
+		indexWriter.close();
+	}
+
+	// Ä¬ÈÏµÄ¶àÌõ¼þ²éÑ¯
+	public static void boolean_search(String content) throws IOException {
+		// ÖÆ¶¨Ë÷Òý¿â´æ·ÅÂ·¾¶
+		// E:\Lucene_Path\Lucene_index
+		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
+		// ´´½¨indexReader¶ÔÏó
+		IndexReader indexReader = DirectoryReader.open(directory);
+		// ´´½¨indexSearcher¶ÔÏó
+		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+
+		/** ´´½¨¶àÌõ¼þ²éÑ¯ **/
+		// BooleanQuery query = new BooleanQuery();
+		// String searchField="INVENTOR";
+		// String keyword=content;
+		TermQuery query1 = new TermQuery(new Term("abstract", content));
+		TermQuery query2 = new TermQuery(new Term("address", content));
+		TermQuery query3 = new TermQuery(new Term("grant_status", content));
+		TermQuery query4 = new TermQuery(new Term("inventor", content));
+		TermQuery query5 = new TermQuery(new Term("title", content));
+		TermQuery query6 = new TermQuery(new Term("year", content));
+		BooleanQuery.Builder builder = new BooleanQuery.Builder();
+		// 1£®MUSTºÍMUST£ºÈ¡µÃÁ¬¸ö²éÑ¯×Ó¾äµÄ½»¼¯¡£
+		// 2£®MUSTºÍMUST_NOT£º±íÊ¾²éÑ¯½á¹ûÖÐ²»ÄÜ°üº¬MUST_NOTËù¶ÔÓ¦µÃ²éÑ¯×Ó¾äµÄ¼ìË÷½á¹û¡£
+		// 3£®SHOULDÓëMUST_NOT£ºÁ¬ÓÃÊ±£¬¹¦ÄÜÍ¬MUSTºÍMUST_NOT¡£
+		// 4£®SHOULDÓëMUSTÁ¬ÓÃÊ±£¬½á¹ûÎªMUST×Ó¾äµÄ¼ìË÷½á¹û,µ«ÊÇSHOULD¿ÉÓ°ÏìÅÅÐò¡£
+		// 5£®SHOULDÓëSHOULD£º±íÊ¾¡°»ò¡±¹ØÏµ£¬×îÖÕ¼ìË÷½á¹ûÎªËùÓÐ¼ìË÷×Ó¾äµÄ²¢¼¯¡£
+		// 6£®MUST_NOTºÍMUST_NOT£ºÎÞÒâÒå£¬¼ìË÷ÎÞ½á¹û¡£
+		builder.add(query1, Occur.SHOULD);
+		builder.add(query2, Occur.SHOULD);
+		builder.add(query3, Occur.SHOULD);
+		builder.add(query4, Occur.SHOULD);
+		builder.add(query5, Occur.SHOULD);
+		builder.add(query6, Occur.SHOULD);
+		BooleanQuery booleanQuery = builder.build();
+
+		// ÆÕÍ¨²éÑ¯ ÓòÃû ²éÑ¯ÄÚÈÝ
+		// TermQuery query = new TermQuery(new Term("abstract", content));
+
+		// Ö´ÐÐ²éÑ¯
+		TopDocs topDocs = indexSearcher.search(booleanQuery, 10);
+		System.out.println("²éÑ¯½á¹ûµÄ×ÜÊý" + topDocs.totalHits);
+		// ±éÀú²éÑ¯½á¹û
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			// scoreDoc.doc ÊôÐÔ¾ÍÊÇdoucumnet¶ÔÏóµÄid
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.getField("id"));
+			System.out.println(doc.getField("abstract"));
+			System.out.println(doc.getField("inventor"));
+			// System.out.println(doc.getField("ABSTRACT"));
+			// System.out.println(doc.getField("INVENTOR"));
+			/*
+			 * System.out.println(doc.getField("fileName"));
+			 * System.out.println(doc.getField("fileContent"));
+			 * System.out.println(doc.getField("filePath"));
+			 * System.out.println(doc.getField("fileSize"));
+			 */
+		}
+		indexReader.close();
+	}
+
+	public static void single_search(String field, String content) throws IOException {
+		// ÖÆ¶¨Ë÷Òý¿â´æ·ÅÂ·¾¶
+		// E:\Lucene_Path\Lucene_index
+		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
+		// ´´½¨indexReader¶ÔÏó
+		IndexReader indexReader = DirectoryReader.open(directory);
+		// ´´½¨indexSearcher¶ÔÏó
+		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+
+		// ÆÕÍ¨²éÑ¯ ÓòÃû ²éÑ¯ÄÚÈÝ
+		TermQuery query = new TermQuery(new Term(field, content));
+
+		// Ö´ÐÐ²éÑ¯
+		TopDocs topDocs = indexSearcher.search(query, 10);
+		System.out.println("²éÑ¯½á¹ûµÄ×ÜÊý" + topDocs.totalHits);
+		// ±éÀú²éÑ¯½á¹û
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			// scoreDoc.doc ÊôÐÔ¾ÍÊÇdoucumnet¶ÔÏóµÄid
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.getField("id"));
+			System.out.println(doc.getField("abstract"));
+			String inventorS[] = doc.getValues("inventor");
+			for (String name : inventorS)
+				System.out.println(name);
+
+		}
+		indexReader.close();
+	}
+
 	public static void main(String[] args) throws Exception {
 		//luceneCreateIndex();
-		searchIndex("ç”µè„‘");
+		single_search("inventor_firstW","A");
 	}
 }
