@@ -5,7 +5,9 @@ server:
 
 spring:
    thymeleaf: 
-      cache: false  
+      cache: false
+   mvc:
+      static-path-pattern: /static/**  
    jpa: 
       show-sql: true
       hibernate:

@@ -17,6 +17,9 @@ import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
@@ -27,6 +30,7 @@ import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
 import ir.enumDefine.SortedType;
 import ir.luceneIndex.LuceneSearcher;
+import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
 import ir.util.seg.SegmentAnalyzer;
@@ -36,7 +40,7 @@ import ir.util.w2v.WordEntry;
 /**
  * 实现查询业务
  * 
- * @author 余定邦
+ * @author 余定邦、杨涛
  *
  */
 @Service
@@ -51,7 +55,7 @@ public class SearchServiceImpl implements SearchService{
 	private static final int pageSize=10; 
 
 	@Override
-	public String search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
+	public PatentsForView search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
 		//TODO
 		
@@ -62,6 +66,7 @@ public class SearchServiceImpl implements SearchService{
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
         Query q1=null;
+        System.out.println(isGranted);
         if(isGranted==IsGranted.GRANTED) { 
         	q1=new TermQuery(new Term("grant_status", "1"));//通过专利查询
         	builder.add(q1, Occur.MUST);
@@ -98,41 +103,61 @@ public class SearchServiceImpl implements SearchService{
 			e1.printStackTrace();
 		}  
         BooleanQuery booleanQuery=builder.build();
-
+        Sort sort=null;
+        if(sortedType==SortedType.TIME_ASC) {
+        	sort = new Sort(new SortField("filing_date", Type.STRING, false));
+        }else if(sortedType==SortedType.TIME_DESC) {
+        	sort = new Sort(new SortField("filing_date", Type.STRING, true));
+        }
+        
 		TopDocs topDocs=null;
-		
-		
-		StringBuilder sb=new StringBuilder();
+		PatentsForView pv=new PatentsForView();
+		List<Patent> patents=new ArrayList<>();
 		try {
+			//if(sort!=null)
 			topDocs = luceneSearcher.search(booleanQuery, end);
 			System.out.println("查询结束");
-			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
-	            //scoreDoc.doc 属性就是doucumnet对象的id
-	            Document doc = luceneSearcher.doc(scoreDoc.doc);
-	            
-	            
-	   
-	            sb.append(doc.getField("id").toString().replaceAll("[<|>]", "")).append("<br/>");
-	            sb.append(doc.getField("abstract").toString().replaceAll("[<|>]", "")).append("<br/>");
-	            sb.append(doc.getField("inventor").toString().replaceAll("[<|>]", "")).append("<br/>");
-	            sb.append(doc.getField("filing_date").toString().replaceAll("[<|>]", "")).append("<br/>");
-	            sb.append(doc.getField("grant_status").toString().replaceAll("[<|>]", "")).append("<br/>");
-	            
-	            sb.append("<br/><br/>");
-	           
-	            
+	        System.out.println("查询结果的总数"+topDocs.totalHits);
+			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 
-	            /*System.out.println(doc.getField("fileName"));
-	            System.out.println(doc.getField("fileContent"));
-	            System.out.println(doc.getField("filePath"));
-	            System.out.println(doc.getField("fileSize"));*/
-	        }
+			for (int i = start; i < end; i++) {
+				Document doc = luceneSearcher.doc(scoreDocs[i].doc);
+				Patent p=new Patent();
+				p.setId(doc.getField("id").getCharSequenceValue().toString());
+				p.setPatent_Abstract(doc.getField("abstract").getCharSequenceValue().toString());
+				p.setAddress(doc.getField("address").getCharSequenceValue().toString());
+				p.setApplicant(doc.getField("applicant").getCharSequenceValue().toString());
+
+				p.setApplication_date(doc.getField("application_date").getCharSequenceValue().toString());
+				p.setApplication_number(doc.getField("application_number").getCharSequenceValue().toString());
+				
+				p.setApplication_publish_number(doc.getField("application_publish_number").getCharSequenceValue().toString());
+				p.setClassification_number(doc.getField("classification_number").getCharSequenceValue().toString());
+				p.setFilling_date(doc.getField("filing_date").getCharSequenceValue().toString());
+				p.setGrant_status(Integer.parseInt(doc.getField("grant_status").getCharSequenceValue().toString()));
+				p.setInventor(doc.getField("inventor").getCharSequenceValue().toString());
+				p.setTitle(doc.getField("title").getCharSequenceValue().toString());
+				p.setYear(Integer.parseInt(doc.getField("year").getCharSequenceValue().toString()));
+
+				patents.add(p);
+			}
+			pv.setPatents(patents);
+
+//			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
+//	            //scoreDoc.doc 属性就是doucumnet对象的id
+//	            Document doc = luceneSearcher.doc(scoreDoc.doc);	            	   
+//	            sb.append(doc.getField("id").toString().replaceAll("[<|>]", "")).append("<br/>");
+//	            sb.append(doc.getField("abstract").toString().replaceAll("[<|>]", "")).append("<br/>");
+//	            sb.append(doc.getField("inventor").toString().replaceAll("[<|>]", "")).append("<br/>");
+//	            sb.append(doc.getField("filing_date").toString().replaceAll("[<|>]", "")).append("<br/>");
+//	            sb.append(doc.getField("grant_status").toString().replaceAll("[<|>]", "")).append("<br/>");
+//	            sb.append("<br/><br/>")
+//	        }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        System.out.println("查询结果的总数"+topDocs.totalHits);
-		
+		return pv;
 		
 		
 		
@@ -155,9 +180,6 @@ public class SearchServiceImpl implements SearchService{
 //				builder.add(query1, Occur.SHOULD).;
 //			}
 //		}
-
-		
-		return sb.toString();
 	}
 	
 	public static List<String> analyze(String text, Analyzer analyzer) throws IOException{
@@ -169,9 +191,5 @@ public class SearchServiceImpl implements SearchService{
 	       result.add(attr.toString());
 	    }       
 	    return result;
-	}
-	public static void main(String[] args) {
-		SearchServiceImpl s=new SearchServiceImpl();
-		s.search("计算机", 2, FirstLetterOfNamePinyin.A, "2012.01.02", "2018.09.02", IsGranted.GRANTED, SortedType.COMPREHENSIVENESS);
 	}
 }
