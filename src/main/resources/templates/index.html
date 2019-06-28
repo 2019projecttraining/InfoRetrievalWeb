@@ -67,8 +67,19 @@
 			    <hr>
       			  <form action="/search?page=0" class="" role="search" method="get">
       			  
-      				<div class="am-g">
-	      			    <div class="am-u-sm-12 am-u-md-12">
+      				<div class="am-g am-margin-top">
+      					<div class="am-u-sm-12 am-u-md-2">
+      					  <select name="field" data-am-selected="{btnWidth: '100%', btnSize: 'sm', btnStyle: 'am-btn am-btn-default'}">
+			                <option value="all">模糊</option>
+			                <option value="title">标题</option>
+			                <option value="abstract">摘要</option>
+			                <option value="applicant">申请人</option>
+			                <option value="id">专利号</option>
+			                <option value="inventor">发明者</option>address
+			                <option value="address">地区</option>
+			              </select>
+      					</div>
+	      			    <div style="float:left" class="am-u-sm-12 am-u-md-10">
 				          <div class="am-input-group am-input-group-sm">
 				            <input type="text" name="keyWords" class="am-form-field" placeholder="键入索引词">
 				          <span class="am-input-group-btn">

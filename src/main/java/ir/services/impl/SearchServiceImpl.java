@@ -12,6 +12,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.queryparser.xml.builders.RangeQueryBuilder;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
@@ -23,6 +24,7 @@ import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,18 +57,16 @@ public class SearchServiceImpl implements SearchService{
 	private static final int pageSize=10; 
 
 	@Override
-	public PatentsForView search(String keyWords, int page, FirstLetterOfNamePinyin letter, 
+	public PatentsForView search(String field, String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
 		//TODO
 		
-		System.out.println("in");
 		
 		int start = (page - 1) * pageSize;// 当前页的起始条数
         int end = start + pageSize;// 当前页的结束条数（不能包含）
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
         Query q1=null;
-        System.out.println(isGranted);
         if(isGranted==IsGranted.GRANTED) { 
         	q1=new TermQuery(new Term("grant_status", "1"));//通过专利查询
         	builder.add(q1, Occur.MUST);
@@ -87,7 +87,7 @@ public class SearchServiceImpl implements SearchService{
             builder.add(q2, Occur.MUST);
         }
         
-        String[] fields = { "abstract", "applicant", "title"};
+        String[] fields = { "abstract", "applicant" , "title" , "inventor" };
         
 //		List<String> words = null;
 //		try {
@@ -95,13 +95,51 @@ public class SearchServiceImpl implements SearchService{
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
-		Query multiFieldQuery;
-		try {
-			multiFieldQuery = new MultiFieldQueryParser(fields, analyzer).parse(keyWords);
-			builder.add(multiFieldQuery, Occur.MUST);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}  
+		Query keyQuery;
+		switch(field) {
+		case "all":
+			try {
+				keyQuery = new MultiFieldQueryParser(fields, analyzer).parse(keyWords);
+				builder.add(keyQuery, Occur.MUST);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			} 
+			break;
+		case "title":
+			try {
+				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
+				builder.add(keyQuery, Occur.MUST);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			break;
+		case "abstract":
+			try {
+				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
+				builder.add(keyQuery, Occur.MUST);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			break;
+		case "applicant":
+			keyQuery=new WildcardQuery(new Term("applicant", "*"+keyWords+"*"));
+			builder.add(keyQuery, Occur.MUST);
+			break;
+		case "application_publish_number":
+			keyQuery=new TermQuery(new Term("application_publish_number", keyWords));
+			builder.add(keyQuery, Occur.MUST);
+			break;
+		case "inventor":
+			keyQuery=new WildcardQuery(new Term("inventor", "*"+keyWords+"*"));
+			builder.add(keyQuery, Occur.MUST);
+			break;
+		case "address":
+			keyQuery=new WildcardQuery(new Term("address", "*"+keyWords+"*"));
+			builder.add(keyQuery, Occur.MUST);
+			break;
+		}
+		 
+		
         BooleanQuery booleanQuery=builder.build();
         Sort sort=null;
         if(sortedType==SortedType.TIME_ASC) {

@@ -33,7 +33,7 @@ public class SearchController {
 	 */
 	@GetMapping("/search")//即什么样的页面会映射到这个方法上
 	@ResponseBody
-	public ModelAndView searchWithKeyWords(@RequestParam String keyWords,
+	public ModelAndView searchWithKeyWords(@RequestParam String field,@RequestParam String keyWords,
 			@RequestParam(defaultValue="1",required=false) int page,//页码
 			@RequestParam(value="pinyin",defaultValue="NO_LIMIT",required=false) String firstLetterOfNamePinyin,//拼音首字母
 			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
@@ -83,7 +83,7 @@ public class SearchController {
 		//PatentsForView result;
 		PatentsForView result;
 		try {
-			result=searchService.search(keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType);
+			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType);
 		}catch (Exception e) {
 			// TODO: handle exception
 			return null;
@@ -99,6 +99,7 @@ public class SearchController {
 		modelAndView.addObject("is_granted", isGrantedString);
 		modelAndView.addObject("sort_type", sortedTypeString);
 		modelAndView.addObject("keyWords",keyWords);
+		modelAndView.addObject("field",field);
 		modelAndView.addObject("number",result.getHitsNum());
 		return modelAndView;
 	}

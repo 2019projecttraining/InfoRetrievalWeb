@@ -67,8 +67,19 @@
 			    <hr>
       			  <form action="/search?page=0" class="" role="search" method="get">
       			  
-      				<div class="am-g">
-	      			    <div class="am-u-sm-12 am-u-md-12">
+      				<div class="am-g am-margin-top">
+      					<div class="am-u-sm-12 am-u-md-2">
+      					  <select name="field" data-am-selected="{btnWidth: '100%', btnSize: 'sm', btnStyle: 'am-btn am-btn-default'}">
+			                <option value="all">模糊</option>
+			                <option value="title">标题</option>
+			                <option value="abstract">摘要</option>
+			                <option value="applicant">专利申请人</option>
+			                <option value="application_publish_number">专利号</option>
+			                <option value="inventor">发明者</option>address
+			                <option value="address">地区</option>
+			              </select>
+      					</div>
+	      			    <div style="float:left" class="am-u-sm-12 am-u-md-10">
 				          <div class="am-input-group am-input-group-sm">
 				            <input type="text" name="keyWords" class="am-form-field" placeholder="键入索引词">
 				          <span class="am-input-group-btn">
@@ -101,7 +112,7 @@
 				        </div>
 				        <div class="am-u-sm-12 am-u-md-3">
 				          <div class="am-form-group">
-				            <select name="pinyin" data-am-selected="{btnSize: 'sm'}">
+				            <select name="pinyin" data-am-selected="{maxHeight: '300px' , btnSize: 'sm'}">
 				              <option value="NO_LIMIT">无限制</option>
 				              <option value="A">A</option>
 				              <option value="B">B</option>
@@ -153,14 +164,13 @@
 		        		<table class="am-table am-table-striped am-table-hover table-main">
 		        			<thead>
 		        				<tr>
-		        				<td><b>专利号</b></td>
+		        				<td><b>专利号</b></td>		        				
 		        				<td><b>标题</b></td>		        				
 		        				<td><b>专利摘要</b></td>
 		        				<td><b>专利地址</b></td>
 		        				<td><b>专利申请人</b></td>
 		        				<td><b>公开日期</b></td>
 		        				<td><b>申请号码</b></td>
-		        				<td><b>公开号码</b></td>
 		        				<td><b>分类号</b></td>
 		        				<td><b>申请日期</b></td>
 		        				<td><b>授权状态</b></td>
@@ -169,14 +179,13 @@
 		        				</tr>
 		        			</thead>
 		        			<tr th:each="m : ${patentsForView.patents}">
-		        				<td th:text="${m.id}">
+		        				<td th:text="${m.application_publish_number}">		        			
 		        				<td th:text="${m.title}">		        				
 		        				<td th:text="${m.patent_Abstract}">
 		        				<td th:text="${m.address }">
 		        				<td th:text="${m.applicant}">
 		        				<td th:text="${m.application_date}">
 		        				<td th:text="${m.application_number}">
-		        				<td th:text="${m.application_publish_number}">
 		        				<td th:text="${m.classification_number}">
 		        				<td th:text="${m.filling_date}">
 		        				<td th:text="${m.grant_status}">
@@ -191,11 +200,11 @@
 		                		<ul id="paginator" class="am-pagination">
 		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}-1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}">«</a></li>
 		                  			<li class="am-active"><a href="#" th:text="${page}"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+1"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+2,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+2"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+3,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+3"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+4,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+4"></a></li>
-		                  			<li><a th:href="@{http://localhost:8080/search(keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}">»</a></li>
+		                  			<li><a th:href="@{http://localhost:8080/search(field=${field},keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+1"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/search(field=${field},keyWords=${keyWords},page=${page}+2,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+2"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/search(field=${field},keyWords=${keyWords},page=${page}+3,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+3"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/search(field=${field},keyWords=${keyWords},page=${page}+4,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}" th:text="${page}+4"></a></li>
+		                  			<li><a th:href="@{http://localhost:8080/search(field=${field},keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}">»</a></li>
 		                		</ul>
 		              		</div>
 		            	</div>   
