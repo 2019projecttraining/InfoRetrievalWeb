@@ -158,14 +158,11 @@ public class SearchServiceImpl implements SearchService{
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 			System.out.println(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
 			int totalNum=Integer.parseInt(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
-			System.out.println("zheli");
 			if(totalNum/pageSize+1==page)//最后一页不一定有pageSize个
 				end=totalNum%pageSize+start-1;
 			
 			for (int i = start; i <= end; i++) {
-				System.out.println(start+" "+end);
 				Document doc = luceneSearcher.doc(scoreDocs[i].doc);
-				System.out.println("aaaavvvcdzscaaaa");
 
 				Patent p=new Patent();
 				p.setId(doc.getField("id").getCharSequenceValue().toString());
@@ -183,12 +180,10 @@ public class SearchServiceImpl implements SearchService{
 				p.setInventor(doc.getField("inventor").getCharSequenceValue().toString());
 				p.setTitle(doc.getField("title").getCharSequenceValue().toString());
 				p.setYear(Integer.parseInt(doc.getField("year").getCharSequenceValue().toString()));
-				System.out.println("aaaaaaaaaaa");
 
 				patents.add(p);
 			}
 			pv.setPatents(patents);
-			System.out.println("bbbbbbbbbb");
 			pv.setHitsNum(topDocs.totalHits.toString().replaceAll(" hits", ""));
 
 //			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
