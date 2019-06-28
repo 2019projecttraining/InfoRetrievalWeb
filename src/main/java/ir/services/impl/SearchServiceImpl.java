@@ -93,7 +93,7 @@ public class SearchServiceImpl implements SearchService{
 //			e.printStackTrace();
 //		}
 		Query keyQuery;
-		switch(field) {
+		switch(field) {//按域查询
 		case "all":
 			try {
 				keyQuery = new MultiFieldQueryParser(fields, analyzer).parse(keyWords);
@@ -177,7 +177,11 @@ public class SearchServiceImpl implements SearchService{
 				p.setClassification_number(doc.getField("classification_number").getCharSequenceValue().toString());
 				p.setFilling_date(doc.getField("filing_date").getCharSequenceValue().toString());
 				p.setGrant_status(Integer.parseInt(doc.getField("grant_status").getCharSequenceValue().toString()));
-				p.setInventor(doc.getField("inventor").getCharSequenceValue().toString());
+				String inventors="";
+				for(String s:doc.getValues("inventor")) {
+					inventors+=(s+";");
+				}
+				p.setInventor(inventors);
 				p.setTitle(doc.getField("title").getCharSequenceValue().toString());
 				p.setYear(Integer.parseInt(doc.getField("year").getCharSequenceValue().toString()));
 
