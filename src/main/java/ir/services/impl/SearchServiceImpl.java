@@ -61,9 +61,6 @@ public class SearchServiceImpl implements SearchService{
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
 		//TODO
 		
-		
-		int start = (page - 1) * pageSize;// 当前页的起始条数
-        int end = start + pageSize;// 当前页的结束条数（不能包含）
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
         Query q1=null;
@@ -153,13 +150,23 @@ public class SearchServiceImpl implements SearchService{
 		List<Patent> patents=new ArrayList<>();
 		try {
 			//if(sort!=null)
-			topDocs = luceneSearcher.search(booleanQuery, end);
+			int start = (page - 1) * pageSize;// 当前页的起始条数
+	        int end = start + pageSize-1;// 当前页的结束条数（不能包含）
+			topDocs = luceneSearcher.search(booleanQuery, end+1);
 			System.out.println("查询结束");
 	        System.out.println("查询结果的总数"+topDocs.totalHits);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-
-			for (int i = start; i < end; i++) {
+			System.out.println(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
+			int totalNum=Integer.parseInt(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
+			System.out.println("zheli");
+			if(totalNum/pageSize+1==page)//最后一页不一定有pageSize个
+				end=totalNum%pageSize+start-1;
+			
+			for (int i = start; i <= end; i++) {
+				System.out.println(start+" "+end);
 				Document doc = luceneSearcher.doc(scoreDocs[i].doc);
+				System.out.println("aaaavvvcdzscaaaa");
+
 				Patent p=new Patent();
 				p.setId(doc.getField("id").getCharSequenceValue().toString());
 				p.setPatent_Abstract(doc.getField("abstract").getCharSequenceValue().toString());
@@ -176,10 +183,12 @@ public class SearchServiceImpl implements SearchService{
 				p.setInventor(doc.getField("inventor").getCharSequenceValue().toString());
 				p.setTitle(doc.getField("title").getCharSequenceValue().toString());
 				p.setYear(Integer.parseInt(doc.getField("year").getCharSequenceValue().toString()));
+				System.out.println("aaaaaaaaaaa");
 
 				patents.add(p);
 			}
 			pv.setPatents(patents);
+			System.out.println("bbbbbbbbbb");
 			pv.setHitsNum(topDocs.totalHits.toString().replaceAll(" hits", ""));
 
 //			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
