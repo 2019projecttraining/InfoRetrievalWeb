@@ -27,7 +27,7 @@ import org.apache.lucene.search.WildcardQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ir.enumDefine.FiledType;
+import ir.enumDefine.FieldType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
 import ir.enumDefine.SortedType;
@@ -53,7 +53,7 @@ public class SearchServiceImpl implements SearchService{
 	private static final int pageSize=10; 
 
 	@Override
-	public PatentsForView search(FiledType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
+	public PatentsForView search(FieldType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,IndexSearcher luceneIndex){
 		//TODO
 		
@@ -101,22 +101,22 @@ public class SearchServiceImpl implements SearchService{
 			
 			//TODO 将标题和摘要结合成一个
 			
-//		case CONTENT:
-//			try {
-//				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
-//				builder.add(keyQuery, Occur.MUST);
-//			} catch (ParseException e1) {
-//				e1.printStackTrace();
-//			}
-//			break;
-//		case "abstract":
-//			try {
-//				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
-//				builder.add(keyQuery, Occur.MUST);
-//			} catch (ParseException e1) {
-//				e1.printStackTrace();
-//			}
-//			break;
+		case TITLE:
+			try {
+				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
+				builder.add(keyQuery, Occur.MUST);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			break;
+		case ABSTRACT:
+			try {
+				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
+				builder.add(keyQuery, Occur.MUST);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			break;
 			
 		case APPLICANT:
 			keyQuery=new WildcardQuery(new Term("applicant", "*"+keyWords+"*"));

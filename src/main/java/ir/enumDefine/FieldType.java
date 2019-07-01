@@ -1,8 +1,9 @@
 package ir.enumDefine;
 
-public enum FiledType {
+public enum FieldType {
 	ALL,//全部
-	CONTENT,//标题和摘要
+	TITLE,//标题
+	ABSTRACT,//摘要
 	APPLICANT,//申请人
 	ID,//专利号
 	INVENTOR,//发明者

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import ir.enumDefine.FiledType;
+import ir.enumDefine.FieldType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
 import ir.enumDefine.SearchAccuracy;
@@ -47,7 +47,7 @@ public class SearchController {
 			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString,//排序类型
 			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String searchAccurancy) {//搜索精确度
 
-		FiledType field;
+		FieldType field;
 		FirstLetterOfNamePinyin letter;
 		IsGranted isGranted;
 		SortedType sortedType;
@@ -57,7 +57,7 @@ public class SearchController {
 			page=1;
 		
 		try {
-			field=FiledType.valueOf(fieldString);
+			field=FieldType.valueOf(fieldString);
 		}catch (Exception e) {
 			// TODO: to error page
 			return null;
