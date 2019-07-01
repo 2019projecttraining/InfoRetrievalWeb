@@ -53,7 +53,7 @@ public class SearchServiceImpl implements SearchService{
 	@Autowired
 	private SimilarWords similarWords;
 	
-	private Analyzer analyzer=SegmentAnalyzer.anaylzer;
+	private Analyzer analyzer=SegmentAnalyzer.coarseGrainedAnaylzer;
 	private static final int pageSize=10; 
 
 	@Override
