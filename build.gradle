@@ -52,6 +52,10 @@ dependencies {
     
     compile group: 'com.github.magese', name: 'ik-analyzer', version: '8.1.0'
     
+    compile group: 'com.huaban', name: 'jieba-analysis', version: '1.0.2'
+    
+    //compile group: 'io.github.yizhiru', name: 'thulac4j', version: '3.1.2'
+    
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
