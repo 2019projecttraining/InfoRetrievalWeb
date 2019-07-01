@@ -8,7 +8,6 @@ import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
-import com.chenlb.mmseg4j.analysis.ComplexAnalyzer;
 import com.hankcs.hanlp.model.crf.CRFLexicalAnalyzer;
 import com.hankcs.hanlp.seg.Segment;
 import com.huaban.analysis.jieba.JiebaSegmenter;
