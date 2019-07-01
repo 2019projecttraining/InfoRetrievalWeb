@@ -59,7 +59,7 @@ public class SearchServiceImpl implements SearchService{
 		
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
-        Query q1=null;
+        Query q1=null;//是否授权
         if(isGranted==IsGranted.GRANTED) { 
         	q1=new TermQuery(new Term("grant_status", "1"));//通过专利查询
         	builder.add(q1, Occur.MUST);
@@ -68,7 +68,7 @@ public class SearchServiceImpl implements SearchService{
         	q1=new TermQuery(new Term("grant_status", "0"));//未通过专利查询
         	builder.add(q1, Occur.MUST);
         }
-        Query q2=null;
+        Query q2=null;//日期范围
         if(timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
         	q2=TermRangeQuery.newStringRange("filing_date", "0000.00.00", timeTo, false, true);//日期范围查询
             builder.add(q2, Occur.MUST);
@@ -78,6 +78,11 @@ public class SearchServiceImpl implements SearchService{
         }else if(!timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
         	q2=TermRangeQuery.newStringRange("filing_date", timeFrom , timeTo , true, false);//日期范围查询
             builder.add(q2, Occur.MUST);
+        }
+        Query q3=null;//姓名首字母
+        if(letter!=FirstLetterOfNamePinyin.NO_LIMIT) {
+        	q3=new TermQuery(new Term("inventor_firstW", letter.toString()));
+        	builder.add(q3, Occur.MUST);
         }
         
         String[] fields = { "abstract", "applicant" , "title" , "inventor" };
@@ -97,10 +102,7 @@ public class SearchServiceImpl implements SearchService{
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			} 
-			break;
-			
-			//TODO 将标题和摘要结合成一个
-			
+			break;			
 		case TITLE:
 			try {
 				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
