@@ -45,7 +45,7 @@ public class SearchController {
 			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo,//截至时间
 			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGrantedString,//是否授权
 			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString,//排序类型
-			@RequestParam(value="search_accurancy",defaultValue="ALL",required=false) String searchAccurancy) {//搜索精确度
+			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String searchAccurancy) {//搜索精确度
 
 		FiledType field;
 		FirstLetterOfNamePinyin letter;

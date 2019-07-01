@@ -134,8 +134,8 @@ public class SegmentAnalyzer {
 				case "ik":
 					return new IKAnalyzer();
 					
-				case "mmseg4j":
-					return new ComplexAnalyzer();
+//				case "mmseg4j":
+//					return new ComplexAnalyzer();
 					
 				case "jieba":
 					return new JiebaAnalyzer(JiebaSegmenter.SegMode.SEARCH);
