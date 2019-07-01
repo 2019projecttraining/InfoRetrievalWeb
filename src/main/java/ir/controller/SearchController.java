@@ -1,5 +1,6 @@
 package ir.controller;
 
+import org.apache.lucene.search.IndexSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ir.enumDefine.FiledType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
+import ir.enumDefine.SearchAccuracy;
 import ir.enumDefine.SortedType;
+import ir.luceneIndex.LuceneSearcher;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
 /**
@@ -33,20 +37,31 @@ public class SearchController {
 	 */
 	@GetMapping("/search")//即什么样的页面会映射到这个方法上
 	@ResponseBody
-	public ModelAndView searchWithKeyWords(@RequestParam String field,@RequestParam String keyWords,
+	public ModelAndView searchWithKeyWords(@RequestParam(value="field",defaultValue="ALL",required=false) String fieldString,
+			@RequestParam String keyWords,
 			@RequestParam(defaultValue="1",required=false) int page,//页码
 			@RequestParam(value="pinyin",defaultValue="NO_LIMIT",required=false) String firstLetterOfNamePinyin,//拼音首字母
 			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
 			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo,//截至时间
 			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGrantedString,//是否授权
-			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString) {//排序类型
+			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString,//排序类型
+			@RequestParam(value="search_accurancy",defaultValue="ALL",required=false) String searchAccurancy) {//搜索精确度
 
+		FiledType field;
 		FirstLetterOfNamePinyin letter;
 		IsGranted isGranted;
 		SortedType sortedType;
+		SearchAccuracy searchAccuracy;
 		
 		if(page<=0)
 			page=1;
+		
+		try {
+			field=FiledType.valueOf(fieldString);
+		}catch (Exception e) {
+			// TODO: to error page
+			return null;
+		}
 		
 		try {
 			letter=FirstLetterOfNamePinyin.valueOf(firstLetterOfNamePinyin);
@@ -79,11 +94,26 @@ public class SearchController {
 			e.printStackTrace();
 			return null;
 		}
+		
+		try {
+			searchAccuracy=SearchAccuracy.valueOf(searchAccurancy);
+		}catch (Exception e) {
+			// TODO: to error page
+			e.printStackTrace();
+			return null;
+		}
+		
+		IndexSearcher luceneIndex = LuceneSearcher.indexes.get(searchAccuracy);
+		
+		if(luceneIndex==null) {
+			// TODO: to error page
+			return null;
+		}
 			
 		//PatentsForView result;
 		PatentsForView result;
 		try {
-			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType);
+			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, luceneIndex);
 		}catch (Exception e) {
 			// TODO: handle exception
 			return null;

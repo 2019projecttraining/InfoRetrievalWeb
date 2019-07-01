@@ -3,7 +3,6 @@ package ir.services.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -13,9 +12,9 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.queryparser.xml.builders.RangeQueryBuilder;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
@@ -28,16 +27,15 @@ import org.apache.lucene.search.WildcardQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ir.enumDefine.FiledType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
 import ir.enumDefine.SortedType;
-import ir.luceneIndex.LuceneSearcher;
 import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
 import ir.util.seg.SegmentAnalyzer;
 import ir.util.w2v.SimilarWords;
-import ir.util.w2v.WordEntry;
 
 /**
  * 实现查询业务
@@ -49,16 +47,14 @@ import ir.util.w2v.WordEntry;
 public class SearchServiceImpl implements SearchService{
 
 	@Autowired
-	private LuceneSearcher luceneSearcher;
-	@Autowired
 	private SimilarWords similarWords;
 	
 	private Analyzer analyzer=SegmentAnalyzer.coarseGrainedAnaylzer;
 	private static final int pageSize=10; 
 
 	@Override
-	public PatentsForView search(String field, String keyWords, int page, FirstLetterOfNamePinyin letter, 
-			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType){
+	public PatentsForView search(FiledType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
+			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,IndexSearcher luceneIndex){
 		//TODO
 		
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
@@ -94,7 +90,7 @@ public class SearchServiceImpl implements SearchService{
 //		}
 		Query keyQuery;
 		switch(field) {//按域查询
-		case "all":
+		case ALL:
 			try {
 				keyQuery = new MultiFieldQueryParser(fields, analyzer).parse(keyWords);
 				builder.add(keyQuery, Occur.MUST);
@@ -102,35 +98,39 @@ public class SearchServiceImpl implements SearchService{
 				e1.printStackTrace();
 			} 
 			break;
-		case "title":
-			try {
-				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
-				builder.add(keyQuery, Occur.MUST);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-			break;
-		case "abstract":
-			try {
-				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
-				builder.add(keyQuery, Occur.MUST);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-			break;
-		case "applicant":
+			
+			//TODO 将标题和摘要结合成一个
+			
+//		case CONTENT:
+//			try {
+//				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
+//				builder.add(keyQuery, Occur.MUST);
+//			} catch (ParseException e1) {
+//				e1.printStackTrace();
+//			}
+//			break;
+//		case "abstract":
+//			try {
+//				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
+//				builder.add(keyQuery, Occur.MUST);
+//			} catch (ParseException e1) {
+//				e1.printStackTrace();
+//			}
+//			break;
+			
+		case APPLICANT:
 			keyQuery=new WildcardQuery(new Term("applicant", "*"+keyWords+"*"));
 			builder.add(keyQuery, Occur.MUST);
 			break;
-		case "application_publish_number":
+		case ID:
 			keyQuery=new TermQuery(new Term("application_publish_number", keyWords));
 			builder.add(keyQuery, Occur.MUST);
 			break;
-		case "inventor":
+		case INVENTOR:
 			keyQuery=new WildcardQuery(new Term("inventor", "*"+keyWords+"*"));
 			builder.add(keyQuery, Occur.MUST);
 			break;
-		case "address":
+		case ADDRESS:
 			keyQuery=new WildcardQuery(new Term("address", "*"+keyWords+"*"));
 			builder.add(keyQuery, Occur.MUST);
 			break;
@@ -152,7 +152,7 @@ public class SearchServiceImpl implements SearchService{
 			//if(sort!=null)
 			int start = (page - 1) * pageSize;// 当前页的起始条数
 	        int end = start + pageSize-1;// 当前页的结束条数（不能包含）
-			topDocs = luceneSearcher.search(booleanQuery, end+1);
+			topDocs = luceneIndex.search(booleanQuery, end+1);
 			System.out.println("查询结束");
 	        System.out.println("查询结果的总数"+topDocs.totalHits);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
@@ -162,7 +162,7 @@ public class SearchServiceImpl implements SearchService{
 				end=totalNum%pageSize+start-1;
 			
 			for (int i = start; i <= end; i++) {
-				Document doc = luceneSearcher.doc(scoreDocs[i].doc);
+				Document doc = luceneIndex.doc(scoreDocs[i].doc);
 
 				Patent p=new Patent();
 				p.setId(doc.getField("id").getCharSequenceValue().toString());
