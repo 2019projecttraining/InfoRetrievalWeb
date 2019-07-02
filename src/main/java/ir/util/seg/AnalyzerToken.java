@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 public class AnalyzerToken {
 
@@ -21,7 +22,7 @@ public class AnalyzerToken {
 	       while (ts.incrementToken()) {
 	         // Use AttributeSource.reflectAsString(boolean)
 	         // for token stream debugging.
-	         list.add(ts.reflectAsString(true));
+	         list.add(ts.getAttribute(CharTermAttribute.class).toString());
 	       }
 	       ts.end();   // Perform end-of-stream operations, e.g. set the final offset.
 	     } catch (IOException e) {

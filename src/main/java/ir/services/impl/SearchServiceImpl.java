@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
@@ -36,6 +37,7 @@ import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
+import ir.util.seg.AnalyzerToken;
 import ir.util.w2v.SimilarWords;
 import ir.util.w2v.WordEntry;
 import ir.util.w2v.WordHashMap;
@@ -91,21 +93,16 @@ public class SearchServiceImpl implements SearchService{
         
         //近义词查询
 		List<String> words = null;
-		try {
-			words=analyze(keyWords,analyzer);
-			System.out.println(words);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		words=AnalyzerToken.token(keyWords,analyzer);
+		System.out.println(words);
 		//获取近义词
 		Map<String,List<WordEntry>> wordMap=new LinkedHashMap<String,List<WordEntry>>();
 		for(String w:words) {
-			System.out.println(w);
 			List<WordEntry> s=null;
 			s=wordHashMap.getNearWord(w);
-			System.out.println(s);
 			wordMap.put(w,s);
 		}
+		System.out.println(wordMap);
 		
         String[] fields = {"abstract", "applicant" , "title" , "inventor"};
 		Query keyQuery;
@@ -166,7 +163,7 @@ public class SearchServiceImpl implements SearchService{
 			builder.add(keyQuery, Occur.MUST);
 			break;
 		}
-		 
+		
         BooleanQuery booleanQuery=builder.build();
         Sort sort=null;
         if(sortedType==SortedType.TIME_ASC) {
@@ -221,7 +218,6 @@ public class SearchServiceImpl implements SearchService{
 			pv.setHitsNum(topDocs.totalHits.toString().replaceAll(" hits", ""));
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return pv;
