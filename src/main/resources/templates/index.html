@@ -68,14 +68,22 @@
       			  <form action="/search?page=0" class="" role="search" method="get">
       			  
       				<div class="am-g am-margin-top">
-      					<div class="am-u-sm-12 am-u-md-2">
+      				    <div class="am-u-sm-12 am-u-md-1">
+      					  <select name="search_accurancy" data-am-selected="{btnWidth: '100%', btnSize: 'sm', btnStyle: 'am-btn am-btn-default'}">
+			                <option value="FUZZY">模糊</option>
+			                <option value="ACCURATE">精确</option>
+			                <option value="SINGLE_WORD">单字</option>
+			                <option value="DOUBLE_WORD">二切分</option>
+			              </select>
+      					</div>
+      					<div class="am-u-sm-12 am-u-md-1">
       					  <select name="field" data-am-selected="{btnWidth: '100%', btnSize: 'sm', btnStyle: 'am-btn am-btn-default'}">
-			                <option value="ALL">模糊</option>
+			                <option value="ALL">多域</option>
 			                <option value="TITLE">标题</option>
 			                <option value="ABSTRACT">摘要</option>
 			                <option value="APPLICANT">申请人</option>
 			                <option value="ID">专利号</option>
-			                <option value="INVENTOR">发明者</option>address
+			                <option value="INVENTOR">发明者</option>
 			                <option value="ADDRESS">地区</option>
 			              </select>
       					</div>
