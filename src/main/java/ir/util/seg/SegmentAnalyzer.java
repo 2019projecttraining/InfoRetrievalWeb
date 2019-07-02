@@ -279,4 +279,5 @@ public class SegmentAnalyzer {
 			return DEFAULT_EXCEPTION_HANDLE_ANALYZER;
 		}
 	}
+	
 }
