@@ -17,6 +17,9 @@ import ir.config.Configuration;
  */
 public class StopWordsLoader {
 
+	/**
+	 * 配置全局的停用词
+	 */
 	public final static Set<String> stopWords;
 	
 	private final static String CONFIG_KEY="stopwords-file-path";

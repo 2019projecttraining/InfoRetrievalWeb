@@ -1,5 +1,10 @@
 package ir.enumDefine;
 
+/**
+ * 域的类型
+ * 
+ * @author 余定邦
+ */
 public enum FieldType {
 	ALL,//全部
 	TITLE,//标题

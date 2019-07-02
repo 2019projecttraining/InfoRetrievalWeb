@@ -63,6 +63,9 @@ import ir.util.seg.jieba.JiebaAnalyzer;
 @SuppressWarnings("resource")
 public class SegmentAnalyzer {
 	
+	/**
+	 * 给全局提供分词器的获取，可以根据不同的分词粒度获取不同的分词器
+	 */
 	public final static Map<SearchAccuracy,Analyzer> analyzers;
 
 	public final static Analyzer coarseGrainedAnaylzer;
