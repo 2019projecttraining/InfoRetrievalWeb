@@ -96,6 +96,7 @@ public class SearchServiceImpl implements SearchService{
 		List<String> words = null;
 		try {
 			words=analyze(keyWords,analyzer);
+			System.out.println(words);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +110,7 @@ public class SearchServiceImpl implements SearchService{
 			wordMap.put(w,s);
 		}
 		
-        String[] fields = { "inventor","abstract", "applicant" , "title"};
+        String[] fields = {"abstract", "applicant" , "title" , "inventor"};
 		Query keyQuery;
 		switch(field) {//按域查询
 		case ALL:
@@ -169,7 +170,6 @@ public class SearchServiceImpl implements SearchService{
 			break;
 		}
 		 
-		
         BooleanQuery booleanQuery=builder.build();
         Sort sort=null;
         if(sortedType==SortedType.TIME_ASC) {
