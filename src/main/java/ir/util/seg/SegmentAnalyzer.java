@@ -121,6 +121,10 @@ public class SegmentAnalyzer {
 	private final static String HANLP_CRF_MODEL_PATH_KEY="hanlp-crf-model-path";
 	
 	private final static String HANLP_CRF_MODEL_PATH=Configuration.getConfig(HANLP_CRF_MODEL_PATH_KEY);
+	
+	private final static String HANLP_DEFAULT_CRF_MODEL_PATH_KEY="hanlp-default-crf-model-path";
+	
+	private final static String HANLP_DEFAULT_CRF_MODEL_PATH=Configuration.getConfig(HANLP_DEFAULT_CRF_MODEL_PATH_KEY);
 
 	
 	static {
@@ -169,13 +173,13 @@ public class SegmentAnalyzer {
 	}
 	
 	private static Analyzer hanlpAnalyzer() throws IOException {
-		Segment segment=new CRFLexicalAnalyzer();
+		Segment segment=new CRFLexicalAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH);
 		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.stopWords);
 		return analyzer;
 	}
 	
 	private static Analyzer hanlpAnalyzer2() throws IOException {
-		Segment segment=new CRFLexicalAnalyzer().enableIndexMode(true);
+		Segment segment=new CRFLexicalAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH).enableIndexMode(true);
 		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.stopWords);
 		return analyzer;
 	}
