@@ -2,7 +2,10 @@ package ir.services.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -36,6 +39,8 @@ import ir.models.PatentsForView;
 import ir.services.SearchService;
 import ir.util.seg.SegmentAnalyzer;
 import ir.util.w2v.SimilarWords;
+import ir.util.w2v.WordEntry;
+import ir.util.w2v.WordHashMap;
 
 /**
  * 实现查询业务
@@ -48,9 +53,11 @@ public class SearchServiceImpl implements SearchService{
 
 	@Autowired
 	private SimilarWords similarWords;
+	@Autowired
+	private WordHashMap wordHashMap;
 	
 	private Analyzer analyzer=SegmentAnalyzer.coarseGrainedAnaylzer;
-	private static final int pageSize=10; 
+	private static final int pageSize=10;
 
 	@Override
 	public PatentsForView search(FieldType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
@@ -85,14 +92,24 @@ public class SearchServiceImpl implements SearchService{
         	builder.add(q3, Occur.MUST);
         }
         
-        String[] fields = { "abstract", "applicant" , "title" , "inventor" };
-        
-//		List<String> words = null;
-//		try {
-//			words=analyze(keyWords,analyzer);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+        //近义词查询
+		List<String> words = null;
+		try {
+			words=analyze(keyWords,analyzer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//获取近义词
+		Map<String,List<WordEntry>> wordMap=new LinkedHashMap<String,List<WordEntry>>();
+		for(String w:words) {
+			System.out.println(w);
+			List<WordEntry> s=null;
+			s=wordHashMap.getNearWord(w);
+			System.out.println(s);
+			wordMap.put(w,s);
+		}
+		
+        String[] fields = { "inventor","abstract", "applicant" , "title"};
 		Query keyQuery;
 		switch(field) {//按域查询
 		case ALL:
@@ -101,7 +118,7 @@ public class SearchServiceImpl implements SearchService{
 				builder.add(keyQuery, Occur.MUST);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
-			} 
+			}
 			break;			
 		case TITLE:
 			try {
@@ -110,6 +127,13 @@ public class SearchServiceImpl implements SearchService{
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
+			for(String word:words) {//在标题中添加近义词查询
+				List<WordEntry> s=wordMap.get(word);
+				for(WordEntry w:s) {
+					TermQuery query = new TermQuery(new Term("title", w.name));
+					builder.add(query, Occur.SHOULD);
+				}
+			}
 			break;
 		case ABSTRACT:
 			try {
@@ -117,6 +141,13 @@ public class SearchServiceImpl implements SearchService{
 				builder.add(keyQuery, Occur.MUST);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
+			}
+			for(String word:words) {//在摘要中添加近义词查询
+				List<WordEntry> s=wordMap.get(word);
+				for(WordEntry w:s) {
+					TermQuery query = new TermQuery(new Term("abstract", w.name));
+					builder.add(query, Occur.SHOULD);
+				}
 			}
 			break;
 			
@@ -192,43 +223,11 @@ public class SearchServiceImpl implements SearchService{
 			pv.setPatents(patents);
 			pv.setHitsNum(topDocs.totalHits.toString().replaceAll(" hits", ""));
 
-//			for (ScoreDoc scoreDoc: topDocs.scoreDocs){
-//	            //scoreDoc.doc 属性就是doucumnet对象的id
-//	            Document doc = luceneSearcher.doc(scoreDoc.doc);	            	   
-//	            sb.append(doc.getField("id").toString().replaceAll("[<|>]", "")).append("<br/>");
-//	            sb.append(doc.getField("abstract").toString().replaceAll("[<|>]", "")).append("<br/>");
-//	            sb.append(doc.getField("inventor").toString().replaceAll("[<|>]", "")).append("<br/>");
-//	            sb.append(doc.getField("filing_date").toString().replaceAll("[<|>]", "")).append("<br/>");
-//	            sb.append(doc.getField("grant_status").toString().replaceAll("[<|>]", "")).append("<br/>");
-//	            sb.append("<br/><br/>")
-//	        }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return pv;
-		
-		
-		
-//		List<List<WordEntry>> twoDlist=new ArrayList<List<WordEntry>>();
-//		for(String w:words) {
-//			Set<WordEntry> s=null;
-//			try {
-//				s=similarWords.getSimilarWordsByLimit(w, 0.5);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			twoDlist.add(new ArrayList<WordEntry>(s));
-//		}
-//		
-//		for(List<WordEntry> l:twoDlist) {
-//			for(WordEntry w:l) {
-//				TermQuery query1 = new TermQuery(new Term("abstract", w.name));
-//				TermQuery query2 = new TermQuery(new Term("applicant", w.name));
-//				TermQuery query3 = new TermQuery(new Term("title", w.name));
-//				builder.add(query1, Occur.SHOULD).;
-//			}
-//		}
 	}
 	
 	public static List<String> analyze(String text, Analyzer analyzer) throws IOException{
