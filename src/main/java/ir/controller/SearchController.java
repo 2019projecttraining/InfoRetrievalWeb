@@ -1,5 +1,7 @@
 package ir.controller;
 
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import ir.enumDefine.SortedType;
 import ir.luceneIndex.LuceneSearcher;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
+import ir.util.seg.SegmentAnalyzer;
 /**
  * web控制器
  * 
@@ -109,11 +112,13 @@ public class SearchController {
 			// TODO: to error page
 			return null;
 		}
+		
+		Analyzer analyzer = SegmentAnalyzer.getAnalyzer(searchAccuracy);
 			
 		//PatentsForView result;
 		PatentsForView result;
 		try {
-			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, luceneIndex);
+			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, luceneIndex, analyzer);
 		}catch (Exception e) {
 			// TODO: handle exception
 			return null;

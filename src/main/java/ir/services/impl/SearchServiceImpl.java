@@ -2,7 +2,6 @@ package ir.services.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +36,6 @@ import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
-import ir.util.seg.SegmentAnalyzer;
 import ir.util.w2v.SimilarWords;
 import ir.util.w2v.WordEntry;
 import ir.util.w2v.WordHashMap;
@@ -56,12 +54,11 @@ public class SearchServiceImpl implements SearchService{
 	@Autowired
 	private WordHashMap wordHashMap;
 	
-	private Analyzer analyzer=SegmentAnalyzer.coarseGrainedAnaylzer;
 	private static final int pageSize=10;
 
 	@Override
 	public PatentsForView search(FieldType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
-			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,IndexSearcher luceneIndex){
+			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,IndexSearcher luceneIndex ,Analyzer analyzer){
 		//TODO
 		
         BooleanQuery.Builder builder=new BooleanQuery.Builder();

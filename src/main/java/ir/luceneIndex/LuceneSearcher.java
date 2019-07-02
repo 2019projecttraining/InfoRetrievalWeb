@@ -19,7 +19,7 @@ import ir.enumDefine.SearchAccuracy;
 /**
  * 读取lucene索引文件，提供接下来的查询服务
  * 
- * @author HPuser
+ * @author 余定邦
  */
 @Service
 public class LuceneSearcher{
@@ -48,10 +48,10 @@ public class LuceneSearcher{
 		IndexSearcher tempIndex;
 		
 		if(COARSE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("coarse-grained",COARSE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null) 
-			temp.put(SearchAccuracy.FUZZY, tempIndex);
+			temp.put(SearchAccuracy.ACCURATE, tempIndex);
 		
 		if(FINE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("fine-grained",FINE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null)
-			temp.put(SearchAccuracy.ACCURATE, tempIndex);
+			temp.put(SearchAccuracy.FUZZY, tempIndex);
 		
 		if(SINGLE_WORD_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("single-word",SINGLE_WORD_LUCENE_INDEX_FILE_PATH))!=null)
 			temp.put(SearchAccuracy.SINGLE_WORD, tempIndex);

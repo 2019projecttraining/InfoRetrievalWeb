@@ -44,10 +44,10 @@ import ir.util.seg.jieba.JiebaAnalyzer;
  * 第四的双字切分
  * 
  * 对应粗粒度切分的分词器，需配置coarse-grained-segment-analyzer
- * 可配置的分词器有hanlp，jieba，ik和smart-chinese
+ * 可配置的分词器有hanlp，hanlp-self-train-crf,jieba，ik和smart-chinese
  * 
  * 对于细粒度切分的分词器，需配置fine-grained-segment-analyzer
- * 可配置的分词器有hanlp和jieba
+ * 可配置的分词器有hanlp,hanlp-self-train-crf和jieba
  * 
  * 对应单字切分的分词器，需配置single-word-segment-analyzer
  * 可配置的分词器仅有standard
@@ -66,17 +66,20 @@ public class SegmentAnalyzer {
 	/**
 	 * 给全局提供分词器的获取，可以根据不同的分词粒度获取不同的分词器
 	 */
-	public final static Map<SearchAccuracy,Analyzer> analyzers;
-
-	public final static Analyzer coarseGrainedAnaylzer;
+	private final static Map<SearchAccuracy,Analyzer> analyzers;
 	
-	public final static Analyzer fineGrainedAnalyzer;
-	
-	public final static Analyzer singleWordAnalyzer;
-	
-	public final static Analyzer doubleWordAnalyzer;
-	
-	
+	/**
+	 * 获取一个粒度适合的分词器，如果这个粒度对应的分词器不存在，那么使用smart-chinese分词器
+	 * 
+	 * @param searchAccuracy
+	 * @return
+	 */
+	public static Analyzer getAnalyzer(SearchAccuracy searchAccuracy) {
+		
+		Analyzer res=analyzers.get(searchAccuracy);
+		
+		return res==null?DEFAULT_EXCEPTION_HANDLE_ANALYZER:res;
+	}
 	
 	private final static CharArraySet STOP_WORDS=new CharArraySet(StopWordsLoader.stopWords, true);
 	
@@ -112,6 +115,12 @@ public class SegmentAnalyzer {
 	
 	private final static Analyzer DEFAULT_EXCEPTION_HANDLE_ANALYZER=new SmartChineseAnalyzer(STOP_WORDS);
 	
+	
+	
+	
+	private final static String HANLP_CRF_MODEL_PATH_KEY="hanlp-crf-model-path";
+	
+	private final static String HANLP_CRF_MODEL_PATH=Configuration.getConfig(HANLP_CRF_MODEL_PATH_KEY);
 
 	
 	static {
@@ -144,15 +153,15 @@ public class SegmentAnalyzer {
 		}
 		DEFALUT_DOUBLE_WORD_GRAINED_ANALYZER=temp;
 		
-		coarseGrainedAnaylzer=configCoarseGrainedAnalyzer();
-		fineGrainedAnalyzer=configFineGrainedAnalyzer();
-		singleWordAnalyzer=configSingleWordAnalyzer();
-		doubleWordAnalyzer=configDoubleWordAnalyzer();
+		Analyzer coarseGrainedAnaylzer=configCoarseGrainedAnalyzer();
+		Analyzer fineGrainedAnalyzer=configFineGrainedAnalyzer();
+		Analyzer singleWordAnalyzer=configSingleWordAnalyzer();
+		Analyzer doubleWordAnalyzer=configDoubleWordAnalyzer();
 		
 		Map<SearchAccuracy,Analyzer> tempMap=new HashMap<>();
 		
-		tempMap.put(SearchAccuracy.FUZZY, coarseGrainedAnaylzer);
-		tempMap.put(SearchAccuracy.ACCURATE, fineGrainedAnalyzer);
+		tempMap.put(SearchAccuracy.ACCURATE, coarseGrainedAnaylzer);
+		tempMap.put(SearchAccuracy.FUZZY, fineGrainedAnalyzer);
 		tempMap.put(SearchAccuracy.SINGLE_WORD, singleWordAnalyzer);
 		tempMap.put(SearchAccuracy.DOUBLE_WORD, doubleWordAnalyzer);
 		
@@ -180,6 +189,11 @@ public class SegmentAnalyzer {
 				case "hanlp":
 					return DEFALUT_COARSE_GRAINED_ANALYZER;
 					
+				case "hanlp-self-train-crf":
+					CRFLexicalAnalyzer segmenter = new CRFLexicalAnalyzer(HANLP_CRF_MODEL_PATH);
+					Analyzer analyzer=new HanLPWrapperAnalyzer(segmenter ,StopWordsLoader.stopWords);
+					return analyzer;
+					
 				case "ik":
 					return new IKAnalyzer(true);
 					
@@ -205,6 +219,11 @@ public class SegmentAnalyzer {
 			switch(FINE_GRAINED_ANALYZER_NAME.toLowerCase()) {
 				case "hanlp":
 					return DEFALUT_FINE_GRAINED_ANALYZER;
+					
+				case "hanlp-self-train-crf":
+					CRFLexicalAnalyzer segmenter = new CRFLexicalAnalyzer(HANLP_CRF_MODEL_PATH);
+					Analyzer analyzer=new HanLPWrapperAnalyzer(segmenter.enableIndexMode(true) ,StopWordsLoader.stopWords);
+					return analyzer;
 					
 				case "jieba":
 					return new JiebaAnalyzer(JiebaSegmenter.SegMode.INDEX);

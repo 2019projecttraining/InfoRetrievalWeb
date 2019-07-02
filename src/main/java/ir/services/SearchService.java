@@ -1,5 +1,6 @@
 package ir.services;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,6 @@ import ir.models.PatentsForView;
 public interface SearchService {
 
 	public PatentsForView search(FieldType field ,String keyWords,int page,FirstLetterOfNamePinyin letter,String timeFrom,//PatentsForView
-			String timeTo,IsGranted isGranted,SortedType sortedType,IndexSearcher luceneIndex);
+			String timeTo,IsGranted isGranted,SortedType sortedType,IndexSearcher luceneIndex,Analyzer analyzer);
 	
 }
