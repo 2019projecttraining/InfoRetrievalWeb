@@ -3,6 +3,7 @@ package ir.util.seg;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -43,6 +44,10 @@ public class SegmentAnalyzer {
 	
 	
 	
+	private final static CharArraySet STOP_WORDS=new CharArraySet(StopWordsLoader.stopWords, true);
+	
+	
+	
 	private final static String COARSE_GRAINED_CONFIG_KEY="segment-analyzer";
 	
 	private final static String FINE_GRAINED_CONFIG_KEY="segment-analyzer";
@@ -71,7 +76,9 @@ public class SegmentAnalyzer {
 	
 	public final static Analyzer DEFALUT_DOUBLE_WORD_GRAINED_ANALYZER;
 	
-	private final static Analyzer DEFAULT_EXCEPTION_HANDLE_ANALYZER=new SmartChineseAnalyzer();
+	private final static Analyzer DEFAULT_EXCEPTION_HANDLE_ANALYZER=new SmartChineseAnalyzer(STOP_WORDS);
+	
+
 	
 	static {
 		Analyzer temp;
@@ -90,14 +97,14 @@ public class SegmentAnalyzer {
 		DEFALUT_FINE_GRAINED_ANALYZER=temp;
 		
 		try {
-			temp=new StandardAnalyzer();
+			temp=new StandardAnalyzer(STOP_WORDS);
 		}catch (Exception e) {
 			temp=DEFAULT_EXCEPTION_HANDLE_ANALYZER;
 		}
 		DEFALUT_SINGLE_WORD_GRAINED_ANALYZER=temp;
 		
 		try {
-			temp=new CJKAnalyzer();
+			temp=new CJKAnalyzer(STOP_WORDS);
 		}catch (Exception e) {
 			temp=DEFAULT_EXCEPTION_HANDLE_ANALYZER;
 		}
@@ -111,13 +118,13 @@ public class SegmentAnalyzer {
 	
 	private static Analyzer hanlpAnalyzer() throws IOException {
 		Segment segment=new CRFLexicalAnalyzer();
-		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.load());
+		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.stopWords);
 		return analyzer;
 	}
 	
 	private static Analyzer hanlpAnalyzer2() throws IOException {
 		Segment segment=new CRFLexicalAnalyzer().enableIndexMode(true);
-		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.load());
+		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.stopWords);
 		return analyzer;
 	}
 	
@@ -131,13 +138,10 @@ public class SegmentAnalyzer {
 					return DEFALUT_COARSE_GRAINED_ANALYZER;
 					
 				case "ik":
-					return new IKAnalyzer();
-					
-//				case "mmseg4j":
-//					return new ComplexAnalyzer();
+					return new IKAnalyzer(true);
 					
 				case "jieba":
-					return new JiebaAnalyzer(JiebaSegmenter.SegMode.SEARCH);
+					return new JiebaAnalyzer(JiebaSegmenter.SegMode.SEARCH,STOP_WORDS);
 					
 				case "smart-chinese":
 				default:

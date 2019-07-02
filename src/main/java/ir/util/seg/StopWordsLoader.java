@@ -22,11 +22,7 @@ public class StopWordsLoader {
 	private final static String CONFIG_KEY="stopwords-file-path";
 	
 	public final static String STOPWORDS_FILE_PATH=Configuration.getConfig(CONFIG_KEY);
-	
-	public static Set<String> load(){
-		return stopWords;
-	}
-	
+
 	static {
 		stopWords=loadStopWords();
 	}
