@@ -1,6 +1,9 @@
 package ir.util.seg;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
@@ -14,9 +17,11 @@ import com.hankcs.hanlp.seg.Segment;
 import com.huaban.analysis.jieba.JiebaSegmenter;
 
 import ir.config.Configuration;
+import ir.enumDefine.SearchAccuracy;
 import ir.util.seg.jieba.JiebaAnalyzer;
 
 /**
+ * v1
  * 分词器的加载，可以选用多种分词器：
  * 目前支持5种分词器：
  * hanlp，
@@ -30,9 +35,35 @@ import ir.util.seg.jieba.JiebaAnalyzer;
  * 错误时使用smart-chinese分词器
  * 
  * @author 余定邦
+ * 
+ * v2
+ * 分词器改为4种粒度，
+ * 第一是粗粒度分词，
+ * 第二是细粒度分词，是在粗粒度的基础上继续进行细分
+ * 第三是单字切分
+ * 第四的双字切分
+ * 
+ * 对应粗粒度切分的分词器，需配置coarse-grained-segment-analyzer
+ * 可配置的分词器有hanlp，jieba，ik和smart-chinese
+ * 
+ * 对于细粒度切分的分词器，需配置fine-grained-segment-analyzer
+ * 可配置的分词器有hanlp和jieba
+ * 
+ * 对应单字切分的分词器，需配置single-word-segment-analyzer
+ * 可配置的分词器仅有standard
+ * 
+ * 对应双字切分的分词器，需配置double-word-segment-analyzer
+ * 可配置的分词器仅有cjk
+ * 
+ * 移除了v1中的mmseg4j，因为和当前lucene版本不兼容
+ * 
+ * @author 余定邦
+ * 
  */
 @SuppressWarnings("resource")
 public class SegmentAnalyzer {
+	
+	public final static Map<SearchAccuracy,Analyzer> analyzers;
 
 	public final static Analyzer coarseGrainedAnaylzer;
 	
@@ -48,13 +79,13 @@ public class SegmentAnalyzer {
 	
 	
 	
-	private final static String COARSE_GRAINED_CONFIG_KEY="segment-analyzer";
+	private final static String COARSE_GRAINED_CONFIG_KEY="coarse-grained-segment-analyzer";
 	
-	private final static String FINE_GRAINED_CONFIG_KEY="segment-analyzer";
+	private final static String FINE_GRAINED_CONFIG_KEY="fine-grained-segment-analyzer";
 	
-	private final static String SINGLE_WORD_CONFIG_KEY="segment-analyzer";
+	private final static String SINGLE_WORD_CONFIG_KEY="single-word-segment-analyzer";
 	
-	private final static String DOUBLE_WORD_CONFIG_KEY="segment-analyzer";
+	private final static String DOUBLE_WORD_CONFIG_KEY="double-word-segment-analyzer";
 	
 	
 	
@@ -114,6 +145,15 @@ public class SegmentAnalyzer {
 		fineGrainedAnalyzer=configFineGrainedAnalyzer();
 		singleWordAnalyzer=configSingleWordAnalyzer();
 		doubleWordAnalyzer=configDoubleWordAnalyzer();
+		
+		Map<SearchAccuracy,Analyzer> tempMap=new HashMap<>();
+		
+		tempMap.put(SearchAccuracy.FUZZY, coarseGrainedAnaylzer);
+		tempMap.put(SearchAccuracy.ACCURATE, fineGrainedAnalyzer);
+		tempMap.put(SearchAccuracy.SINGLE_WORD, singleWordAnalyzer);
+		tempMap.put(SearchAccuracy.DOUBLE_WORD, doubleWordAnalyzer);
+		
+		analyzers=Collections.unmodifiableMap(tempMap);
 	}
 	
 	private static Analyzer hanlpAnalyzer() throws IOException {
