@@ -222,15 +222,4 @@ public class SearchServiceImpl implements SearchService{
 		}
 		return pv;
 	}
-	
-	public static List<String> analyze(String text, Analyzer analyzer) throws IOException{
-	    List<String> result = new ArrayList<String>();
-	    TokenStream tokenStream = analyzer.tokenStream("KeyWords", text);
-	    CharTermAttribute attr = tokenStream.addAttribute(CharTermAttribute.class);
-	    tokenStream.reset();
-	    while(tokenStream.incrementToken()) {
-	       result.add(attr.toString());
-	    }       
-	    return result;
-	}
 }
