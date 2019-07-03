@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>专利检索展示</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="../static/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="../static/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="../static/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="../static/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="../static/css/amazeui.min.css">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/extra.css">
+</head>
+
+<body id="blog">
+
+<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div style="width: 100%">
+        <img src="../static/i/sdu.jpg" alt="" class="am-img-sdu">
+    </div>
+    <br>
+
+
+    <div class=" am-u-lg-12 am-u-md-7 am-u-sm-8 am-u-sm-centered">
+        <!--img width="200" src="http://s.amazeui.org/media/i/brand/amazeui-b.png" alt="Amaze UI Logo"/-->
+        <div class="am-radius">
+
+            <br>
+            <div style="display:block" >
+                <select id="wordCutGrade" name="search_accurancy" class="am-input-bar2">
+                    <option value="FUZZY">模糊</option>
+                    <option value="ACCURATE">精确</option>
+                    <option value="SINGLE_WORD">单字</option>
+                    <option value="DOUBLE_WORD">二切分</option>
+                </select>
+                <input  id="search-bar" class="am-radius am-input-search am-input-search-box"  placeholder="请输入需要搜索的专利关键词" required/>
+                <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
+            </div>
+        </div>
+    </div>
+</header>
+<hr>
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
+
+          <li class="am-dropdown" data-am-dropdown>
+              <a id="comprehensive" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                  综合查询 <span class="am-icon-caret-down"></span>
+              </a>
+              <ul class="am-dropdown-content">
+                  <li><button class="am-bk" onclick="display(this.innerHTML)">综合查询</button></li>
+                  <li><button class="am-bk" onclick="display(this.innerHTML)">相关优先</button></li>
+                  <li><button class="am-bk" onclick="display(this.innerHTML)">权威优先</button></li>
+              </ul>
+          </li>
+          <li class="am-dropdown" data-am-dropdown>
+              <a id="limit" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                  授权限制 <span class="am-icon-caret-down"></span>
+              </a>
+              <ul class="am-dropdown-content">
+                  <li><button class="am-bk" onclick="display2(this.innerHTML)">不限授权</button></li>
+                  <li><button class="am-bk" onclick="display2(this.innerHTML)">查已授权</button></li>
+                  <li><button class="am-bk" onclick="display2(this.innerHTML)">查未授权</button></li>
+              </ul>
+          </li>
+          </li>
+          <li class="am-dropdown" data-am-dropdown>
+              <a id="FirstLetter" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                  姓名首字母 <span class="am-icon-caret-down"></span>
+              </a>
+              <ul class="am-dropdown-content">
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">不限首字母</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">A</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">B</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">C</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">D</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">E</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">F</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">G</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">H</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">I</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">J</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">K</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">L</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">M</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">N</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">O</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">P</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">Q</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">R</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">S</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">T</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">U</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">V</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">W</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">X</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">Y</button></li>
+                  <li><button class="am-bk" onclick="display3(this.innerHTML)">Z</button></li>
+
+              </ul>
+          </li>
+          <li class="am-dropdown" data-am-dropdown>
+              <a id="date1">
+                  <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期"  data-am-datepicker readonly required /> <span class="am-icon-caret-down"></span>
+              </a>
+          </li>
+          <li class="am-date2">到</li>
+          <li class="am-dropdown" data-am-dropdown>
+              <a id="date2">
+                  <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期"  data-am-datepicker readonly required /><span class="am-icon-caret-down"></span>
+              </a>
+          </li>
+      </ul>
+
+
+
+    <!--form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+      </div>
+    </form-->
+  </div>
+</nav>
+<hr>
+
+
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed">
+    <div class="am-u-md-8 am-u-sm-12">
+
+        <article class="am-g blog-entry-article">
+
+            <div th:each="m : ${patentsForView.patents}" class="am-u-md-12 am-u-sm-12 blog-entry-text">
+                <span><a th:text="'专利号：'+${m.application_publish_number}"+ '&nbsp;'" id="pn" href="" class="blog-color">专利号：CN105874434A &nbsp;</a></span>
+                <span th:text="'授权状态：'+${m.grant_status}+ '&nbsp;'" class="blog-color" id="authorization" style="float:right;">授权状态：0 &nbsp;</span>
+                <span th:text="'年份:'+${m.year}+ '&nbsp;'" id="year" style="float:right;">年份:2016 &nbsp;</span>
+                <br>
+                <span th:text="'作者:'+${m.inventor}+ '&nbsp;'" id="author" style="float:left;">作者 X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
+                <br>
+                <h1><a th:text="${m.title}" href="">比特重映射系统</a></h1>
+                <p th:text="${m.patent_Abstract}">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
+                </p>
+                <span th:text="'地址:'+${m.address}">地址：美国加利福尼亚州</span>
+                <span th:text="'申请人:'+${m.applicant}" style="float:right;">申请人:高通股份有限公司</span>
+                <br>
+                <span th:text="'公开日期:'+${m.application_date}">公开日期:2016.08.17</span>
+                <span th:text="'申请日期:'+${m.filling_date}" style="float:right;">申请日期:2014.12.11</span>
+                <br>
+                <span th:text="'分类号:'+${m.classification_number}">分类号：G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
+                <span th:text="'申请号码:'+${m.application_number}" style="float:right;">申请号码:2014800719075</span>
+                <p><a href="" class="blog-continue">continue reading</a></p>
+            </div>
+        </article>
+
+        
+        
+        <ul class="am-pagination">
+  <li class="am-pagination-prev"><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}-1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}>&laquo; Prev</a></li>
+            <li class="am-active"><a th:text="${page}" href="#"></a></li>
+            <li><a th:text="${page}+1" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+2" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+2,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+3" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+3,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+4" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+4,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+5" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+5,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+6" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+6,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+7" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+7,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+8" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+8,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}></a></li>
+            <li><a th:text="${page}+9" th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+9,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}>&raquo;</a></li>
+  <li class="am-pagination-next"><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=${page}+1,pinyin=${pinyin},time_from=${time_from},time_to=${time_to},is_granted=${is_granted},sort_type=${sort_type})}>Next &raquo;</a></li>
+</ul>
+    </div>
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>近义搜索结果</span></h2>
+            <ul class="am-list" style="text-align:left;">
+                <li><a href="#">近义词链接模板1</a></li>
+                <li><a href="#">近义词链接模板2</a></li>
+                <li><a href="#">近义词链接模板3</a></li>
+                <li><a href="#">近义词链接模板4</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+
+
+ <footer class="blog-footer">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h3>模板简介</h3>
+            <p class="am-text-sm">这是一个使用amazeUI做的简单的前端模板。<br> 博客/ 资讯类 前端模板 <br> 支持响应式，多种布局，包括主页、文章页、媒体页、分类页等<br>嗯嗯嗯，不知道说啥了。外面的世界真精彩<br><br>
+            Amaze UI 使用 MIT 许可证发布，用户可以自由使用、复制、修改、合并、出版发行、散布、再授权及贩售 Amaze UI 及其副本。</p>
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h3>社交账号</h3>
+            <p>
+                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
+            </p>
+            <h3>Credits</h3>
+            <p>我们追求卓越，然时间、经验、能力有限。Amaze UI 有很多不足的地方，希望大家包容、不吝赐教，给我们提意见、建议。感谢你们！</p>          
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+              <h1>我们站在巨人的肩膀上</h1>
+             <h3>Heroes</h3>
+            <p>
+                <ul>
+                    <li>jQuery</li>
+                    <li>Zepto.js</li>
+                    <li>Seajs</li>
+                    <li>LESS</li>
+                    <li>...</li>
+                </ul>
+            </p>
+        </div>
+    </div>    
+    <div class="blog-text-center">© 2015 AllMobilize, Inc. Licensed under MIT license. Made with love By LWXYFER</div>    
+  </footer>
+
+
+<script>
+    function display(value){
+        document.getElementById("comprehensive").innerHTML=value+" <span class=\"am-icon-caret-down\"></span>";
+    }
+    function display2(value){
+        document.getElementById("limit").innerHTML=value+" <span class=\"am-icon-caret-down\"></span>";
+    }
+    function display3(value){
+        document.getElementById("FirstLetter").innerHTML=value+" <span class=\"am-icon-caret-down\"></span>";
+    }
+	
+	function allsubmit(){
+		var timeFrom = $("#d1").val();
+		var timeTo = $("#d2").val();
+	//	alert(username+password);
+		var keyWords=$("#search-bar").val();
+		var wordCutGrade=$("#wordCutGrade").val();
+		//少个域下拉框
+		var comprehensive=$("#comprehensive").attr("value");
+		var firstLetter=$("#FirstLetter").attr("value");
+		var passOrNot=$("#limit").attr("value");
+		
+		var temp = document.createElement("form");
+		  temp.action = "/search?page=1";
+		  temp.method = "get";
+		  temp.style.display = "none";
+		  
+		var opt1 = document.createElement("input");
+		  opt.name = "time_from";
+		  opt.value = timeFrom;
+		//alert(opt.name+":"+opt.value);
+		temp.appendChild(opt1);
+		
+		var opt2 = document.createElement("input");
+		  opt2.name="time_to";
+		  opt2.value=timeTo;
+		temp.appendChild(opt2);
+		
+		var opt3 = document.createElement("input");
+		  opt3.name="keyWords";
+		  opt3.value=keyWords;
+		temp.appendChild(opt3);
+		
+		var opt4 = document.createElement("input");
+		  opt4.name="search_accurancy";
+		  opt4.value=wordCutGrade;
+		temp.appendChild(opt4);
+		
+		var opt5 = document.createElement("input");
+		  opt5.name="sort_type";
+		  opt5.value=comprehensive;
+		temp.appendChild(opt5);
+		
+		var opt7 = document.createElement("input");
+		  opt7.name="pinyin";
+		  opt7.value=firstLetter;
+		temp.appendChild(opt7);
+		
+		var opt8 = document.createElement("input");
+		  opt8.name="is_granted";
+		  opt8.value=passOrNot;
+		temp.appendChild(opt8);
+		
+		var opt9 = document.createElement("input");
+		  opt9.name="field";
+		  opt9.value=;
+		temp.appendChild(opt9);
+			
+		document.body.appendChild(temp);
+		temp.submit();
+	}
+	
+</script>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<!-- <script src="assets/js/app.js"></script> -->
+</body>
+</html>

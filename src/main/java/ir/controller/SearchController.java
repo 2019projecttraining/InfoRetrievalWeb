@@ -136,6 +136,7 @@ public class SearchController {
 		modelAndView.addObject("keyWords",keyWords);
 		modelAndView.addObject("field",field);
 		modelAndView.addObject("number",result.getHitsNum());
+		modelAndView.addObject("search_accurancy",searchAccuracy);
 		return modelAndView;
 	}
 	

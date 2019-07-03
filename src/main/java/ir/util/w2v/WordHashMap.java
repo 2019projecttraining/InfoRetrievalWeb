@@ -13,6 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
+
+import ir.config.Configuration;
 /**
  * 通过哈希表获取某个词的top10近义词
  * @author 杨涛
@@ -20,7 +22,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WordHashMap {
-	private static final String path="C:\\Users\\HPuser\\Desktop\\测试.txt";
+	private final static String NEAREST_WORD_CONFIG_KEY="nearest-word-path";
+	private static final String path=Configuration.getConfig(NEAREST_WORD_CONFIG_KEY);
 	private static final Map<String,List<WordEntry>> whm;
 	static {
 		whm=getHashMap();

@@ -116,33 +116,41 @@ public class SearchServiceImpl implements SearchService{
 			}
 			break;			
 		case TITLE:
-			try {
-				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
-				builder.add(keyQuery, Occur.MUST);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-			for(String word:words) {//在标题中添加近义词查询
+//			try {
+//				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
+//				builder.add(keyQuery, Occur.MUST);
+//			} catch (ParseException e1) {
+//				e1.printStackTrace();
+//			}
+			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
+				BooleanQuery.Builder b=new BooleanQuery.Builder();
+				b.add(new TermQuery(new Term("title", word)),Occur.SHOULD);//添加原词query查询，关系为或
 				for(WordEntry w:s) {
 					TermQuery query = new TermQuery(new Term("title", w.name));
-					builder.add(query, Occur.SHOULD);
+					b.add(query, Occur.SHOULD);//添加近义词query查询，关系为或
 				}
+				BooleanQuery nearWordQuery=b.build();
+				builder.add(nearWordQuery,Occur.MUST);//每组（原词+其近义词）查询间的关系为且
 			}
 			break;
 		case ABSTRACT:
-			try {
-				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
-				builder.add(keyQuery, Occur.MUST);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
+//			try {
+//				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
+//				builder.add(keyQuery, Occur.MUST);
+//			} catch (ParseException e1) {
+//				e1.printStackTrace();
+//			}
 			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
+				BooleanQuery.Builder b=new BooleanQuery.Builder();
+				b.add(new TermQuery(new Term("abstract", word)),Occur.SHOULD);//添加原词query查询，关系为或
 				for(WordEntry w:s) {
 					TermQuery query = new TermQuery(new Term("abstract", w.name));
-					builder.add(query, Occur.SHOULD);
+					b.add(query, Occur.SHOULD);//添加近义词query查询，关系为或
 				}
+				BooleanQuery nearWordQuery=b.build();
+				builder.add(nearWordQuery,Occur.MUST);//每组（原词+其近义词）查询间的关系为且
 			}
 			break;
 			
