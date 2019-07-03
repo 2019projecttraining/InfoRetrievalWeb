@@ -130,14 +130,14 @@ public class SegmentAnalyzer {
 	static {
 		Analyzer temp;
 		try {
-			temp=hanlpAnalyzer();
+			temp=hanlpAnalyzer(HANLP_CRF_MODEL_PATH,false);
 		}catch (Exception e) {
 			temp=DEFAULT_EXCEPTION_HANDLE_ANALYZER;
 		}
 		DEFALUT_COARSE_GRAINED_ANALYZER=temp;
 		
 		try {
-			temp=hanlpAnalyzer2();
+			temp=hanlpAnalyzer(HANLP_CRF_MODEL_PATH,true);
 		}catch (Exception e) {
 			temp=DEFAULT_EXCEPTION_HANDLE_ANALYZER;
 		}
@@ -172,14 +172,8 @@ public class SegmentAnalyzer {
 		analyzers=Collections.unmodifiableMap(tempMap);
 	}
 	
-	private static Analyzer hanlpAnalyzer() throws IOException {
-		Segment segment=new CRFLexicalAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH);
-		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.stopWords);
-		return analyzer;
-	}
-	
-	private static Analyzer hanlpAnalyzer2() throws IOException {
-		Segment segment=new CRFLexicalAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH).enableIndexMode(true);
+	private static Analyzer hanlpAnalyzer(String modelPath,boolean indexMode) throws IOException {
+		Segment segment=new CRFLexicalAnalyzer(modelPath).enableIndexMode(indexMode);
 		Analyzer analyzer=new HanLPWrapperAnalyzer(segment,StopWordsLoader.stopWords);
 		return analyzer;
 	}
@@ -190,13 +184,11 @@ public class SegmentAnalyzer {
 		}
 		try {
 			switch(COARSE_GRAINED_ANALYZER_NAME.toLowerCase()) {
-				case "hanlp":
+				case "hanlp-self-train-crf":
 					return DEFALUT_COARSE_GRAINED_ANALYZER;
 					
-				case "hanlp-self-train-crf":
-					CRFLexicalAnalyzer segmenter = new CRFLexicalAnalyzer(HANLP_CRF_MODEL_PATH);
-					Analyzer analyzer=new HanLPWrapperAnalyzer(segmenter ,StopWordsLoader.stopWords);
-					return analyzer;
+				case "hanlp":
+					return hanlpAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH,false);
 					
 				case "ik":
 					return new IKAnalyzer(true);
@@ -221,13 +213,11 @@ public class SegmentAnalyzer {
 		}
 		try {
 			switch(FINE_GRAINED_ANALYZER_NAME.toLowerCase()) {
-				case "hanlp":
+				case "hanlp-self-train-crf":
 					return DEFALUT_FINE_GRAINED_ANALYZER;
 					
-				case "hanlp-self-train-crf":
-					CRFLexicalAnalyzer segmenter = new CRFLexicalAnalyzer(HANLP_CRF_MODEL_PATH);
-					Analyzer analyzer=new HanLPWrapperAnalyzer(segmenter.enableIndexMode(true) ,StopWordsLoader.stopWords);
-					return analyzer;
+				case "hanlp":
+					return hanlpAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH,true);
 					
 				case "jieba":
 					return new JiebaAnalyzer(JiebaSegmenter.SegMode.INDEX);
