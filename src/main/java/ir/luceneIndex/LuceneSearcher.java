@@ -47,16 +47,16 @@ public class LuceneSearcher{
 		
 		IndexSearcher tempIndex;
 		
-		if(COARSE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("coarse-grained",COARSE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null) 
+		if(COARSE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("粗粒度",COARSE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null) 
 			temp.put(SearchAccuracy.ACCURATE, tempIndex);
 		
-		if(FINE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("fine-grained",FINE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null)
+		if(FINE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("细粒度",FINE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null)
 			temp.put(SearchAccuracy.FUZZY, tempIndex);
 		
-		if(SINGLE_WORD_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("single-word",SINGLE_WORD_LUCENE_INDEX_FILE_PATH))!=null)
+		if(SINGLE_WORD_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("单字",SINGLE_WORD_LUCENE_INDEX_FILE_PATH))!=null)
 			temp.put(SearchAccuracy.SINGLE_WORD, tempIndex);
 		
-		if(DOUBLE_WORD_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("double-word",DOUBLE_WORD_LUCENE_INDEX_FILE_PATH))!=null)
+		if(DOUBLE_WORD_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("双字",DOUBLE_WORD_LUCENE_INDEX_FILE_PATH))!=null)
 			temp.put(SearchAccuracy.DOUBLE_WORD, tempIndex);
 		
 		indexes=Collections.unmodifiableMap(temp);
@@ -70,13 +70,15 @@ public class LuceneSearcher{
 			//创建indexReader对象
 			DirectoryReader indexReader = DirectoryReader.open(directory);
 			
-			return new IndexSearcher(indexReader);
+			IndexSearcher temp=new IndexSearcher(indexReader);
+			
+			System.out.println(indexName+"索引加载成功");
+			
+			return temp;
 			//创建indexSearcher对象
 		} catch (IOException e) {
 			System.err.println("索引读取失败,path="+path);
 			return null;
-		}finally {
-			System.out.println("索引"+indexName+"加载成功");
 		}
 	}
 	
