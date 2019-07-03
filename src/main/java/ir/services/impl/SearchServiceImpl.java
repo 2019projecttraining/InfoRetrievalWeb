@@ -1,7 +1,9 @@
 package ir.services.impl;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,9 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.WildcardQuery;
+
+import org.apache.lucene.search.highlight.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +50,7 @@ import ir.util.w2v.WordHashMap;
 /**
  * 实现查询业务
  * 
- * @author 余定邦、杨涛
+ * @author 余定邦、杨涛、孙晓军
  *
  */
 @Service
@@ -104,6 +109,12 @@ public class SearchServiceImpl implements SearchService{
 		}
 		System.out.println(wordMap);
 		
+		Map<String, Float> boosts = new HashMap<>();
+		boosts.put("title", 1.2f);
+		boosts.put("inventor", 4.1f);
+		boosts.put("abstract", 1.0f);
+		boosts.put("applicant", 0.9f);
+		
         String[] fields = {"abstract", "applicant" , "title" , "inventor"};
 		Query keyQuery;
 		switch(field) {//按域查询
@@ -116,12 +127,6 @@ public class SearchServiceImpl implements SearchService{
 			}
 			break;			
 		case TITLE:
-//			try {
-//				keyQuery=new QueryParser("title", analyzer).parse(keyWords);
-//				builder.add(keyQuery, Occur.MUST);
-//			} catch (ParseException e1) {
-//				e1.printStackTrace();
-//			}
 			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
@@ -135,12 +140,6 @@ public class SearchServiceImpl implements SearchService{
 			}
 			break;
 		case ABSTRACT:
-//			try {
-//				keyQuery=new QueryParser("abstract", analyzer).parse(keyWords);
-//				builder.add(keyQuery, Occur.MUST);
-//			} catch (ParseException e1) {
-//				e1.printStackTrace();
-//			}
 			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
@@ -196,29 +195,43 @@ public class SearchServiceImpl implements SearchService{
 			if(totalNum/pageSize+1==page)//最后一页不一定有pageSize个
 				end=totalNum%pageSize+start-1;
 			
+			//下面为高亮
+			SimpleHTMLFormatter formatter=new SimpleHTMLFormatter("<b><font color='red'>","</font></b>");
+            Highlighter highlighter=new Highlighter(formatter, new QueryScorer(booleanQuery));
+            highlighter.setTextFragmenter(new SimpleFragmenter(400));
+			
 			for (int i = start; i <= end; i++) {
 				Document doc = luceneIndex.doc(scoreDocs[i].doc);
-
-				Patent p=new Patent();
-				p.setId(doc.getField("id").getCharSequenceValue().toString());
-				p.setPatent_Abstract(doc.getField("abstract").getCharSequenceValue().toString());
-				p.setAddress(doc.getField("address").getCharSequenceValue().toString());
-				p.setApplicant(doc.getField("applicant").getCharSequenceValue().toString());
-
-				p.setApplication_date(doc.getField("application_date").getCharSequenceValue().toString());
-				p.setApplication_number(doc.getField("application_number").getCharSequenceValue().toString());
+				String titleContent=doc.get("title");
+				TokenStream tokenstream=analyzer.tokenStream(keyWords, new StringReader(titleContent));
+				try {
+					titleContent=highlighter.getBestFragment(tokenstream, titleContent);
+					if(titleContent==null)
+						titleContent=doc.get("title");
+				} catch (InvalidTokenOffsetsException e) {
+					e.printStackTrace();
+				}
 				
-				p.setApplication_publish_number(doc.getField("application_publish_number").getCharSequenceValue().toString());
-				p.setClassification_number(doc.getField("classification_number").getCharSequenceValue().toString());
-				p.setFilling_date(doc.getField("filing_date").getCharSequenceValue().toString());
-				p.setGrant_status(Integer.parseInt(doc.getField("grant_status").getCharSequenceValue().toString()));
+				Patent p=new Patent();
+				p.setId(doc.get("id"));
+				p.setPatent_Abstract(doc.get("abstract"));
+				p.setAddress(doc.get("address"));
+				p.setApplicant(doc.get("applicant"));
+
+				p.setApplication_date(doc.get("application_date"));
+				p.setApplication_number(doc.get("application_number"));
+				
+				p.setApplication_publish_number(doc.get("application_publish_number"));
+				p.setClassification_number(doc.get("classification_number"));
+				p.setFilling_date(doc.get("filing_date"));
+				p.setGrant_status(Integer.parseInt(doc.get("grant_status")));
 				String inventors="";
 				for(String s:doc.getValues("inventor")) {
 					inventors+=(s+";");
 				}
 				p.setInventor(inventors);
-				p.setTitle(doc.getField("title").getCharSequenceValue().toString());
-				p.setYear(Integer.parseInt(doc.getField("year").getCharSequenceValue().toString()));
+				p.setTitle(titleContent);
+				p.setYear(Integer.parseInt(doc.get("year")));
 
 				patents.add(p);
 			}
