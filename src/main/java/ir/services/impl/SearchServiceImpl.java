@@ -13,15 +13,19 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.DoubleValues;
+import org.apache.lucene.search.DoubleValuesSource;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.ScoreMode;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
@@ -29,6 +33,7 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.queries.function.FunctionScoreQuery;  
 
 import org.apache.lucene.search.highlight.*;
 
@@ -109,18 +114,17 @@ public class SearchServiceImpl implements SearchService{
 		}
 		System.out.println(wordMap);
 		
-		Map<String, Float> boosts = new HashMap<>();
-		boosts.put("title", 1.2f);
-		boosts.put("inventor", 4.1f);
-		boosts.put("abstract", 1.0f);
-		boosts.put("applicant", 0.9f);
-		
         String[] fields = {"abstract", "applicant" , "title" , "inventor"};
 		Query keyQuery;
 		switch(field) {//按域查询
 		case ALL:
+			Map<String, Float> boosts = new HashMap<>();
+			boosts.put("title", 2.0f);
+			boosts.put("inventor", 2.5f);
+			boosts.put("abstract", 1.0f);
+			boosts.put("applicant", 0.9f);
 			try {
-				keyQuery = new MultiFieldQueryParser(fields, analyzer).parse(keyWords);
+				keyQuery = new MultiFieldQueryParser(fields, analyzer,boosts).parse(keyWords);
 				builder.add(keyQuery, Occur.MUST);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
@@ -130,10 +134,11 @@ public class SearchServiceImpl implements SearchService{
 			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
-				b.add(new TermQuery(new Term("title", word)),Occur.SHOULD);//添加原词query查询，关系为或
+				b.add(new FunctionScoreQuery(new TermQuery(new Term("title", word)),new MyDoubleValuesSource(1)),Occur.SHOULD);//添加原词query查询，关系为或
 				for(WordEntry w:s) {
 					TermQuery query = new TermQuery(new Term("title", w.name));
-					b.add(query, Occur.SHOULD);//添加近义词query查询，关系为或
+					FunctionScoreQuery f=new FunctionScoreQuery(query,new MyDoubleValuesSource(w.score));
+					b.add(f, Occur.SHOULD);//添加近义词query查询，关系为或
 				}
 				BooleanQuery nearWordQuery=b.build();
 				builder.add(nearWordQuery,Occur.MUST);//每组（原词+其近义词）查询间的关系为且
@@ -143,10 +148,11 @@ public class SearchServiceImpl implements SearchService{
 			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
-				b.add(new TermQuery(new Term("abstract", word)),Occur.SHOULD);//添加原词query查询，关系为或
+				b.add(new FunctionScoreQuery(new TermQuery(new Term("abstract", word)),new MyDoubleValuesSource(1)),Occur.SHOULD);//添加原词query查询，关系为或
 				for(WordEntry w:s) {
 					TermQuery query = new TermQuery(new Term("abstract", w.name));
-					b.add(query, Occur.SHOULD);//添加近义词query查询，关系为或
+					FunctionScoreQuery f=new FunctionScoreQuery(query,new MyDoubleValuesSource(w.score));
+					b.add(f, Occur.SHOULD);//添加近义词query查询，关系为或
 				}
 				BooleanQuery nearWordQuery=b.build();
 				builder.add(nearWordQuery,Occur.MUST);//每组（原词+其近义词）查询间的关系为且
@@ -202,19 +208,19 @@ public class SearchServiceImpl implements SearchService{
 			
 			for (int i = start; i <= end; i++) {
 				Document doc = luceneIndex.doc(scoreDocs[i].doc);
-				String titleContent=doc.get("title");
+				String titleContent=doc.get("abstract");
 				TokenStream tokenstream=analyzer.tokenStream(keyWords, new StringReader(titleContent));
 				try {
 					titleContent=highlighter.getBestFragment(tokenstream, titleContent);
 					if(titleContent==null)
-						titleContent=doc.get("title");
+						titleContent=doc.get("abstract");
 				} catch (InvalidTokenOffsetsException e) {
 					e.printStackTrace();
 				}
 				
 				Patent p=new Patent();
 				p.setId(doc.get("id"));
-				p.setPatent_Abstract(doc.get("abstract"));
+				p.setPatent_Abstract(titleContent);
 				p.setAddress(doc.get("address"));
 				p.setApplicant(doc.get("applicant"));
 
@@ -230,7 +236,7 @@ public class SearchServiceImpl implements SearchService{
 					inventors+=(s+";");
 				}
 				p.setInventor(inventors);
-				p.setTitle(titleContent);
+				p.setTitle(doc.get("title"));
 				p.setYear(Integer.parseInt(doc.get("year")));
 
 				patents.add(p);
@@ -243,4 +249,76 @@ public class SearchServiceImpl implements SearchService{
 		}
 		return pv;
 	}
+	
+	private class MyDoubleValuesSource extends DoubleValuesSource{
+		
+		double boost;
+		public MyDoubleValuesSource(double boost) {
+			this.boost=boost;
+		}
+
+		@Override
+		public boolean isCacheable(LeafReaderContext ctx) {
+			return false;
+		}
+
+		@Override
+		public DoubleValues getValues(LeafReaderContext ctx, DoubleValues scores) throws IOException {
+			// TODO Auto-generated method stub
+			assert scores != null;
+		    return new MyDoubleValues(scores,boost);
+		}
+
+		@Override
+		public boolean needsScores() {
+			return true;
+		}
+
+		@Override
+		public DoubleValuesSource rewrite(IndexSearcher reader) throws IOException {
+		      return this;
+		}
+
+		@Override
+		public int hashCode() {
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+		      return obj == this;
+		}
+
+		@Override
+		public String toString() {
+		      return "scores";
+		}
+		
+	}
+	
+	private class MyDoubleValues extends DoubleValues{
+
+		DoubleValues in;
+		double missingValue;
+		boolean hasValue=false;
+		
+		public MyDoubleValues(DoubleValues in,double missingValue) {
+			this.in=in;
+			this.missingValue=missingValue;
+		}
+		
+		@Override
+		public double doubleValue() throws IOException {
+			// TODO Auto-generated method stub
+			return in.doubleValue()*missingValue;
+		}
+
+		@Override
+		public boolean advanceExact(int doc) throws IOException {
+			hasValue = in.advanceExact(doc);
+	        return true;
+		}
+		
+	}
+	
 }
