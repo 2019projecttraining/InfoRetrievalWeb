@@ -3,6 +3,7 @@ package ir.services.impl;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,8 +102,12 @@ public class SearchServiceImpl implements SearchService{
         
         //分词
 		List<String> words = null;
-		words=AnalyzerToken.token(keyWords,analyzer);
-		System.out.println(words);
+		if(field==FieldType.APPLICANT||field==FieldType.INVENTOR)//申请人和发明者按空格分词
+			words=Arrays.asList(keyWords.split(" "));
+		else {
+			words=AnalyzerToken.token(keyWords,analyzer);
+			System.out.println(words);
+		}
 		
 		//错别字替换
 		WrongWordAnalyzer wwAnalyzer=WrongWordAnalyzer.DEFAULT_WRONG_WORD_ANALYZER;
@@ -158,7 +163,7 @@ public class SearchServiceImpl implements SearchService{
 			}
 			break;			
 		case TITLE:
-			for(String word:words) {//在摘要中添加近义词查询
+			for(String word:words) {//在title中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
 				b.add(new FunctionScoreQuery(new TermQuery(new Term("title", word)),new MyDoubleValuesSource(1)),Occur.SHOULD);//添加原词query查询，关系为或
@@ -186,19 +191,25 @@ public class SearchServiceImpl implements SearchService{
 			}
 			break;
 			
-		case APPLICANT:
-			keyQuery=new WildcardQuery(new Term("applicant", "*"+keyWords+"*"));
-			builder.add(keyQuery, Occur.MUST);
+		case APPLICANT://可查多个申请人（申请人之间是或的关系），因为多数申请人名较长，所以每个申请人使用通配符查询，申请人名不用输入全。
+			BooleanQuery.Builder applicantBuilder=new BooleanQuery.Builder();
+			for(String word:words) {
+				applicantBuilder.add(new WildcardQuery(new Term("applicant", "*"+word+"*")),Occur.SHOULD);
+			}
+			builder.add(applicantBuilder.build(), Occur.MUST);
 			break;
-		case ID:
+		case ID://根据专利号精确查询
 			keyQuery=new TermQuery(new Term("application_publish_number", keyWords));
 			builder.add(keyQuery, Occur.MUST);
 			break;
-		case INVENTOR:
-			keyQuery=new WildcardQuery(new Term("inventor", "*"+keyWords+"*"));
-			builder.add(keyQuery, Occur.MUST);
+		case INVENTOR://可查多个发明人（发明人之间是或的关系），发明人名较短不用通配符查。
+			BooleanQuery.Builder inventorBuilder=new BooleanQuery.Builder();
+			for(String word:words) {
+				inventorBuilder.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
+			}
+			builder.add(inventorBuilder.build(), Occur.MUST);
 			break;
-		case ADDRESS:
+		case ADDRESS://地址一般较长，使用通配符查询
 			keyQuery=new WildcardQuery(new Term("address", "*"+keyWords+"*"));
 			builder.add(keyQuery, Occur.MUST);
 			break;
