@@ -52,7 +52,7 @@ public class Configuration {
             while(it.hasNext()){
                 String key=it.next();
                 temp.put(key, prop.getProperty(key));
-                System.out.println("加载配置 \'"+key+"\' = "+prop.getProperty(key));
+                System.out.println("加载配置 \'"+key+"\' = \'"+prop.getProperty(key)+"\'");
             }
             in.close();
             

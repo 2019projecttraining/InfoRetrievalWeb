@@ -14,6 +14,14 @@ import java.util.regex.Pattern;
 
 import ir.config.Configuration;
 
+/**
+ * 错词修正类，用于修正字音相似的错字的字形相似的错字
+ * 
+ * 修正的目的是尽量减少没有出现在分词中的词
+ * 
+ * @author 余定邦
+ *
+ */
 public class WrongWordAnalyzer {
 	
 	public final static WrongWordAnalyzer DEFAULT_WRONG_WORD_ANALYZER=new WrongWordAnalyzer(
