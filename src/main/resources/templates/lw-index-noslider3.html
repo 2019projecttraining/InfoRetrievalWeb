@@ -67,6 +67,14 @@
                   <li><button class="am-bk" onclick="display(this.innerHTML,this.value)" value="PROSPECTIVENESS">权威优先</button></li>
               </ul>
           </li>
+
+          <script>
+              if(sessionStorage.getItem('comHtml') != null) {
+                  document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                  document.getElementById("comprehensive").value = sessionStorage.getItem('comValue');
+              }
+          </script>
+
           <li id="limit" value="NO_LIMIT" class="am-dropdown" data-am-dropdown>
               <a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                   授权限制 <span class="am-icon-caret-down"></span>
@@ -77,6 +85,15 @@
                   <li><button class="am-bk" onclick="display2(this.innerHTML,this.value)" value="NOT_GRANTED">查未授权</button></li>
               </ul>
           </li>
+
+
+          <script>
+              if(sessionStorage.getItem('limHtml') != null) {
+                  document.getElementById("limit1").innerHTML = sessionStorage.getItem('limHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                  document.getElementById("limit").value = sessionStorage.getItem('limValue');
+              }
+          </script>
+
 
           <li id="FirstLetter" value="NO_LIMIT" class="am-dropdown" data-am-dropdown>
               <a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -114,6 +131,13 @@
               </ul>
           </li>
 
+          <script>
+              if(sessionStorage.getItem('letHtml') != null) {
+                  document.getElementById("FirstLetter1").innerHTML = sessionStorage.getItem('letHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                  document.getElementById("FirstLetter").value = sessionStorage.getItem('letValue');
+              }
+          </script>
+
           <li id="zone" value="ALL" class="am-dropdown" data-am-dropdown>
               <a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                   多域 <span class="am-icon-caret-down"></span>
@@ -128,6 +152,13 @@
                   <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="ADDRESS">地区</button></li>
               </ul>
           </li>
+
+          <script>
+              if(sessionStorage.getItem('zoneHtml') != null) {
+                  document.getElementById("zone1").innerHTML = sessionStorage.getItem('zoneHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                  document.getElementById("zone").value = sessionStorage.getItem('zoneValue');
+              }
+          </script>
 
           <li class="am-dropdown" data-am-dropdown>
               <a id="date1">
@@ -288,18 +319,28 @@
     function display(innerHtml,value){
         document.getElementById("comprehensive1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
         document.getElementById("comprehensive").value=value;
+        sessionStorage.setItem('comValue',value);
+        sessionStorage.setItem('comHtml',innerHtml);
+        <!--测试代码-->
+        console.log(sessionStorage.getItem('comHtml')+"display方法显示")
     }
     function display2(innerHtml,value){
         document.getElementById("limit1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
         document.getElementById("limit").value=value;
+        sessionStorage.setItem('limValue',value);
+        sessionStorage.setItem('limHtml',innerHtml);
     }
     function display3(innerHtml,value){
         document.getElementById("FirstLetter1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
         document.getElementById("FirstLetter").value=value;
+        sessionStorage.setItem('letValue',value);
+        sessionStorage.setItem('letHtml',innerHtml);
     }
     function display4(innerHtml,value){
         document.getElementById("zone1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
         document.getElementById("zone").value=value;
+        sessionStorage.setItem('zoneValue',value);
+        sessionStorage.setItem('zoneHtml',innerHtml);
     }
 
 	
