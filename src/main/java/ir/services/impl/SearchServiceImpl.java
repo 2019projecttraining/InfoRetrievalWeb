@@ -117,8 +117,10 @@ public class SearchServiceImpl implements SearchService{
 			BooleanQuery.Builder b1 = new BooleanQuery.Builder();
 			BooleanQuery.Builder b2 = new BooleanQuery.Builder();
 			BooleanQuery.Builder b3 = new BooleanQuery.Builder();
+			BooleanQuery.Builder b4 = new BooleanQuery.Builder();
+
 			System.out.println(words);
-			int lock1=0,lock2=0,lock3=0;
+			int lock1=0,lock2=0,lock3=0,lock4=0;
 			for(String word:words) {
 				if(InventorDetection.isInventor(word)) {
 					lock1=1;
@@ -126,9 +128,13 @@ public class SearchServiceImpl implements SearchService{
 				}else if(ApplicationPublishNumberDetection.isApplicationPublishNumber(word)) {
 					lock2=1;
 					b2.add(new TermQuery(new Term("application_publish_number", word)),Occur.SHOULD);
-				}else if(ApplicantDetection.isCompanyApplicant(word)||ApplicantDetection.isPeopleApplicant(word)){
+				}else if(ApplicantDetection.isCompanyApplicant(word)){//申请人如果是公司的话，在摘要中也添加查询
 					lock3=1;
+					b3.add(new TermQuery(new Term("abstract", word)),Occur.SHOULD);
 					b3.add(new WildcardQuery(new Term("applicant", "*"+word+"*")),Occur.SHOULD);
+				}else if(ApplicantDetection.isPeopleApplicant(word)){
+					lock4=1;
+					b4.add(new TermQuery(new Term("applicant", word)),Occur.SHOULD);
 				}else {//对不是人名或专利号的词再分词
 					words2.addAll(AnalyzerToken.token(word,analyzer));
 				}
@@ -145,6 +151,10 @@ public class SearchServiceImpl implements SearchService{
 			if(lock3==1) {
 				BooleanQuery build3=b3.build();
 				builder.add(build3, Occur.MUST);
+			}
+			if(lock4==1) {
+				BooleanQuery build4=b4.build();
+				builder.add(build4, Occur.MUST);
 			}
 			for(String word:words2) {
 				BooleanQuery.Builder titleOrAbstract = new BooleanQuery.Builder();
