@@ -46,8 +46,6 @@ import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
-import ir.util.fieldDetection.ApplicationPublishNumberDetection;
-import ir.util.fieldDetection.NameDetection;
 import ir.util.seg.AnalyzerToken;
 import ir.util.ssc_fix.WrongWordAnalyzer;
 import ir.util.w2v.SimilarWords;
@@ -102,66 +100,69 @@ public class SearchServiceImpl implements SearchService{
         	builder.add(q3, Occur.MUST);
         }
         
-        //分词存放数据结构
+        //分词
 		List<String> words = null;
-		//近义词存放数据结构
-		Map<String,List<WordEntry>> wordMap=null;
-
+		if(field==FieldType.APPLICANT||field==FieldType.INVENTOR)//申请人和发明者按空格分词
+			words=Arrays.asList(keyWords.split(" "));
+		else {
+			words=AnalyzerToken.token(keyWords,analyzer);
+			System.out.println(words);
+		}
 		
-        //String[] fields = {"abstract", "applicant" , "title" , "inventor",""};
+		//错别字替换
+		WrongWordAnalyzer wwAnalyzer=WrongWordAnalyzer.DEFAULT_WRONG_WORD_ANALYZER;
+		double wwThreshold=WrongWordAnalyzer.DEFAULT_THRESHOLD;
+		
+		List<String> wordsReplace=new ArrayList<>();
+		for(String word:words) {
+			switch(field) {
+			case ALL:
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "name", "word"));
+				break;			
+			case TITLE:
+			case ABSTRACT:
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "word"));
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "word"));
+				break;
+			case INVENTOR:
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "name"));
+				break;
+			case APPLICANT:
+			case ID:
+			case ADDRESS:
+				wordsReplace.add(word);
+				break;
+			}
+		}
+		
+		words=wordsReplace;
+		
+		//近义词查询，获取近义词
+		Map<String,List<WordEntry>> wordMap=new LinkedHashMap<String,List<WordEntry>>();
+		for(String w:words) {
+			List<WordEntry> s=null;
+			s=wordHashMap.getNearWord(w);
+			wordMap.put(w,s);
+		}
+		System.out.println(wordMap);
+		
+        String[] fields = {"abstract", "applicant" , "title" , "inventor"};
 		Query keyQuery;
 		switch(field) {//按域查询
 		case ALL:
-			words=Arrays.asList(keyWords.split(" "));//按空格分词
-			words=wordReplace(words,field);//替换错别字
-			List<String> words2=new ArrayList<String>();//再分词存放
-			BooleanQuery.Builder b1 = new BooleanQuery.Builder();
-			BooleanQuery.Builder b2 = new BooleanQuery.Builder();
-			System.out.println(words);
-			int lock1=0,lock2=0;
-			for(String word:words) {
-				if(NameDetection.isName(word)) {
-					lock1=1;
-					b1.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
-				}else if(ApplicationPublishNumberDetection.isApplicationPublishNumber(word)) {
-					lock2=1;
-					b2.add(new TermQuery(new Term("application_publish_number", word)),Occur.SHOULD);
-				}else {//对不是人名或专利号的词再分词
-					words2.addAll(AnalyzerToken.token(word,analyzer));
-				}
+			Map<String, Float> boosts = new HashMap<>();
+			boosts.put("title", 2.0f);
+			boosts.put("inventor", 2.5f);
+			boosts.put("abstract", 1.0f);
+			boosts.put("applicant", 0.9f);
+			try {
+				keyQuery = new MultiFieldQueryParser(fields, analyzer,boosts).parse(keyWords);
+				builder.add(keyQuery, Occur.MUST);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
 			}
-			System.out.println(words2);
-			if(lock1==1) {
-				BooleanQuery build1=b1.build();
-				builder.add(build1, Occur.MUST);
-			}
-			if(lock2==1) {
-				BooleanQuery build2=b2.build();
-				builder.add(build2, Occur.MUST);
-			}
-			for(String word:words2) {
-				BooleanQuery.Builder titleOrAbstract = new BooleanQuery.Builder();
-				titleOrAbstract.add(new TermQuery(new Term("abstract", word)),Occur.SHOULD);
-				titleOrAbstract.add(new TermQuery(new Term("title", word)),Occur.SHOULD);
-				builder.add(titleOrAbstract.build(),Occur.MUST);
-			}
-//			Map<String, Float> boosts = new HashMap<>();
-//			boosts.put("title", 2.0f);
-//			boosts.put("inventor", 2.5f);
-//			boosts.put("abstract", 1.0f);
-//			boosts.put("applicant", 0.9f);
-//			try {
-//				keyQuery = new MultiFieldQueryParser(fields, analyzer,boosts).parse(keyWords);
-//				builder.add(keyQuery, Occur.MUST);
-//			} catch (ParseException e1) {
-//				e1.printStackTrace();
-//			}
 			break;			
 		case TITLE:
-			words=AnalyzerToken.token(keyWords,analyzer);//分词
-			words=wordReplace(words,field);//替换错别字
-			wordMap=getNearWordMap(words);//生成近义词
-
 			for(String word:words) {//在title中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
@@ -176,10 +177,6 @@ public class SearchServiceImpl implements SearchService{
 			}
 			break;
 		case ABSTRACT:
-			words=AnalyzerToken.token(keyWords,analyzer);//分词
-			words=wordReplace(words,field);//替换错别字
-			wordMap=getNearWordMap(words);//生成近义词
-			
 			for(String word:words) {//在摘要中添加近义词查询
 				List<WordEntry> s=wordMap.get(word);
 				BooleanQuery.Builder b=new BooleanQuery.Builder();
@@ -195,9 +192,6 @@ public class SearchServiceImpl implements SearchService{
 			break;
 			
 		case APPLICANT://可查多个申请人（申请人之间是或的关系），因为多数申请人名较长，所以每个申请人使用通配符查询，申请人名不用输入全。
-			words=Arrays.asList(keyWords.split(" "));//分词
-			words=wordReplace(words,field);//替换错别字
-			
 			BooleanQuery.Builder applicantBuilder=new BooleanQuery.Builder();
 			for(String word:words) {
 				applicantBuilder.add(new WildcardQuery(new Term("applicant", "*"+word+"*")),Occur.SHOULD);
@@ -209,9 +203,6 @@ public class SearchServiceImpl implements SearchService{
 			builder.add(keyQuery, Occur.MUST);
 			break;
 		case INVENTOR://可查多个发明人（发明人之间是或的关系），发明人名较短不用通配符查。
-			words=Arrays.asList(keyWords.split(" "));//分词
-			words=wordReplace(words,field);//替换错别字
-
 			BooleanQuery.Builder inventorBuilder=new BooleanQuery.Builder();
 			for(String word:words) {
 				inventorBuilder.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
@@ -295,47 +286,6 @@ public class SearchServiceImpl implements SearchService{
 			e.printStackTrace();
 		}
 		return pv;
-	}
-	
-	private List<String> wordReplace(List<String> words,FieldType field){
-		//错别字替换
-		WrongWordAnalyzer wwAnalyzer=WrongWordAnalyzer.DEFAULT_WRONG_WORD_ANALYZER;
-		double wwThreshold=WrongWordAnalyzer.DEFAULT_THRESHOLD;
-		
-		List<String> wordsReplace=new ArrayList<>();
-		for(String word:words) {
-			switch(field) {
-			case ALL:
-				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "name", "word"));
-				break;			
-			case TITLE:
-			case ABSTRACT:
-				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "word"));
-				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "word"));
-				break;
-			case INVENTOR:
-				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "name"));
-				break;
-			case APPLICANT:
-			case ID:
-			case ADDRESS:
-				wordsReplace.add(word);
-				break;
-			}
-		}
-		return wordsReplace;
-	}
-	
-	private Map<String,List<WordEntry>> getNearWordMap(List<String> words){
-		//近义词查询，获取近义词
-		Map<String,List<WordEntry>> wordMap=new LinkedHashMap<String,List<WordEntry>>();
-		for(String w:words) {
-			List<WordEntry> s=null;
-			s=wordHashMap.getNearWord(w);
-			wordMap.put(w,s);
-		}
-		System.out.println(wordMap);
-		return wordMap;
 	}
 	
 	private class MyDoubleValuesSource extends DoubleValuesSource{
