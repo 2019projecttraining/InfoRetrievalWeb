@@ -44,7 +44,7 @@
                     <option value="SINGLE_WORD">单字</option>
                     <option value="DOUBLE_WORD">二切分</option>
                 </select>
-                <input  id="search-bar" class="am-radius am-input-search am-input-search-box"  placeholder="请输入需要搜索的专利关键词" required/>
+                <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
                 <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
             </div>
         </div>
@@ -341,7 +341,22 @@
 		document.body.appendChild(temp);
 		temp.submit();
 	}
-	
+
+    function keyCheck(e){
+        var keynum;
+        <!-- 把键值转化为‘键码’ -->
+        var keychar;
+        if(window.event){//IE浏览器下的事件
+            keynum=e.keyCode;
+        }
+        else{//非IE浏览器下的事件
+            keynum=e.which;
+        }
+        keychar = String.fromCharCode(keynum);
+        if(keynum=="13"){
+            allsubmit();
+        }
+    }
 </script>
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="../static/js/jquery.min.js"></script>

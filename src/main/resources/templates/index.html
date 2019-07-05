@@ -61,7 +61,7 @@
       <div class="am-radius am-animation-slide-left">
 
          <div style="display:inline" >
-			<form action="/search?page=0" class="" role="search" method="get">
+			<form id="myform" action="/search?page=0" class="" role="search" method="get">
                  <select name="field" class="am-input-bar">
                      <option value="ALL">多域</option>
 			         <option value="TITLE">标题</option>
@@ -72,7 +72,7 @@
 			         <option value="ADDRESS">地区</option>
                  </select>
 
-                 <input  name="keyWords" id="search-bar" class="am-radius am-input-search "  placeholder="请输入需要搜索的专利关键词" required/>
+                 <input  name="keyWords" onkeydown="keyCheck(event)" id="search-bar" class="am-radius am-input-search "  placeholder="请输入需要搜索的专利关键词" required/>
                  <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
             </form>
         </div>
@@ -85,7 +85,30 @@
   </footer>
 </div>
 
+<script>
+  function inputsubmit(){
+    document.getElementById('myform').submit()
+    //下面为用jquery方法提交，不过需要引入js文件
+    //$('#myform').submit();
+  }
 
+  function keyCheck(e){
+    var keynum;
+    <!-- 把键值转化为‘键码’ -->
+    var keychar;
+    if(window.event){//IE浏览器下的事件
+      keynum=e.keyCode;
+    }
+    else{//非IE浏览器下的事件
+      keynum=e.which;
+    }
+    keychar = String.fromCharCode(keynum);
+    if(keynum=="13"){
+      inputsubmit();
+    }
+  }
+
+</script>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="assets/js/jquery.min.js"></script>
