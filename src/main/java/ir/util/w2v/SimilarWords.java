@@ -19,7 +19,6 @@ import ir.config.Configuration;
  * @author 杨涛
  *
  */
-@Service
 public class SimilarWords {
 	
 //	private void train(String path) throws IOException {
