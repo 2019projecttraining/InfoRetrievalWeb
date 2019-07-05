@@ -9,13 +9,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
-/**
- * 使用lucene的Analyzer接口进行分词
- * 
- * @author 余定邦
- * @see http://lucene.apache.org/core/8_1_1/core/org/apache/lucene/analysis/package-summary.html#package.description
- *
- */
 public class AnalyzerToken {
 
 	public static List<String> token(String text, Analyzer analyzer){

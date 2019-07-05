@@ -184,7 +184,6 @@ public class SegmentAnalyzer {
 		}
 		try {
 			switch(COARSE_GRAINED_ANALYZER_NAME.toLowerCase()) {
-				case "default":
 				case "hanlp-self-train-crf":
 					return DEFALUT_COARSE_GRAINED_ANALYZER;
 					
@@ -214,7 +213,6 @@ public class SegmentAnalyzer {
 		}
 		try {
 			switch(FINE_GRAINED_ANALYZER_NAME.toLowerCase()) {
-				case "default":
 				case "hanlp-self-train-crf":
 					return DEFALUT_FINE_GRAINED_ANALYZER;
 					
@@ -240,7 +238,6 @@ public class SegmentAnalyzer {
 		}
 		try {
 			switch(SINGLE_WORD_ANALYZER_NAME.toLowerCase()) {
-				case "default":
 				case "standard":
 					return DEFALUT_SINGLE_WORD_GRAINED_ANALYZER;
 					
@@ -260,7 +257,6 @@ public class SegmentAnalyzer {
 		}
 		try {
 			switch(DOUBLE_WORD_ANALYZER_NAME.toLowerCase()) {
-				case "default":
 				case "cjk":
 					return DEFALUT_DOUBLE_WORD_GRAINED_ANALYZER;
 					
