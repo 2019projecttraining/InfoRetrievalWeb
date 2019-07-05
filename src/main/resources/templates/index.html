@@ -86,6 +86,21 @@
 </div>
 
 <script>
+
+  var searchBar = document.getElementById("search-bar");
+  // 检测是否存在 autosave 键值
+  // (这个会在页面偶然被刷新的情况下存在)
+  if (sessionStorage.getItem("autosave")) {
+    // 恢复文本输入框的内容
+    searchBar.value = sessionStorage.getItem("autosave");
+
+  }
+  // 监听文本输入框的 change 事件
+  searchBar.addEventListener("change", function() {
+    // 保存结果到 sessionStorage 对象中
+    sessionStorage.setItem("autosave", searchBar.value);
+  });
+
   function inputsubmit(){
     document.getElementById('myform').submit()
     //下面为用jquery方法提交，不过需要引入js文件
