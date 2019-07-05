@@ -44,6 +44,18 @@
                     <option value="SINGLE_WORD">单字</option>
                     <option value="DOUBLE_WORD">二切分</option>
                 </select>
+
+                <!--下拉框选项保留 -->
+                <script>
+                    var numbers = $("#sBar").find("option"); //获取select下拉框的所有值
+                    for (var j = 0; j < numbers.length; j++) {
+                        if ($(numbers[j]).val() === sessionStorage.getItem('sBarValue')) {
+                            $(numbers[j]).porp("selected", sessionStorage.getItem('sBarValue'));
+                        }
+                    }
+
+                </script>
+
                 <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
                 <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
             </div>
@@ -341,6 +353,11 @@
         document.getElementById("zone").value=value;
         sessionStorage.setItem('zoneValue',value);
         sessionStorage.setItem('zoneHtml',innerHtml);
+    }
+
+    /*改变搜索框左侧选项的代码*/
+    function onchangeFunc(){
+        sessionStorage.setItem('sBarValue',document.getElementById("sBar").value);
     }
 
 	
