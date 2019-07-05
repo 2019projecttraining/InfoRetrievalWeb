@@ -118,7 +118,9 @@ public class SearchController {
 		//PatentsForView result;
 		PatentsForView result;
 		try {
+			long startTime=System.currentTimeMillis();
 			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, luceneIndex, analyzer);
+			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
 		}catch (Exception e) {
 			// TODO: handle exception
 			return null;

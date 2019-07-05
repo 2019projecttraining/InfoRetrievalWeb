@@ -23,7 +23,7 @@ import net.sourceforge.pinyin4j.PinyinHelper;
 public class HanLPIndex {
 	
 	public static void main(String[] args) throws Exception {
-		luceneCreateIndex(SegmentAnalyzer.DEFALUT_FINE_GRAINED_ANALYZER,"C:\\Users\\HPuser\\Desktop\\ir-data\\hanlp_index","D:\\data\\newPatent.csv");
+		luceneCreateIndex(SegmentAnalyzer.DEFALUT_COARSE_GRAINED_ANALYZER,"C:\\Users\\HPuser\\Desktop\\ir-data\\hanlp_coarse_index","D:\\data\\newPatent.csv");
 	}
 
 	public static void luceneCreateIndex(Analyzer analyzer,String toFilePath,String fromFile) throws Exception {
