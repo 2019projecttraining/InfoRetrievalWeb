@@ -20,6 +20,8 @@ public class WrongWordAnalyzer {
 			Configuration.getConfig("wrong-word-analyzer-default-field"),
 			Configuration.getConfig("wrong-word-analyzer-default-dict-file-path"),
 			Configuration.getConfig("wrong-word-analyzer-default-enabled-field"));
+	
+	public final static double DEFAULT_THRESHOLD=0.8;
 
 	/**
 	 * 略微复杂数据结构，有多层的HashMap，为了提高速度，并且划分字典区域
@@ -201,7 +203,7 @@ public class WrongWordAnalyzer {
 		
 		while(scan.hasNext()) {
 			long a=System.currentTimeMillis();
-			System.out.println(DEFAULT_WRONG_WORD_ANALYZER.correctWord(scan.next(), 0.9, "name", "word"));
+			System.out.println(DEFAULT_WRONG_WORD_ANALYZER.correctWord(scan.next(), 0.8, "name", "word"));
 			System.out.println("time："+(System.currentTimeMillis()-a));
 		}
 		

@@ -10,14 +10,12 @@ import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.function.FunctionScoreQuery;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.DoubleValues;
@@ -25,7 +23,6 @@ import org.apache.lucene.search.DoubleValuesSource;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.ScoreMode;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
@@ -33,10 +30,11 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.WildcardQuery;
-import org.apache.lucene.queries.function.FunctionScoreQuery;  
-
-import org.apache.lucene.search.highlight.*;
-
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +46,7 @@ import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
 import ir.util.seg.AnalyzerToken;
+import ir.util.ssc_fix.WrongWordAnalyzer;
 import ir.util.w2v.SimilarWords;
 import ir.util.w2v.WordEntry;
 import ir.util.w2v.WordHashMap;
@@ -71,7 +70,6 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public PatentsForView search(FieldType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,IndexSearcher luceneIndex ,Analyzer analyzer){
-		//TODO
 		
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
@@ -101,11 +99,40 @@ public class SearchServiceImpl implements SearchService{
         	builder.add(q3, Occur.MUST);
         }
         
-        //近义词查询
+        //分词
 		List<String> words = null;
 		words=AnalyzerToken.token(keyWords,analyzer);
 		System.out.println(words);
-		//获取近义词
+		
+		//错别字替换
+		WrongWordAnalyzer wwAnalyzer=WrongWordAnalyzer.DEFAULT_WRONG_WORD_ANALYZER;
+		double wwThreshold=WrongWordAnalyzer.DEFAULT_THRESHOLD;
+		
+		List<String> wordsReplace=new ArrayList<>();
+		for(String word:words) {
+			switch(field) {
+			case ALL:
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "name", "word"));
+				break;			
+			case TITLE:
+			case ABSTRACT:
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "word"));
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "word"));
+				break;
+			case INVENTOR:
+				wordsReplace.add(wwAnalyzer.correctWord(word, wwThreshold, "name"));
+				break;
+			case APPLICANT:
+			case ID:
+			case ADDRESS:
+				wordsReplace.add(word);
+				break;
+			}
+		}
+		
+		words=wordsReplace;
+		
+		//近义词查询，获取近义词
 		Map<String,List<WordEntry>> wordMap=new LinkedHashMap<String,List<WordEntry>>();
 		for(String w:words) {
 			List<WordEntry> s=null;

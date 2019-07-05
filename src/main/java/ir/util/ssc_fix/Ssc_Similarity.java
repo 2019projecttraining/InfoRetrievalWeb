@@ -52,12 +52,12 @@ public class Ssc_Similarity {
 	 * @param character2
 	 * @return character1和character2的相似程度
 	 */
-	public static double sscCodeSim(char character1,char character2) {
+	public static double[] sscCodeSim(char character1,char character2) {
 		String code1=sscCodeDict.get(character1);
 		String code2=sscCodeDict.get(character2);
 		
 		if(code1==null||code2==null)
-			return 0;
+			return new double[] {0,0};
 		
 		//字音
 		int yunmu=difChar(code1,code2,0);//声母
@@ -88,7 +88,7 @@ public class Ssc_Similarity {
 		double ziyinSim=yunmu*0.375+shengmu*0.375+yunmubuma*0.125+shengdiao*0.125;
 		double zixinSim=jiegou*0.3+0.1*(sijiao1+sijiao2+sijiao3+sijiao4)+(1-(Math.abs(bihua1-bihua2)*1.0/Math.max(bihua1, bihua2)))*0.3;
 		
-		return Math.max(ziyinSim, zixinSim);
+		return new double[] {ziyinSim,zixinSim};
 	}
 	
 	/**
@@ -132,22 +132,27 @@ public class Ssc_Similarity {
 		if(str1.length()!=str2.length())
 			return 0;
 		
-		double sim=0;
+		double zixinsim=0;
+		double ziyinsim=0;
 		
 		int len=str1.length();
 		
 		for(int i=0;i<len;++i) {
-			double point;
-			if(str1.charAt(i)==str2.charAt(i)) 
-				point=1;
-			else {
-				point=sscCodeSim(str1.charAt(i), str2.charAt(i));
+			double pointziyin,pointzixin;
+			if(str1.charAt(i)==str2.charAt(i)) {
+				pointziyin=1;
+				pointzixin=1;
+			}else {
+				double[] value=sscCodeSim(str1.charAt(i), str2.charAt(i));
+				pointziyin=value[0];
+				pointzixin=value[1];
 			}
 			
-			sim+=point/len;
+			zixinsim+=pointziyin/len;
+			ziyinsim+=pointzixin/len;
 		}
 		
-		return sim;
+		return Math.max(zixinsim, ziyinsim);
 	}
 	
 	
