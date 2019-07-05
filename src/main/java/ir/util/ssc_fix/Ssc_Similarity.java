@@ -9,6 +9,12 @@ import java.util.Scanner;
 
 import ir.config.Configuration;
 
+/**
+ * 使用音形码计算字词相似度，比传统的编辑距离好不少
+ * 
+ * @author 余定邦
+ *
+ */
 public class Ssc_Similarity {
 
 	private static Map<Character,String> sscCodeDict;
