@@ -46,8 +46,9 @@ import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
+import ir.util.fieldDetection.ApplicantDetection;
 import ir.util.fieldDetection.ApplicationPublishNumberDetection;
-import ir.util.fieldDetection.NameDetection;
+import ir.util.fieldDetection.InventorDetection;
 import ir.util.seg.AnalyzerToken;
 import ir.util.ssc_fix.WrongWordAnalyzer;
 import ir.util.w2v.SimilarWords;
@@ -63,8 +64,6 @@ import ir.util.w2v.WordHashMap;
 @Service
 public class SearchServiceImpl implements SearchService{
 
-	@Autowired
-	private SimilarWords similarWords;
 	@Autowired
 	private WordHashMap wordHashMap;
 	
@@ -117,15 +116,19 @@ public class SearchServiceImpl implements SearchService{
 			List<String> words2=new ArrayList<String>();//再分词存放
 			BooleanQuery.Builder b1 = new BooleanQuery.Builder();
 			BooleanQuery.Builder b2 = new BooleanQuery.Builder();
+			BooleanQuery.Builder b3 = new BooleanQuery.Builder();
 			System.out.println(words);
-			int lock1=0,lock2=0;
+			int lock1=0,lock2=0,lock3=0;
 			for(String word:words) {
-				if(NameDetection.isName(word)) {
+				if(InventorDetection.isInventor(word)) {
 					lock1=1;
 					b1.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
 				}else if(ApplicationPublishNumberDetection.isApplicationPublishNumber(word)) {
 					lock2=1;
 					b2.add(new TermQuery(new Term("application_publish_number", word)),Occur.SHOULD);
+				}else if(ApplicantDetection.isCompanyApplicant(word)||ApplicantDetection.isPeopleApplicant(word)){
+					lock3=1;
+					b3.add(new WildcardQuery(new Term("applicant", "*"+word+"*")),Occur.SHOULD);
 				}else {//对不是人名或专利号的词再分词
 					words2.addAll(AnalyzerToken.token(word,analyzer));
 				}
@@ -138,6 +141,10 @@ public class SearchServiceImpl implements SearchService{
 			if(lock2==1) {
 				BooleanQuery build2=b2.build();
 				builder.add(build2, Occur.MUST);
+			}
+			if(lock3==1) {
+				BooleanQuery build3=b3.build();
+				builder.add(build3, Occur.MUST);
 			}
 			for(String word:words2) {
 				BooleanQuery.Builder titleOrAbstract = new BooleanQuery.Builder();
