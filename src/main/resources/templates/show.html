@@ -207,15 +207,15 @@
         <article th:each="m : ${patentsForView.patents}" class="am-g blog-entry-article">
 
             <div class="am-u-md-12 am-u-sm-12 blog-entry-text">
-                <strong><span><a th:text="'专利号：'+${m.}+ '&nbsp;'" id="pn" href="" class="am-color1">专利号：CN105874434A &nbsp;</a></span></strong>
-                <strong><span th:text="'授权状态：'+${m.}+ '&nbsp;'" class="am-color1" id="authorization" style="float:right;">未授权 &nbsp;</span></strong>
-                <span th:text="'年份:'+${m.}+ '&nbsp;'" id="year" style="float:right;">年份:2016 &nbsp;</span>
+                <strong><span><a th:text="'专利号：'+${m.application_publish_number}+ '&nbsp;'" id="pn" href="" class="am-color1">专利号：CN105874434A &nbsp;</a></span></strong>
+                <strong><span th:text="'授权状态：'+${m.grant_status}+ '&nbsp;'" class="am-color1" id="authorization" style="float:right;">未授权 &nbsp;</span></strong>
+                <span th:text="'年份:'+${m.year}+ '&nbsp;'" id="year" style="float:right;">年份:2016 &nbsp;</span>
 
-                <h1><a th:text="${m.}" href="">比特重映射系统</a></h1>
-                <p th:text="${m.}" class="am-message">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
+                <h1><a th:utext="${m.title}" href="">比特重映射系统</a></h1>
+                <p th:utext="${m.patent_Abstract}" class="am-message">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
                 </p>
-                <span th:text="'申请人:'+${m.}" style="float:left;">申请单位:高通股份有限公司</span>
-                <span th:text="'作者:'+${m.}+ '&nbsp;'" id="author" style="float:right;">权利人:X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
+                <span th:text="'申请人:'+${m.applicant}" style="float:left;">申请单位:高通股份有限公司</span>
+                <span th:text="'作者:'+${m.inventor}+ '&nbsp;'" id="author" style="float:right;">权利人:X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
             </div>
         </article>
 
