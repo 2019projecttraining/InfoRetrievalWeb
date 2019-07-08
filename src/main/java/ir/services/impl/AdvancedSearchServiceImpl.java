@@ -14,6 +14,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.springframework.stereotype.Service;
 
@@ -51,19 +52,19 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService{
 			for(String w:words) {//每个查询语句需分词处理，每个语句中的词得是或关系
 				switch(expressions[i].field) {
 				case "TITLE":
-					b.add(new TermQuery(new Term("", w)),Occur.SHOULD);
+					b.add(new TermQuery(new Term("title", w)),Occur.SHOULD);
 					break;
 				case "ABSTRACT":
-					b.add(new TermQuery(new Term("", w)),Occur.SHOULD);
+					b.add(new TermQuery(new Term("abstract", w)),Occur.SHOULD);
 					break;
 				case "APPLICANT":
-					b.add(new TermQuery(new Term("", w)),Occur.SHOULD);
+					b.add(new WildcardQuery(new Term("applicant", "*"+w+"*")),Occur.SHOULD);
 					break;
 				case "INVENTOR":
-					b.add(new TermQuery(new Term("", w)),Occur.SHOULD);
+					b.add(new TermQuery(new Term("inventor", w)),Occur.SHOULD);
 					break;
 				case "ADDRESS":
-					b.add(new TermQuery(new Term("", w)),Occur.SHOULD);
+					b.add(new WildcardQuery(new Term("address", "*"+w+"*")),Occur.SHOULD);
 					break;
 				}
 			}

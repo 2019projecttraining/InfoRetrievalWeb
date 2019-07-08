@@ -245,10 +245,10 @@
         <div class="blog-sidebar-widget blog-bor">
             <h2 class="blog-title"><span>Refine</span></h2>
             <ul class="am-list" style="text-align:left;">
-                <li><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=1,pinyin=${pinyin},time_from=${year_back_3},time_to="3000.12.31",is_granted=${is_granted},sort_type=${sort_type},field=${field})}">最近一年</a></li>
-                <li><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=1,pinyin=${pinyin},time_from=${year_back_3},time_to="3000.12.31",is_granted=${is_granted},sort_type=${sort_type},field=${field})}">最近三年</a></li>
-                <li><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=1,pinyin=${pinyin},time_from=${year_back_5},time_to="3000.12.31",is_granted=${is_granted},sort_type=${sort_type},field=${field})}">最近五年</a></li>
-                <li><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=1,pinyin=${pinyin},time_from=${year_back_10},time_to="3000.12.31",is_granted=${is_granted},sort_type=${sort_type},field=${field})}">最近十年</a></li>
+                <li><a href="#">最近一年</a></li>
+                <li><a href="#">最近三年</a></li>
+                <li><a href="#">最近五年</a></li>
+                <li><a href="#">最近十年</a></li>
             </ul>
         </div>
     </div>
@@ -258,8 +258,11 @@
 
         <div class="blog-sidebar-widget blog-bor">
             <h2 class="blog-title"><span>近义搜索结果</span></h2>
-            <ul th:each="m : ${patentsForView.recommendWord}" class="am-list" style="text-align:left;">
-                <li><a th:text=${m}>近义词链接模板1</a></li>
+            <ul class="am-list" style="text-align:left;">
+                <li><a href="#">近义词链接模板1</a></li>
+                <li><a href="#">近义词链接模板2</a></li>
+                <li><a href="#">近义词链接模板3</a></li>
+                <li><a href="#">近义词链接模板4</a></li>
             </ul>
         </div>
     </div>
@@ -296,7 +299,7 @@
                 <li>多字典</li>
                 <li>弹性搜索</li>
                 <li>中文分词</li>
-                <li>LESS</li>a
+                <li>LESS</li>
                 <li>...</li>
             </ul>
             </p>
