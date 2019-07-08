@@ -60,7 +60,7 @@
                 </script>
 
                 <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
-                <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
+                <button type="button" onclick="allsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div class="am-collapse am-topbar-collapse" id="blog-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav">
 
-            <li id="comprehensive" value="NO_LIMIT" class="am-dropdown" data-am-dropdown>
+            <li id="comprehensive" value="COMPREHENSIVENESS" class="am-dropdown" data-am-dropdown>
                 <a id="comprehensive1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;" >
                     综合查询 <span class="am-icon-caret-down"></span>
                 </a>
