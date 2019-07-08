@@ -13,6 +13,8 @@ public class PatentsForView {
 	private List<Patent> patents;
 
 	private String hitsNum;
+	
+	private String[] recommendWord;
 
 	public String getHitsNum() {
 		return hitsNum;
@@ -27,6 +29,14 @@ public class PatentsForView {
 
 	public void setPatents(List<Patent> patents) {
 		this.patents = patents;
+	}
+
+	public String[] getRecommendWord() {
+		return recommendWord;
+	}
+
+	public void setRecommendWord(String[] recommendWord) {
+		this.recommendWord = recommendWord;
 	}
 
 }

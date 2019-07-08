@@ -48,6 +48,7 @@ import ir.services.SearchService;
 import ir.util.fieldDetection.ApplicantDetection;
 import ir.util.fieldDetection.ApplicationPublishNumberDetection;
 import ir.util.fieldDetection.InventorDetection;
+import ir.util.recommend.Recommend;
 import ir.util.seg.AnalyzerToken;
 import ir.util.ssc_fix.WrongWordAnalyzer;
 import ir.util.w2v.WordEntry;
@@ -308,6 +309,10 @@ public class SearchServiceImpl implements SearchService{
 			//topDocs = luceneIndex.search(booleanQuery, end+1);
 	        
 	        topDocs = luceneIndex.search(query, end+1);
+	        
+	        //推荐5个词
+	        String[] recommendWord=Recommend.allGetTop(topDocs,5);
+	        pv.setRecommendWord(recommendWord);
 	        
 			System.out.println("查询结束");
 	        System.out.println("查询结果的总数"+topDocs.totalHits);
