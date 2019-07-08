@@ -167,7 +167,7 @@ public class SearchController {
 		return modelAndView;
 	}
 	
-	public final static long YEAR_TIME=365*24*60*60*1000;
+	public final static long YEAR_TIME=365l*24*60*60*1000;
 	
 	public static String timeBackPush(int yearBackPush) {
 		SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
