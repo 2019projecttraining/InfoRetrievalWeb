@@ -15,10 +15,21 @@
     background-color: #eeeeee;
     border: 1px solid #cccccc;
     border-radius: 0;
-
-
-
 }
+
+.am-input-search2{
+    width:80%;
+    height:38px;
+    padding: 0 1em;
+    font-size: 1.6rem;
+    font-weight: normal;
+    line-height: 36px;
+    color: #555555;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    border-radius: 0;
+}
+
 .am-input-bar{
     width:10%;
     height:38px;
