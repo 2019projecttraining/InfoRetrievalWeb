@@ -2,6 +2,7 @@ package ir.luceneIndex;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
@@ -37,6 +39,7 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import com.huaban.analysis.jieba.JiebaSegmenter;
 
@@ -97,9 +100,9 @@ public class Indexer {
 			FieldType default_type = new FieldType();
 			default_type.setTokenized(true);
 			default_type.setStored(true);
-//			default_type.setStoreTermVectors(true);
-//			default_type.setStoreTermVectorPositions(true);
-//			default_type.setStoreTermVectorOffsets(true);
+			default_type.setStoreTermVectors(true);
+			default_type.setStoreTermVectorPositions(true);
+			default_type.setStoreTermVectorOffsets(true);
 			default_type.setIndexOptions(IndexOptions.DOCS);
 
 			// 创建文件域名
@@ -145,12 +148,18 @@ public class Indexer {
 			// indexableFields.add(inventor_field);
 			indexableFields.add(title_field);
 			indexableFields.add(year_field);
+			
+			//用来排序 年份域(测试用)
+			indexableFields.add(new SortedDocValuesField("yearcla_field", new BytesRef(record.get("year"))));
 
 			// ***新加的numericDocValue域
 			// 存储date的数据类型为long并且存储在新的numericDocValue域中
-			String date = record.get("application_date").replace(".", "");
-			long d = Long.valueOf(date).longValue();
+			String date = record.get("application_date");			
+			SimpleDateFormat sdf=new SimpleDateFormat("YYYY.MM.dd");			
+			long d=sdf.parse(date).getTime();
+			//System.out.println(d);
 			Field application_date_long_field = new NumericDocValuesField("application_date_long", d);
+			
 			// 存储status的数据类型为long并且存储在新的numericDocValue域中
 			long status = Long.valueOf(record.get("grant_status")).longValue();
 			Field grant_status_long_field = new NumericDocValuesField("grant_status_long", status);
@@ -184,18 +193,19 @@ public class Indexer {
 				indexableFields.add(inventor_firstW_field);
 			}
 
-			// 添加分类域 为多值域
-			String class_num = record.get("classification_number");
-			String classification[] = class_num.split(";|//|\\(|,");
-			for (String out : classification) {
-
-				if (!out.equals("") && out.charAt(0) >= 'A' && out.charAt(0) <= 'Z') {
-					Field class_field = new Field("class", out.substring(0, 1), preserved_type);
-					indexableFields.add(class_field);
-					//System.out.print(out);
-				}
-			}
-			//System.out.println();
+			// 添加分类域 以及分类排序域 由于分类所以舍弃多值域
+            String classfic;
+            String class_num = record.get("classification_number");
+            String classification[] = class_num.split(";|//|\\(|,");
+            if (!classification[0].equals("")) {
+                 classfic = classification[0].substring(0,1);
+            } else {
+                 classfic = classification[1].substring(0,1);
+            }
+            //System.out.println(classfic);
+            Field class_field = new Field("class", classfic, preserved_type);
+            indexableFields.add(class_field);
+            indexableFields.add(new SortedDocValuesField("classfi", new BytesRef(classfic)));
 
 			// 创建索引 并写入索引库
 			indexWriter.addDocument(indexableFields);
@@ -255,8 +265,6 @@ public class Indexer {
 
 	/**
 	 * old写入索引文件 jieba分词的index模式
-	 * 
-	 * @author WC
 	 */
 	public static void luceneCreateIndex_jiebaindex() throws Exception {
 		// 指定索引存放的位置
@@ -400,8 +408,6 @@ public class Indexer {
 
 	/**
 	 * old建立新索引文件 jieba分词的search模式
-	 * 
-	 * @author WC
 	 */
 	public static void luceneCreateIndex_jiebasearch() throws Exception {
 		// 指定新索引存放的位置
