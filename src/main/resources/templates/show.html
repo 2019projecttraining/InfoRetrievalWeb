@@ -27,13 +27,13 @@
 
 
 <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
-    <!--div style="width: 100%">
-        <img src="../static/i/sdu.jpg" alt="" class="am-img-sdu">
-    </div>
-    <br-->
     <div style="text-align:left">
-        <h1 class="am-color">&nbsp;Patent Search&nbsp;专利搜索</h1>
+        <img src="../static/i/head.png" alt="" class="am-img-sdu">
     </div>
+
+    <!--div style="text-align:left">
+        <h1 class="am-color">&nbsp;Patent Search&nbsp;专利搜索</h1>
+    </div-->
     <div class=" am-u-lg-12 am-u-md-7 am-u-sm-8 am-u-sm-centered">
         <!--img width="200" src="http://s.amazeui.org/media/i/brand/amazeui-b.png" alt="Amaze UI Logo"/-->
 
@@ -244,6 +244,24 @@
 
         <div class="blog-sidebar-widget blog-bor">
             <h2 class="blog-title"><span>Refine</span></h2>
+            <ul class="" style="text-align:left;">
+                <li><a href="#">ALL&nbsp;&nbsp;全部类别</a></li>
+                <li><a href="#">&nbspA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人类生活必须</a></li>
+                <li><a href="#">&nbspB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作业·运输</a></li>
+                <li><a href="#">&nbspC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;化学·冶金</a></li>
+                <li><a href="#">&nbspD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纺织·造纸</a></li>
+                <li><a href="#">&nbspE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;固定建筑物</a></li>
+                <li><a href="#">&nbspF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机械工程</a></li>
+                <li><a href="#">&nbspG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物理</a></li>
+                <li><a href="#">&nbspH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电学</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>时间</span></h2>
             <ul class="am-list" style="text-align:left;">
                 <li><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=1,pinyin=${pinyin},time_from=${year_back_3},time_to="3000.12.31",is_granted=${is_granted},sort_type=${sort_type},field=${field})}">最近一年</a></li>
                 <li><a th:href="@{http://localhost:8080/search(search_accurancy=${search_Accuracy},keyWords=${keyWords},page=1,pinyin=${pinyin},time_from=${year_back_3},time_to="3000.12.31",is_granted=${is_granted},sort_type=${sort_type},field=${field})}">最近三年</a></li>
@@ -252,6 +270,9 @@
             </ul>
         </div>
     </div>
+
+
+
     <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
 
 
