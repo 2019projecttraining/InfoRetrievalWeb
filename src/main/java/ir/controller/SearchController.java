@@ -52,7 +52,7 @@ public class SearchController {
 			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGrantedString,//是否授权
 			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString,//排序类型
 			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String searchAccurancy,//搜索精确度
-			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String typeCodeString) {//根据类别筛选
+			@RequestParam(value="type_code",defaultValue="ALL",required=false) String typeCodeString) {//根据类别筛选
 
 		keyWords=keyWords.toLowerCase();
 		
