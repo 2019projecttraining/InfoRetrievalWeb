@@ -4,17 +4,17 @@ import ir.enumDefine.BoolOptionSymbol;
 import ir.enumDefine.FieldType;
 
 /**
- *此类用来代表一行高级搜索框的值
+ *此类用来表示一行高级搜索框的值，包括关键词、域值、布尔运算符
  * @author 杨涛
  *
  */
 public class BoolExpression {
 
-	public BoolOptionSymbol symbol;
+	public String symbol;
 	public String keyWords;
-	public FieldType field;
+	public String field;
 	
-	public BoolExpression(String keyWords,FieldType field,BoolOptionSymbol symbol) {
+	public BoolExpression(String keyWords,String field,String symbol) {
 		this.keyWords=keyWords;
 		this.field=field;
 		this.symbol=symbol;

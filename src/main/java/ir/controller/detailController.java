@@ -19,7 +19,6 @@ public class detailController {
 	@GetMapping("/detailSearch")//即什么样的页面会映射到这个方法上
 	@ResponseBody
 	public ModelAndView getPatentDetail(@RequestParam String patentId) {
-		System.out.println("查詢細節");
 		Patent result=patentService.getPatentDetail(patentId);
 		System.out.println(result);
 		ModelAndView modelAndView=new ModelAndView();
