@@ -345,6 +345,15 @@
 
 <script>
 
+    $('#delete').on('click', function() {
+        //第一种方式按照index进行值的获取，个人不推荐
+        var userName = $(this).parents("tr").children("td:nth-child(2)").text();
+        //第二种方式按照id获取值,推荐
+        //var userName = $(this).parents("tr").find("#userName").text();
+        //第三种方式按照class获取值
+        //var userName = $(this).parents("tr").find(".userName").text();
+    });
+
     var searchBar = document.getElementById("search-bar");
     // 检测是否存在 autosave 键值
     // (这个会在页面偶然被刷新的情况下存在)
