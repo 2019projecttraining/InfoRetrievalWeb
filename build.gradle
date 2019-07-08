@@ -47,8 +47,8 @@ dependencies {
 	compile group: 'org.apache.lucene', name: 'lucene-highlighter', version: '8.1.1'
 	// https://mvnrepository.com/artifact/org.apache.lucene/lucene-queries
 	compile group: 'org.apache.lucene', name: 'lucene-queries', version: '8.1.1'
-	
-    
+	compile group: 'org.apache.lucene', name: 'lucene-expressions', version: '8.1.1'
+
     
     compile group: 'com.hankcs', name: 'hanlp', version: 'portable-1.7.3'
     compile group: 'com.hankcs.nlp', name: 'hanlp-lucene-plugin', version: '1.1.6'
