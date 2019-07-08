@@ -1,9 +1,10 @@
 package ir.util.seg;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import ir.config.Configuration;
@@ -37,15 +38,25 @@ public class StopWordsLoader {
 				return Collections.emptySet();
 			}
 			
-			BufferedReader bfr=new BufferedReader(new FileReader(STOPWORDS_FILE_PATH));
+//			BufferedReader bfr=new BufferedReader(new FileReader(STOPWORDS_FILE_PATH));
+//			
+//			Set<String> temp=new HashSet<>();
+//			
+//			bfr.lines().forEach(t->{
+//				temp.add(t);
+//			});
+//			
+//			bfr.close();
+			
+			Scanner scan=new Scanner(new FileInputStream(new File(STOPWORDS_FILE_PATH)),"utf-8");
 			
 			Set<String> temp=new HashSet<>();
 			
-			bfr.lines().forEach(t->{
-				temp.add(t);
-			});
+			while(scan.hasNext()) {
+				temp.add(scan.next());
+			}
 			
-			bfr.close();
+			scan.close();
 			
 			return Collections.unmodifiableSet(temp);
 		}catch (Exception e) {

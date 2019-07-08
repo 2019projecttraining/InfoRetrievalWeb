@@ -68,12 +68,15 @@ public class Recommend {
     	if(sortedMap.size()<5)
     		N=sortedMap.size();
     	
-    	int index=0,i=0;
+    	int i=0;
     	List<String> temp=new ArrayList<>();
     	
-        while(index<N&&i<sortedMap.size()) {
-        	String word=sortedMap.get(i).getKey();
+    	System.out.println(StopWordsLoader.stopWords);
+    	
+        while(temp.size()<N&&i<sortedMap.size()) {
+        	String word=sortedMap.get(i++).getKey();
         	if(StopWordsLoader.stopWords.contains(word))
+        		continue;
         	temp.add(word);
         }
         
