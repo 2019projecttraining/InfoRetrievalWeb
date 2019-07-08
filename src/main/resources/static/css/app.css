@@ -223,7 +223,7 @@ a {
     color:#10D07A;
 }
 .blog-header {
-    margin-top:3rem;
+    margin-top:0rem;
 }
 @media only screen and (max-width:640px) {
     .blog-header {
