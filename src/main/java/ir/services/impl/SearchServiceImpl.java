@@ -127,15 +127,15 @@ public class SearchServiceImpl implements SearchService{
 			for(String word:words) {
 				if(InventorDetection.isInventor(word)) {
 					lock1=1;
-					b1.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
+					b1.add(new FunctionScoreQuery(new TermQuery(new Term("inventor", word)),new MyDoubleValuesSource(2.0f)),Occur.SHOULD);
 				}else if(ApplicationPublishNumberDetection.isApplicationPublishNumber(word)) {
 					lock2=1;
 					b2.add(new TermQuery(new Term("application_publish_number", word)),Occur.SHOULD);
 				}else if(ApplicantDetection.isCompanyApplicant(word)){//申请人如果是公司的话，在摘要中也添加查询
 					lock3=1;
-					b3.add(new TermQuery(new Term("abstract", word)),Occur.SHOULD);
-					b3.add(new TermQuery(new Term("title", word)),Occur.SHOULD);
-					b3.add(new WildcardQuery(new Term("applicant", "*"+word+"*")),Occur.SHOULD);
+					b3.add(new FunctionScoreQuery(new TermQuery(new Term("abstract", word)),new MyDoubleValuesSource(1.5f)),Occur.SHOULD);
+					b3.add(new FunctionScoreQuery(new TermQuery(new Term("title", word)),new MyDoubleValuesSource(1.5f)),Occur.SHOULD);
+					b3.add(new FunctionScoreQuery(new WildcardQuery(new Term("applicant", "*"+word+"*")),new MyDoubleValuesSource(0.8f)),Occur.SHOULD);
 				}else if(ApplicantDetection.isPeopleApplicant(word)){
 					lock4=1;
 					b4.add(new TermQuery(new Term("applicant", word)),Occur.SHOULD);
