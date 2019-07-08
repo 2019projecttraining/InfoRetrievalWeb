@@ -1,8 +1,8 @@
 package ir.util.recommend;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -10,24 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 
 
 public class Recommend {
-
+	
 	//获取一篇文章中的关键词及tf-idf值
-    public static Map<String, Integer> oneGetTop(int id) throws IOException{
-        Directory directory = FSDirectory.open(Paths.get("index0"));
-        IndexReader reader = DirectoryReader.open(directory);
+    public static Map<String, Integer> oneGetTop(int id ,IndexReader reader) throws IOException{
         int Alldoc = reader.maxDoc();
         //int docId = myMap.get(id);
         Terms terms = reader.getTermVector(id,"abstract");
@@ -78,10 +73,12 @@ public class Recommend {
         	
            // System.out.println(sortedMap.get(i).getKey() + ":" + sortedMap.get(i).getValue());
         }
+        
+        System.out.println(Arrays.toString(temp));
         return temp;
     }
     //获取所有结果中的相同关键词并按照tf-idf值排序
-    public static String[] allGetTop(TopDocs topdocs,int topN) throws IOException {
+    public static String[] allGetTop(TopDocs topdocs,IndexReader reader,int topN) throws IOException {
         ScoreDoc[] scoredocs=topdocs.scoreDocs;
         //Map<String, Integer> combineResultMap = null;
         Map<String, Integer> combineResultMap = new HashMap<String, Integer>();
@@ -90,7 +87,7 @@ public class Recommend {
         for(int i=0;i<scoredocs.length;i++){
             int id = scoredocs[i].doc;
             combineResultMap = map;
-            map = oneGetTop(id);
+            map = oneGetTop(id,reader);
             Set<String> keySet = map.keySet();
             for (String key : keySet) {
                 if (combineResultMap.containsKey(key)) {
@@ -99,7 +96,7 @@ public class Recommend {
                     gueest.put((String) key, val);
                 }
             }
-            System.out.println(gueest);
+            //System.out.println(gueest);
         }
         List<Map.Entry<String, Integer>> sortedMap = new ArrayList<Map.Entry<String, Integer>>(gueest.entrySet());
         Collections.sort(sortedMap, new Comparator<Map.Entry<String, Integer>>() {
