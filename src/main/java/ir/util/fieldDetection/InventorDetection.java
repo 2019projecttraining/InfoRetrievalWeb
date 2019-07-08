@@ -16,4 +16,5 @@ public class InventorDetection {
 		return detector.detect(word);
 	}
 	
+	public static void init() {}
 }

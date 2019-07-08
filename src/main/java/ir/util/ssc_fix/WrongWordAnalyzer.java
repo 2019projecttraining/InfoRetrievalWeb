@@ -30,6 +30,8 @@ public class WrongWordAnalyzer {
 			Configuration.getConfig("wrong-word-analyzer-default-enabled-field"));
 	
 	public final static double DEFAULT_THRESHOLD=0.8;
+	
+	public static void init() {}
 
 	/**
 	 * 略微复杂数据结构，有多层的HashMap，为了提高速度，并且划分字典区域
