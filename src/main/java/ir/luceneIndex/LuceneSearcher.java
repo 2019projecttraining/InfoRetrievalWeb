@@ -28,19 +28,19 @@ public class LuceneSearcher{
 	
 	private final static String COARSE_GRAINED_CONFIG_KEY="fuzzy-lucene-index-file-path";
 	
-	public final static String COARSE_GRAINED_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(COARSE_GRAINED_CONFIG_KEY);
+	private final static String COARSE_GRAINED_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(COARSE_GRAINED_CONFIG_KEY);
 	
 	private final static String FINE_GRAINED_CONFIG_KEY="accurate-lucene-index-file-path";
 	
-	public final static String FINE_GRAINED_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(FINE_GRAINED_CONFIG_KEY);
+	private final static String FINE_GRAINED_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(FINE_GRAINED_CONFIG_KEY);
 	
 	private final static String SINGLE_WORD_CONFIG_KEY="single-word-lucene-index-file-path";
 	
-	public final static String SINGLE_WORD_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(SINGLE_WORD_CONFIG_KEY);
+	private final static String SINGLE_WORD_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(SINGLE_WORD_CONFIG_KEY);
 	
 	private final static String DOUBLE_WORD_CONFIG_KEY="double-word-lucene-index-file-path";
 	
-	public final static String DOUBLE_WORD_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(DOUBLE_WORD_CONFIG_KEY);
+	private final static String DOUBLE_WORD_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(DOUBLE_WORD_CONFIG_KEY);
 	
 	static {
 		Map<SearchAccuracy,IndexSearcher> temp=new HashMap<>();
