@@ -12,6 +12,9 @@ import java.util.Map;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.expressions.Expression;
+import org.apache.lucene.expressions.SimpleBindings;
+import org.apache.lucene.expressions.js.JavascriptCompiler;
 import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.function.FunctionScoreQuery;
@@ -131,6 +134,7 @@ public class SearchServiceImpl implements SearchService{
 				}else if(ApplicantDetection.isCompanyApplicant(word)){//申请人如果是公司的话，在摘要中也添加查询
 					lock3=1;
 					b3.add(new TermQuery(new Term("abstract", word)),Occur.SHOULD);
+					b3.add(new TermQuery(new Term("title", word)),Occur.SHOULD);
 					b3.add(new WildcardQuery(new Term("applicant", "*"+word+"*")),Occur.SHOULD);
 				}else if(ApplicantDetection.isPeopleApplicant(word)){
 					lock4=1;
@@ -242,6 +246,24 @@ public class SearchServiceImpl implements SearchService{
 		}
 		
         BooleanQuery booleanQuery=builder.build();
+//        Expression expr = null;
+//        long low=481132800000l;
+//        long high=1537372800000l;
+//        long range=high-low;
+//		try {
+//			expr = JavascriptCompiler.compile("_score * ((popularity-low)/range*0.2+0.8)+grant_status");
+//		} catch (java.text.ParseException e1) {
+//			e1.printStackTrace();
+//		}
+//        SimpleBindings bindings = new SimpleBindings();
+//        bindings.add(new SortField("_score", SortField.Type.SCORE));
+//        bindings.add(new SortField("popularity", SortField.Type.LONG));
+//        bindings.add(new SortField("grant_status", SortField.Type.LONG));
+//        bindings.add("low",DoubleValuesSource.constant(low));
+//        bindings.add("high",DoubleValuesSource.constant(high));
+//        bindings.add("range",DoubleValuesSource.constant(range));
+//        Query query = new FunctionScoreQuery(booleanQuery,expr.getDoubleValuesSource(bindings));
+//        
         Sort sort=null;
         if(sortedType==SortedType.TIME_ASC) {
         	sort = new Sort(new SortField("filing_date", Type.STRING, false));
@@ -272,6 +294,7 @@ public class SearchServiceImpl implements SearchService{
 			
 			for (int i = start; i <= end; i++) {
 				Document doc = luceneIndex.doc(scoreDocs[i].doc);
+				System.out.println(scoreDocs[i].doc);
 				String titleContent=doc.get("abstract");
 				TokenStream tokenstream=analyzer.tokenStream(keyWords, new StringReader(titleContent));
 				try {
@@ -294,7 +317,7 @@ public class SearchServiceImpl implements SearchService{
 				p.setApplication_publish_number(doc.get("application_publish_number"));
 				p.setClassification_number(doc.get("classification_number"));
 				p.setFilling_date(doc.get("filing_date"));
-				p.setGrant_status(Integer.parseInt(doc.get("grant_status")));
+				p.setGrant_status(doc.get("grant_status").equals("1")?"已授权":"未授权");
 				String inventors="";
 				for(String s:doc.getValues("inventor")) {
 					inventors+=(s+";");

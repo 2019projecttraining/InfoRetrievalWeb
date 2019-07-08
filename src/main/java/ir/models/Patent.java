@@ -81,7 +81,7 @@ public class Patent {
 	 * 授权状态
 	 */
 	@Column(name="grant_status")
-	private int grant_status;
+	private String grant_status;
 	
 	/**
 	 * 发明者
@@ -202,12 +202,12 @@ public class Patent {
 	}
 
 
-	public int getGrant_status() {
+	public String getGrant_status() {
 		return grant_status;
 	}
 
 
-	public void setGrant_status(int grant_status) {
+	public void setGrant_status(String grant_status) {
 		this.grant_status = grant_status;
 	}
 

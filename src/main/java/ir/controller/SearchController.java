@@ -50,6 +50,8 @@ public class SearchController {
 			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString,//排序类型
 			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String searchAccurancy) {//搜索精确度
 
+		keyWords=keyWords.toLowerCase();
+		
 		FieldType field;
 		FirstLetterOfNamePinyin letter;
 		IsGranted isGranted;
