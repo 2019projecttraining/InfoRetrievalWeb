@@ -25,5 +25,7 @@ public class ApplicantDetection {
 		return detectorForCompany.detect(word);
 	}
 	
+	public static void init() {}
+	
 	
 }

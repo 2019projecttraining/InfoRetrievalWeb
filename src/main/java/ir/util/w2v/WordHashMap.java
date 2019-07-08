@@ -28,6 +28,9 @@ public class WordHashMap {
 	static {
 		whm=getHashMap();
 	}
+	
+	public static void init() {}
+	
 	private static Map<String,List<WordEntry>> getHashMap(){
 		Map<String,List<WordEntry>> m=new HashMap<String,List<WordEntry>>();
 		FileInputStream in;

@@ -20,4 +20,6 @@ public class ApplicationPublishNumberDetection {
 		return m.matches();
 	}
 	
+	public static void init() {}
+	
 }
