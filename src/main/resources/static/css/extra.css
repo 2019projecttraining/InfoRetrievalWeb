@@ -18,7 +18,6 @@
 }
 
 .am-input-search2{
-    width:80%;
     height:38px;
     padding: 0 1em;
     font-size: 1.6rem;
@@ -28,6 +27,10 @@
     background-color: #eeeeee;
     border: 1px solid #cccccc;
     border-radius: 0;
+}
+
+.am-input-search3{
+    height:38px;
 }
 
 .am-input-bar{
