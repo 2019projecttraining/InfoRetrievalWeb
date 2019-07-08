@@ -1,7 +1,9 @@
 package ir.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ir.enumDefine.FieldType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
+import ir.enumDefine.PatentTypeCode;
 import ir.enumDefine.SearchAccuracy;
 import ir.enumDefine.SortedType;
 import ir.luceneIndex.LuceneSearcher;
@@ -141,21 +144,21 @@ public class SearchController {
 		modelAndView.addObject("field",field);
 		modelAndView.addObject("number",result.getHitsNum());
 		modelAndView.addObject("search_accurancy",searchAccuracy);
+		
+		modelAndView.addObject("year_back_3",timeBackPush(3));
+		modelAndView.addObject("year_back_5",timeBackPush(5));
+		modelAndView.addObject("year_back_10",timeBackPush(10));
+		modelAndView.addObject("year_now",timeBackPush(0));
+		
+		modelAndView.addObject("patent_type_code", PatentTypeCode.values());
+		
 		return modelAndView;
 	}
 	
-	/**
-	 * 弹出的细节页面
-	 * 
-	 * @param patentId
-	 * @return
-	 */
-//	@GetMapping("设置映射目标名称")
-//	public ModelAndView getPatentDetail(@RequestParam String patentId) {
-//		Patent result=patentService.getPatentDetail(patentId);
-//		ModelAndView modelAndView=new ModelAndView();
-//		modelAndView.setViewName("模板名称");//设置模板名称
-//		modelAndView.addObject("PatentDetail", result);//加入返回的结果
-//		return modelAndView;
-//	}
+	public final static long YEAR_TIME=365*24*60*60*1000;
+	
+	public static String timeBackPush(int yearBackPush) {
+		SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
+		return sdf.format(new Date(System.currentTimeMillis()-yearBackPush*YEAR_TIME));
+	}
 }
