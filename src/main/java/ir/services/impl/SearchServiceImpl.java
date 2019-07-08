@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,6 @@ import org.apache.lucene.expressions.js.JavascriptCompiler;
 import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.function.FunctionScoreQuery;
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.DoubleValues;
@@ -27,9 +24,7 @@ import org.apache.lucene.search.DoubleValuesSource;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
@@ -45,6 +40,7 @@ import org.springframework.stereotype.Service;
 import ir.enumDefine.FieldType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
+import ir.enumDefine.PatentTypeCode;
 import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
@@ -54,7 +50,6 @@ import ir.util.fieldDetection.ApplicationPublishNumberDetection;
 import ir.util.fieldDetection.InventorDetection;
 import ir.util.seg.AnalyzerToken;
 import ir.util.ssc_fix.WrongWordAnalyzer;
-import ir.util.w2v.SimilarWords;
 import ir.util.w2v.WordEntry;
 import ir.util.w2v.WordHashMap;
 
@@ -74,19 +69,21 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public PatentsForView search(FieldType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
-			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,IndexSearcher luceneIndex ,Analyzer analyzer){
+			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,PatentTypeCode typeCode,
+			IndexSearcher luceneIndex ,Analyzer analyzer){
 		
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
         Query q1=null;//是否授权
         if(isGranted==IsGranted.GRANTED) { 
-        	q1=new TermQuery(new Term("grant_status", "1"));//通过专利查询
+        	q1=new TermQuery(new Term("grant_status", "1"));
         	builder.add(q1, Occur.MUST);
         }
         else if(isGranted==IsGranted.NOT_GRANTED){
         	q1=new TermQuery(new Term("grant_status", "0"));//未通过专利查询
         	builder.add(q1, Occur.MUST);
         }
+        
         Query q2=null;//日期范围
         if(timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
         	q2=TermRangeQuery.newStringRange("filing_date", "0000.00.00", timeTo, false, true);//日期范围查询
@@ -102,6 +99,36 @@ public class SearchServiceImpl implements SearchService{
         if(letter!=FirstLetterOfNamePinyin.NO_LIMIT) {
         	q3=new TermQuery(new Term("inventor_firstW", letter.toString()));
         	builder.add(q3, Occur.MUST);
+        }
+        
+        Query q4=null;//类别限定查询
+        switch(typeCode) {
+        case ALL:
+        	break;
+        case A:
+        	q4=new TermQuery(new Term("class", "A"));
+        	builder.add(q4, Occur.MUST);
+        case B:
+        	q4=new TermQuery(new Term("class", "B"));
+        	builder.add(q4, Occur.MUST);
+        case C:
+        	q4=new TermQuery(new Term("class", "C"));
+        	builder.add(q4, Occur.MUST);
+        case D:
+        	q4=new TermQuery(new Term("class", "D"));
+        	builder.add(q4, Occur.MUST);
+        case E:
+        	q4=new TermQuery(new Term("class", "E"));
+        	builder.add(q4, Occur.MUST);
+        case F:
+        	q4=new TermQuery(new Term("class", "F"));
+        	builder.add(q4, Occur.MUST);
+        case G:
+        	q4=new TermQuery(new Term("class", "G"));
+        	builder.add(q4, Occur.MUST);
+        case H:
+        	q4=new TermQuery(new Term("class", "H"));
+        	builder.add(q4, Occur.MUST);
         }
         
         //分词存放数据结构
@@ -246,31 +273,31 @@ public class SearchServiceImpl implements SearchService{
 		}
 		
         BooleanQuery booleanQuery=builder.build();
-//        Expression expr = null;
-//        long low=481132800000l;
-//        long high=1537372800000l;
-//        long range=high-low;
-//		try {
-//			expr = JavascriptCompiler.compile("_score * ((popularity-low)/range*0.2+0.8)+grant_status");
-//		} catch (java.text.ParseException e1) {
-//			e1.printStackTrace();
-//		}
-//        SimpleBindings bindings = new SimpleBindings();
-//        bindings.add(new SortField("_score", SortField.Type.SCORE));
-//        bindings.add(new SortField("popularity", SortField.Type.LONG));
-//        bindings.add(new SortField("grant_status", SortField.Type.LONG));
-//        bindings.add("low",DoubleValuesSource.constant(low));
-//        bindings.add("high",DoubleValuesSource.constant(high));
-//        bindings.add("range",DoubleValuesSource.constant(range));
-//        Query query = new FunctionScoreQuery(booleanQuery,expr.getDoubleValuesSource(bindings));
-//        
-        Sort sort=null;
-        if(sortedType==SortedType.TIME_ASC) {
-        	sort = new Sort(new SortField("filing_date", Type.STRING, false));
-        }else if(sortedType==SortedType.TIME_DESC) {
-        	sort = new Sort(new SortField("filing_date", Type.STRING, true));
-        }
+        Expression expr = null;
+        long low=481132800000l;
+        long high=1537372800000l;
+        long range=high-low;
+		try {
+			expr = JavascriptCompiler.compile("_score * ((application_date_long-low)/range*0.2+0.8)+grant_status_long");
+		} catch (java.text.ParseException e1) {
+			e1.printStackTrace();
+		}
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.add(new SortField("_score", SortField.Type.SCORE));
+        bindings.add(new SortField("application_date_long", SortField.Type.LONG));
+        bindings.add(new SortField("grant_status_long", SortField.Type.LONG));
+        bindings.add("low",DoubleValuesSource.constant(low));
+        bindings.add("high",DoubleValuesSource.constant(high));
+        bindings.add("range",DoubleValuesSource.constant(range));
+        Query query = new FunctionScoreQuery(booleanQuery,expr.getDoubleValuesSource(bindings));
         
+//        Sort sort=null;
+//        if(sortedType==SortedType.TIME_ASC) {
+//        	sort = new Sort(new SortField("filing_date", Type.STRING, false));
+//        }else if(sortedType==SortedType.TIME_DESC) {
+//        	sort = new Sort(new SortField("filing_date", Type.STRING, true));
+//        }
+//        
 		TopDocs topDocs=null;
 		PatentsForView pv=new PatentsForView();
 		List<Patent> patents=new ArrayList<>();
@@ -278,7 +305,10 @@ public class SearchServiceImpl implements SearchService{
 			//if(sort!=null)
 			int start = (page - 1) * pageSize;// 当前页的起始条数
 	        int end = start + pageSize-1;// 当前页的结束条数（不能包含）
-			topDocs = luceneIndex.search(booleanQuery, end+1);
+			//topDocs = luceneIndex.search(booleanQuery, end+1);
+	        
+	        topDocs = luceneIndex.search(query, end+1);
+	        
 			System.out.println("查询结束");
 	        System.out.println("查询结果的总数"+topDocs.totalHits);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;

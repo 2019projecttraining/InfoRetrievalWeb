@@ -51,7 +51,8 @@ public class SearchController {
 			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo,//截至时间
 			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGrantedString,//是否授权
 			@RequestParam(value="sort_type",defaultValue="COMPREHENSIVENESS",required=false) String sortedTypeString,//排序类型
-			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String searchAccurancy) {//搜索精确度
+			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String searchAccurancy,//搜索精确度
+			@RequestParam(value="search_accurancy",defaultValue="FUZZY",required=false) String typeCodeString) {//根据类别筛选
 
 		keyWords=keyWords.toLowerCase();
 		
@@ -60,6 +61,7 @@ public class SearchController {
 		IsGranted isGranted;
 		SortedType sortedType;
 		SearchAccuracy searchAccuracy;
+		PatentTypeCode typeCode;
 		
 		if(page<=0)
 			page=1;
@@ -111,6 +113,14 @@ public class SearchController {
 			return null;
 		}
 		
+		try {
+			typeCode=PatentTypeCode.valueOf(typeCodeString);
+		}catch (Exception e) {
+			// TODO: to error page
+			e.printStackTrace();
+			return null;
+		}
+		
 		IndexSearcher luceneIndex = LuceneSearcher.indexes.get(searchAccuracy);
 		
 		if(luceneIndex==null) {
@@ -124,7 +134,8 @@ public class SearchController {
 		PatentsForView result;
 		try {
 			long startTime=System.currentTimeMillis();
-			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, luceneIndex, analyzer);
+			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, 
+					typeCode, luceneIndex, analyzer);
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -150,7 +161,8 @@ public class SearchController {
 		modelAndView.addObject("year_back_10",timeBackPush(10));
 		modelAndView.addObject("year_now",timeBackPush(0));
 		
-		modelAndView.addObject("patent_type_code", PatentTypeCode.values());
+//		modelAndView.addObject("patent_type_code", new PatentTypeCode[] {PatentTypeCode.A,PatentTypeCode.B,PatentTypeCode.C,
+//				PatentTypeCode.D,PatentTypeCode.E,PatentTypeCode.F,PatentTypeCode.G,PatentTypeCode.H});
 		
 		return modelAndView;
 	}
