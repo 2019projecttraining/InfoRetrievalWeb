@@ -14,7 +14,7 @@ public class PatentsForView {
 
 	private String hitsNum;
 	
-	private String[] recommendWord;
+	private List<String> recommendWord;
 
 	public String getHitsNum() {
 		return hitsNum;
@@ -31,11 +31,11 @@ public class PatentsForView {
 		this.patents = patents;
 	}
 
-	public String[] getRecommendWord() {
+	public List<String> getRecommendWord() {
 		return recommendWord;
 	}
 
-	public void setRecommendWord(String[] recommendWord) {
+	public void setRecommendWord(List<String> recommendWord) {
 		this.recommendWord = recommendWord;
 	}
 

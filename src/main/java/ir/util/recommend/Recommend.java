@@ -2,7 +2,6 @@ package ir.util.recommend;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,6 +16,8 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
+
+import ir.util.seg.StopWordsLoader;
 
 
 public class Recommend {
@@ -63,22 +64,26 @@ public class Recommend {
     }
 
 
-    public static String[] getTopN(List<Map.Entry<String, Integer>> sortedMap, int N) {
+    public static List<String> getTopN(List<Map.Entry<String, Integer>> sortedMap, int N) {
     	if(sortedMap.size()<5)
     		N=sortedMap.size();
-    	String[] temp=new String[N];
     	
-        for (int i = 0; i < N; i++) {
-        	temp[i]=sortedMap.get(i).getKey();
-        	
-           // System.out.println(sortedMap.get(i).getKey() + ":" + sortedMap.get(i).getValue());
+    	int index=0,i=0;
+    	List<String> temp=new ArrayList<>();
+    	
+        while(index<N&&i<sortedMap.size()) {
+        	String word=sortedMap.get(i).getKey();
+        	if(StopWordsLoader.stopWords.contains(word))
+        	temp.add(word);
         }
         
-        System.out.println(Arrays.toString(temp));
+        // System.out.println(sortedMap.get(i).getKey() + ":" + sortedMap.get(i).getValue());
+        
+        System.out.println(temp);
         return temp;
     }
     //获取所有结果中的相同关键词并按照tf-idf值排序
-    public static String[] allGetTop(TopDocs topdocs,IndexReader reader,int topN) throws IOException {
+    public static List<String> allGetTop(TopDocs topdocs,IndexReader reader,int topN) throws IOException {
         ScoreDoc[] scoredocs=topdocs.scoreDocs;
         //Map<String, Integer> combineResultMap = null;
         Map<String, Integer> combineResultMap = new HashMap<String, Integer>();
