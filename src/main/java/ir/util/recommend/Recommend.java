@@ -2,6 +2,7 @@ package ir.util.recommend;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -72,6 +73,8 @@ public class Recommend {
         	
            // System.out.println(sortedMap.get(i).getKey() + ":" + sortedMap.get(i).getValue());
         }
+        
+        System.out.println(Arrays.toString(temp));
         return temp;
     }
     //获取所有结果中的相同关键词并按照tf-idf值排序
@@ -93,7 +96,7 @@ public class Recommend {
                     gueest.put((String) key, val);
                 }
             }
-            System.out.println(gueest);
+            //System.out.println(gueest);
         }
         List<Map.Entry<String, Integer>> sortedMap = new ArrayList<Map.Entry<String, Integer>>(gueest.entrySet());
         Collections.sort(sortedMap, new Comparator<Map.Entry<String, Integer>>() {
