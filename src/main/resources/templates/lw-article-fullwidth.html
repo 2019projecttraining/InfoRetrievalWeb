@@ -49,7 +49,7 @@
                 </select>
 
                 <!--下拉框选项保留 -->
-                <script>
+                <!--script>
                     var numbers = $("#sBar").find("option"); //获取select下拉框的所有值
                     for (var j = 0; j < numbers.length; j++) {
                         if ($(numbers[j]).val() === sessionStorage.getItem('sBarValue')) {
@@ -57,7 +57,7 @@
                         }
                     }
 
-                </script>
+                </script-->
 
                 <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
                 <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
@@ -77,9 +77,9 @@
                     综合查询 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li onclick="display(this.innerHTML,this.value) " value="COMPREHENSIVENESS"><a href="#">综合查询</a></li>
-                    <li onclick="display(this.innerHTML,this.value)" value="RELEVANCE"><a href="#">相关优先</a></li>
-                    <li onclick="display(this.innerHTML,this.value)" value="PROSPECTIVENESS"><a href="#">权威优先</a></li>
+                    <li><button class="am-bk" onclick="display(this.innerHTML,this.value) " value="COMPREHENSIVENESS">综合查询</button></li>
+                    <li><button class="am-bk" onclick="display(this.innerHTML,this.value)" value="RELEVANCE">相关优先</button></li>
+                    <li><button class="am-bk" onclick="display(this.innerHTML,this.value)" value="PROSPECTIVENESS">权威优先</button></li>
                 </ul>
             </li>
 
@@ -95,9 +95,9 @@
                     授权限制 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li onclick="display2(this.innerHTML,this.value)" value="NO_LIMIT"><a href="#">不限授权</a></li>
-                    <li onclick="display2(this.innerHTML,this.value)" value="GRANTED"><a href="#">查已授权</a></li>
-                    <li onclick="display2(this.innerHTML,this.value)" value="NOT_GRANTED"><a href="#">查未授权</a></li>
+                    <li><button class="am-bk" onclick="display2(this.innerHTML,this.value)" value="NO_LIMIT">不限授权</button></li>
+                    <li><button class="am-bk" onclick="display2(this.innerHTML,this.value)" value="GRANTED">查已授权</button></li>
+                    <li><button class="am-bk" onclick="display2(this.innerHTML,this.value)" value="NOT_GRANTED">查未授权</button></li>
                 </ul>
             </li>
 
@@ -115,35 +115,33 @@
                     姓名首字母 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li onclick="display3(this.innerHTML,this.value)" value="NO_LIMIT"><a href="#">不限首字母</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="A"><a href="#">A</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="B"><a href="#">B</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="C"><a href="#">C</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="D"><a href="#">D</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="E"><a href="#">E</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="F"><a href="#">F</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="G"><a href="#">G</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="H"><a href="#">H</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="I"><a href="#">I</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="J"><a href="#">J</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="K"><a href="#">K</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="L"><a href="#">L</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="M"><a href="#">M</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="N"><a href="#">N</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="O"><a href="#">O</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="P"><a href="#">P</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="Q"><a href="#">Q</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="R"><a href="#">R</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="S"><a href="#">S</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="T"><a href="#">T</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="U"><a href="#">U</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="V"><a href="#">V</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="W"><a href="#">W</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="X"><a href="#">X</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="Y"><a href="#">Y</a></li>
-                    <li onclick="display3(this.innerHTML,this.value)" value="Z"><a href="#">Z</a></li>
-
-
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="NO_LIMIT">不限首字母</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="A">A</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="B">B</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="C">C</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="D">D</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="E">E</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="F">F</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="G">G</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="H">H</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="I">I</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="J">J</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="K">K</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="L">L</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="M">M</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="N">N</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="O">O</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="P">P</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="Q">Q</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="R">R</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="S">S</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="T">T</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="U">U</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="V">V</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="W">W</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="X">X</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="Y">Y</button></li>
+                    <li><button class="am-bk" onclick="display3(this.innerHTML,this.value)" value="Z">Z</button></li>
 
                 </ul>
             </li>
@@ -160,13 +158,13 @@
                     多域 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li onclick="display4(this.innerHTML,this.value)" value="ALL"><a href="#">多域</a></li>
-                    <li onclick="display4(this.innerHTML,this.value)" value="TITLE"><a href="#">标题</a></li>
-                    <li onclick="display4(this.innerHTML,this.value)" value="ABSTRACT"><a href="#">摘要</a></li>
-                    <li onclick="display4(this.innerHTML,this.value)" value="APPLICANT"><a href="#">申请人</a></li>
-                    <li onclick="display4(this.innerHTML,this.value)" value="ID"><a href="#">专利号</a></li>
-                    <li onclick="display4(this.innerHTML,this.value)" value="INVENTOR"><a href="#">发明者</a></li>
-                    <li onclick="display4(this.innerHTML,this.value)" value="ADDRESS"><a href="#">地区</a></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="ALL">多域</button></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="TITLE">标题</button></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="ABSTRACT">摘要</button></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="APPLICANT">申请人</button></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="ID">专利号</button></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="INVENTOR">发明者</button></li>
+                    <li><button class="am-bk" onclick="display4(this.innerHTML,this.value)" value="ADDRESS">地区</button></li>
                 </ul>
             </li>
 
@@ -211,30 +209,30 @@
         </ul>
       <article class="am-article blog-article-p">
         <div class="am-article-hd">
-          <h1 class="am-article-title blog-text-left">比特重映射系统</h1>
+          <h1 th:text="${PatentDetail.title}" class="am-article-title blog-text-left">比特重映射系统</h1>
 
         </div>        
         <div class="am-article-bd">
-            <span><a th:text="'专利号：'+${m.}+ '&nbsp;'" id="pn" href="" class="am-color1">专利号：CN105874434A &nbsp;</a></span>
+            <span><a th:text="'专利号：'+${PatentDetail.application_publish_number}+ '&nbsp;'" id="pn" href="" class="am-color1">专利号：CN105874434A &nbsp;</a></span>
             <br>
-            <span th:text="'授权状态：'+${m.}+ '&nbsp;'" class="am-color1" id="authorization" style="float:left;">未授权 &nbsp;</span>
+            <span th:text="'授权状态：'+${PatentDetail.grant_status}+ '&nbsp;'" class="am-color1" id="authorization" style="float:left;">未授权 &nbsp;</span>
             <br>
-            <p th:text="${m.}" class="">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
+            <p th:text="${PatentDetail.patent_Abstract}" class="">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
             </p>
             <br><br>
-            <span th:text="'年份:'+${m.}+ '&nbsp;'" id="year" style="">年份:2016 &nbsp;</span>
+            <span th:text="'年份:'+${PatentDetail.year}+ '&nbsp;'" id="year" style="">年份:2016 &nbsp;</span>
             <br>
-            <span th:text="'作者:'+${m.}+ '&nbsp;'" id="author" style="">权利人: X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
+            <span th:text="'作者:'+${PatentDetail.inventor}+ '&nbsp;'" id="author" style="">权利人: X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
             <br>
-            <span th:text="'地址:'+${m.}">地址：美国加利福尼亚州</span>
+            <span th:text="'地址:'+${PatentDetail.address}">地址：美国加利福尼亚州</span>
             <br>
-            <span th:text="'申请人:'+${m.}" style="">申请单位:高通股份有限公司</span>
+            <span th:text="'申请人:'+${PatentDetail.applicant}" style="">申请单位:高通股份有限公司</span>
             <br>
-            <span th:text="'公开日期:'+${m.}">公开日期:2016.08.17</span>
+            <span th:text="'公开日期:'+${PatentDetail.application_date}">公开日期:2016.08.17</span>
             <br>
-            <span th:text="'申请日期:'+${m.}" style="">申请日期:2014.12.11</span>
+            <span th:text="'申请日期:'+${PatentDetail.filling_date}" style="">申请日期:2014.12.11</span>
             <br>
-            <span th:text="'分类号:'+${m.}">分类号：G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
+            <span th:text="'分类号:'+${PatentDetail.classification_number}">分类号：G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
             <br>
 
         </div>
@@ -301,9 +299,7 @@
             <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
                 <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
                     <h3>专利搜索项目简介</h3>
-                    <p class="am-text-sm">这是一个利用语料库，分词工具，检索工具制作的弹性语义搜索引擎 。<br> 中文和英文的区别，英文只有word，中文需要分词，根据工具有不同的字典，本系统可以定制
-                        用户优先级的弹性 可以根据用户的需求，更有效率
-                        <br> 支持响应式，多种布局，包括主页、搜索信息页、详情页、帮助页等<br>项目的目标是提供一个主要为了服务于央企，事业单位的完善的搜索引擎网站<br><br>
+                    <p class="am-text-sm">这是一个利用语料库，分词工具，检索工具制作的专利搜索引擎。<br> 提供多种进阶搜索支持 <br> 支持响应式，多种布局，包括主页、搜索信息页、详情页、帮助页等<br>项目的目标是提供一个具有基础功能的完善的搜索引擎网站<br><br>
                         本网站的权利归属山东大学软件学院，16级王龙太项目实训组。用户可以自由使用，复制，查询相关专利信息。本网站仅为信息网站，不提供专利授权服务。</p>
                 </div>
                 <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
@@ -332,8 +328,7 @@
                     </p>
                 </div>
             </div>
-            <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under
-                Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.</div>
+            <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under iTai license. Made with love By COPPELIA</div>
 </footer>
 
 
