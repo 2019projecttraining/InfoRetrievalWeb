@@ -255,25 +255,25 @@
 
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbodyid">
                     <tr >
                         <td>
                             <select id="yu" name="search_accurancy" class="am-input-bar2 am-input-search2">
-                                <option value="FUZZY">与</option>
-                                <option value="ACCURATE">或</option>
-                                <option value="SINGLE_WORD">非</option>
+                                <option value="AND">与</option>
+                                <option value="OR">或</option>
+                                <option value="NOT">非</option>
                             </select>
                         </td>
                         <td>
-                            <input  id="bar" class="am-radius  am-input-search am-input-search-box" placeholder="请输入查询字段" />
+                            <input  id="key" class="am-radius  am-input-search am-input-search-box" placeholder="请输入查询字段" />
                         </td>
                         <td>
-                            <select id="doc-field" name="doc-field" class="am-input-bar2">
-                                <option value="FUZZY">标题</option>
-                                <option value="ACCURATE">摘要</option>
-                                <option value="SINGLE_WORD">申请人</option>
-                                <option value="SINGLE_WORD">发明者</option>
-                                <option value="SINGLE_WORD">地区</option>
+                            <select id="doc-field" class="am-input-bar2">
+                                <option value="TITLE">标题</option>
+                                <option value="ABSTRACT">摘要</option>
+                                <option value="APPLICANT">申请人</option>
+                                <option value="INVENTOR">发明者</option>
+                                <option value="ADDRESS">地区</option>
                             </select>
                         </td>
 
@@ -295,7 +295,8 @@
 
                 </script>
                 <hr />
-                <p>注：.....</p>
+                <p><button type="button" onclick="boolsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
+</p>
             </form>
         </div>
 
@@ -485,6 +486,34 @@
         document.body.appendChild(temp);
         temp.submit();
     }
+    
+    function boolsubmit(){
+		var conditons = [];
+		var trList = $("#tbodyid").children("tr")//tbody下所有tr
+		for(var i = 0; i<trList .length; i++ ){
+		        var exp = new Object();
+		        var tdArr = trList.eq(i).find("td");
+		        exp.symbol= tdArr.eq(0).find('select').val();
+		        exp.keyWords= tdArr.eq(1).find('input').val();
+		        exp.field = tdArr.eq(2).find('select').val();
+		        conditons.push(exp); 
+		}
+		alert( JSON.stringify(conditons))
+		var temp = document.createElement("form");
+				  temp.action = "/advancedSearch?page=1";
+				  temp.method = "get";
+				  temp.style.display = "none";
+		
+		var opt = document.createElement("input");
+				  opt.name = "expressions";
+				  opt.value = conditons;
+				//alert(opt.name+":"+opt.value);
+				temp.appendChild(opt);
+				
+		document.body.appendChild(temp);
+        temp.submit();
+	}
+    
     function keyCheck(e) {
         var keynum;
         <!-- 把键值转化为‘键码’ -->

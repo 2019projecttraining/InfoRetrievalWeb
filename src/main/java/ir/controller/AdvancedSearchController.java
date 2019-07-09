@@ -31,6 +31,7 @@ public class AdvancedSearchController {
 			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
 			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo) {
 		
+		System.out.println("aaaaaaaadafsagg");
 		if(page<=0)
 			page=1;
 		try {
@@ -72,7 +73,7 @@ public class AdvancedSearchController {
 		}
 		
 		ModelAndView modelAndView=new ModelAndView();
-		modelAndView.setViewName("show2");//设置模板名称
+		modelAndView.setViewName("show");//设置模板名称
 		modelAndView.addObject("patentsForView", result);//加入返回的结果
 		modelAndView.addObject("page", page);
 		modelAndView.addObject("time_from", timeFrom);
