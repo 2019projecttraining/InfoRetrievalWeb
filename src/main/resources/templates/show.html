@@ -25,8 +25,8 @@
 
 <body id="blog">
 
-
-<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+<div>
+<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header" >
     <div style="text-align:left">
         <img src="../static/i/head.png" alt="" class="am-img-sdu">
     </div>
@@ -65,6 +65,7 @@
         </div>
     </div>
 </header>
+
 <hr>
 <nav class="am-g am-g-fixed blog-fixed blog-nav">
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -81,7 +82,7 @@
     <div class="am-collapse am-topbar-collapse" id="blog-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav">
 
-            <li  class="am-dropdown" data-am-dropdown>
+            <!--li  class="am-dropdown" data-am-dropdown>
 
                     <a id="comprehensive1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;" >
                     综合查询 <span class="am-icon-caret-down"></span>
@@ -92,7 +93,7 @@
                     <li onclick="display(this.innerHTML,this.value)" value="1"><a href="#">相关优先</a></li>
                     <li onclick="display(this.innerHTML,this.value)" value="2"><a href="#">权威优先</a></li>
                 </ul>
-            </li>
+            </li-->
 
             <script>
                 if(sessionStorage.getItem('comHtml') != null) {
@@ -199,6 +200,8 @@
                     <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期"  data-am-datepicker readonly required /><span class="am-icon-caret-down"></span>
                 </a>
             </li>
+            <li class="am-pagination-next" style="float:right"><a href="../templates/ad-search.html">高级搜索 &raquo;</a></li>
+
         </ul>
 
 
@@ -211,12 +214,16 @@
     </div>
 </nav>
 <hr>
-
+</div>
 
 <!-- content srart -->
 <div class="am-g am-g-fixed blog-fixed">
-    <div class="am-u-md-8 am-u-sm-12">
 
+    <div class="am-u-md-8 am-u-sm-12">
+        <!--div class="am-cf am-padding am-padding-bottom-0" style="margin-bottom: 12px">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">高级搜索结果</strong> / <small>进阶条件展示</small></div>
+        </div-->
+        <hr>
         <article th:each="m : ${patentsForView.patents}" class="am-g blog-entry-article">
 
             <div class="am-u-md-12 am-u-sm-12 blog-entry-text">
