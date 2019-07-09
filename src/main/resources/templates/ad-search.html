@@ -307,7 +307,7 @@
 
                 </script>
                 <hr />
-                <p>注：.....</p>
+                <p><button type="button" onclick="boolsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button></p>
             </form>
         </div>
 
@@ -364,17 +364,17 @@
         table = document.getElementById("tb");
         row = table.insertRow(table.rows.length);
         row.insertCell(row.cells.length).innerHTML = "<select id=\"yu\" name=\"search_accurancy\" class=\"am-input-bar2 am-input-search2\">"+
-            "<option value=\"FUZZY\">与</option>"+
-            "<option value=\"ACCURATE\">或</option>"+
-            " <option value=\"SINGLE_WORD\">非</option>"+
+            "<option value=\"AND\">与</option>"+
+            "<option value=\"OR\">或</option>"+
+            " <option value=\"NOT\">非</option>"+
             "</select>";
         row.insertCell(row.cells.length).innerHTML = "<input  id=\"bar\" class=\"am-radius  am-input-search am-input-search-box\" placeholder=\"请输入查询字段\" />";
         row.insertCell(row.cells.length).innerHTML = "<select id=\"doc-field\" name=\"doc-field\" class=\"am-input-bar2\">\n" +
-            "                                <option value=\"FUZZY\">标题</option>\n" +
-            "                                <option value=\"ACCURATE\">摘要</option>\n" +
-            "                                <option value=\"SINGLE_WORD\">申请人</option>\n" +
-            "                                <option value=\"SINGLE_WORD\">发明者</option>\n" +
-            "                                <option value=\"SINGLE_WORD\">地区</option>\n" +
+            "                                <option value=\"TITLE\">标题</option>\n" +
+            "                                <option value=\"ABSTRACT\">摘要</option>\n" +
+            "                                <option value=\"APPLICANT\">申请人</option>\n" +
+            "                                <option value=\"INVENTOR\">发明者</option>\n" +
+            "                                <option value=\"ADDRESS\">地区</option>\n" +
             "                            </select>"
         row.insertCell(row.cells.length).innerHTML = "<div class=\"am-btn-toolbar\">\n" +
             "                                <div class=\"am-btn-group am-btn-group-xs\">\n" +
@@ -676,7 +676,6 @@
             exp.field = tdArr.eq(2).find('select').val();
             conditions.push(exp);
         }
-        alert( JSON.stringify(conditions))
         var temp = document.createElement("form");
         temp.action = "/advancedSearch?page=1";
         temp.method = "get";
@@ -684,7 +683,7 @@
 
         var opt = document.createElement("input");
         opt.name = "expressions";
-        opt.value = conditions;
+        opt.value = JSON.stringify(conditions);
         temp.appendChild(opt);
 
         document.body.appendChild(temp);
