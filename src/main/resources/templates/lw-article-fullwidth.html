@@ -222,40 +222,115 @@
             <li class="am-pagination-prev"><a href="#" onclick="javascript:history.back(-1);" class="">&laquo; 返回查询</a></li>
         </ul>
       <article class="am-article blog-article-p">
-          <table id="tb" class="am-table am-table-striped am-table-hover table-main">
+          <table id="tb" class="am-table am-table-striped am-table-hover table-main" style="vertical-align:middle">
+              <thead>
+              <tr>
+                  <!--th class="table-check"><input type="checkbox" /></th><th class="table-id">ID</th><th class="table-title">设置包含</th><th class="table-type">阈值1</th><th class="table-author am-hide-sm-only">信息1</th><th class="table-date am-hide-sm-only">信息2</th><th class="table-set">操作</th-->
+                  <th class="table-title" style="width:100px">属性</th>
+                  <th class="table-type">详细信息</th>
+
+
+              </tr>
+              </thead>
+
               <tbody>
                 <tr>
+                    <td>
+                        <h1>标题</h1>
+                    </td>
+                    <td>
+                            <h1 th:text="${PatentDetail.title}" >比特重映射系统</h1>
 
+                    </td>
                 </tr>
+                <tr>
+                  <td>
+                      <span class="am-color1">专利号</span>
 
+                  </td>
+                  <td>
+                      <span><a th:text="'专利号：'+${PatentDetail.application_publish_number}+ '&nbsp;'" id="pn" href="" class="am-color1">CN105874434A</a></span>
+                  </td>
+                </tr>
+              <tr>
+                  <td>
+                      <span class="am-color1">授权状态</span>
+                  </td>
+                  <td>
+                      <span th:text="'授权状态：'+${PatentDetail.grant_status}+ '&nbsp;'" class="am-color1" id="authorization" style="float:left;">未授权 &nbsp;</span>
+                  </td>
+              </tr>
+                <tr>
+                    <td style="vertical-align:middle"><span>摘要</span></td>
+                    <td style="vertical-align:middle">
+                        <p th:text="${PatentDetail.patent_Abstract}" class="">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>年份</span>
+                    </td>
+                    <td>
+                        <span th:text="'年份:'+${PatentDetail.year}+ '&nbsp;'" id="year" style="">2016 &nbsp;</span>
+                    </td>
+                </tr>
+              <tr>
+                  <td>
+                      <span>权利人</span>
+                  </td>
+                  <td>
+                      <span th:text="'作者:'+${PatentDetail.inventor}+ '&nbsp;'" id="author" style=""> X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span>地址</span>
+                  </td>
+                  <td>
+                      <span th:text="'地址:'+${PatentDetail.address}">美国加利福尼亚州</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span>申请单位</span>
+                  </td>
+                  <td>
+                      <span th:text="'申请人:'+${PatentDetail.applicant}" style="">高通股份有限公司</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span>公开日期</span>
+                  </td>
+                  <td>
+                      <span th:text="'公开日期:'+${PatentDetail.application_date}">2016.08.17</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span>
+                          申请日期
+                      </span>
+                  </td>
+                  <td>
+                      <span th:text="'申请日期:'+${PatentDetail.filling_date}" style="">2014.12.11</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span>分类号</span>
+                  </td>
+                 <td>
+                     <span th:text="'分类号:'+${PatentDetail.classification_number}">G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
+                 </td>
+              </tr>
               </tbody>
+          </table>
 
-        <div class="am-article-hd">
-          <h1 th:text="${PatentDetail.title}" class="am-article-title blog-text-left">比特重映射系统</h1>
 
-        </div>        
         <div class="am-article-bd">
-            <span><a th:text="'专利号：'+${PatentDetail.application_publish_number}+ '&nbsp;'" id="pn" href="" class="am-color1">专利号：CN105874434A &nbsp;</a></span>
-            <br>
-            <span th:text="'授权状态：'+${PatentDetail.grant_status}+ '&nbsp;'" class="am-color1" id="authorization" style="float:left;">未授权 &nbsp;</span>
-            <br>
-            <p th:text="${PatentDetail.patent_Abstract}" class="">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
-            </p>
-            <br><br>
-            <span th:text="'年份:'+${PatentDetail.year}+ '&nbsp;'" id="year" style="">年份:2016 &nbsp;</span>
-            <br>
-            <span th:text="'作者:'+${PatentDetail.inventor}+ '&nbsp;'" id="author" style="">权利人: X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
-            <br>
-            <span th:text="'地址:'+${PatentDetail.address}">地址：美国加利福尼亚州</span>
-            <br>
-            <span th:text="'申请人:'+${PatentDetail.applicant}" style="">申请单位:高通股份有限公司</span>
-            <br>
-            <span th:text="'公开日期:'+${PatentDetail.application_date}">公开日期:2016.08.17</span>
-            <br>
-            <span th:text="'申请日期:'+${PatentDetail.filling_date}" style="">申请日期:2014.12.11</span>
-            <br>
-            <span th:text="'分类号:'+${PatentDetail.classification_number}">分类号：G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
-            <br>
+
 
         </div>
       </article>
@@ -318,39 +393,51 @@
 <!-- content end -->
 
 <footer class="blog-footer">
-            <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
-                <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-                    <h3>专利搜索项目简介</h3>
-                    <p class="am-text-sm">这是一个利用语料库，分词工具，检索工具制作的专利搜索引擎。<br> 提供多种进阶搜索支持 <br> 支持响应式，多种布局，包括主页、搜索信息页、详情页、帮助页等<br>项目的目标是提供一个具有基础功能的完善的搜索引擎网站<br><br>
-                        本网站的权利归属山东大学软件学院，16级王龙太项目实训组。用户可以自由使用，复制，查询相关专利信息。本网站仅为信息网站，不提供专利授权服务。</p>
-                </div>
-                <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-                    <h3>项目组联系方式</h3>
-                    <p>
-                        <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
-                        <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
-                        <a href=""><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
-                        <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
-                        <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
-                    </p>
-                    <h3>Credits</h3>
-                    <p>我们追求卓越，然时间、经验、能力有限。本搜索引擎项目有很多不足的地方，希望大家包容、不吝赐教，给我们提意见、建议。感谢你们！</p>
-                </div>
-                <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-                    <h1>山东大学2016项目实训</h1>
-                    <h3>前端使用语言</h3>
-                    <p>
-                    <ul>
-                        <li>jQuery</li>
-                        <li>Zepto.js</li>
-                        <li>Seajs</li>
-                        <li>LESS</li>
-                        <li>...</li>
-                    </ul>
-                    </p>
-                </div>
-            </div>
-            <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under iTai license. Made with love By COPPELIA</div>
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h3>专利搜索项目简介</h3>
+            <p>
+
+                <br>
+                认知计算创新实验室专注于<br>
+                认知机器人关键技术研究与实现，<br>
+                具体课题包括语音识别、知识学习、<br>
+                语义推断、智能问答、增强现实和<br>
+                遥在技术等。通过研究课题，<br>
+                引导学生的科研兴趣，提高学生的<br>
+                学术创新能力、实践能力和团队精神，<br>
+                为培养高素质、宽知识、强能力的<br>
+                优秀科技人才提供学术创新和实践环境。<br>
+            </p>
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <img src="../static/i/logo.png" alt="">
+            <h1>
+                <a href="http://splab-sdu.zrbao.net">认知计算创新实验室</a>
+            </h1>
+            <p>
+                Email：sun_yuqing@sdu.edu.cn<br>
+                联系方式：88391810<br>
+                地址：中国济南高新技术产业开发区舜华路1500号<br>
+                邮编：250101<br>
+                网站支持：http://splab-sdu.zrbao.net
+            </p>
+
+            <!--h3>联系方式</h3>
+            <p>
+                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
+                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
+            </p-->
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <img src="../static/i/banner.png" alt="">
+        </div>
+    </div>
+    <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under
+        Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.</div>
 </footer>
 
 
