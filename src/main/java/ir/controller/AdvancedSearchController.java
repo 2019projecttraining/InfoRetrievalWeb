@@ -93,8 +93,9 @@ public class AdvancedSearchController {
 		}
 		
 		ModelAndView modelAndView=new ModelAndView();
-		modelAndView.setViewName("show");//设置模板名称
+		modelAndView.setViewName("show2");//设置模板名称
 		modelAndView.addObject("patentsForView", result);//加入返回的结果
+		modelAndView.addObject("expression",expression);
 		modelAndView.addObject("page", page);
 		modelAndView.addObject("time_from", timeFrom);
 		modelAndView.addObject("time_to", timeTo);
