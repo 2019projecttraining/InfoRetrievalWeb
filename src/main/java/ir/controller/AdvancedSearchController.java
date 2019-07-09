@@ -1,5 +1,7 @@
 package ir.controller;
 
+import java.util.ArrayList;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,12 @@ import ir.models.PatentsForView;
 import ir.services.AdvancedSearchService;
 import ir.util.seg.SegmentAnalyzer;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+
 @Controller
 public class AdvancedSearchController {
 	
@@ -29,12 +37,21 @@ public class AdvancedSearchController {
 
 	@GetMapping("/advancedSearch")//即什么样的页面会映射到这个方法上
 	@ResponseBody
-	public ModelAndView advancedSearch(@RequestParam(value="expressions",required=true)BoolExpression[] expressions,
-			@RequestParam int page,
+	public ModelAndView advancedSearch(@RequestParam(value="expressions",required=true)String expression,
+			@RequestParam(defaultValue="1",required=false) int page,//页码
 			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
 			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo) {
 		
-		System.out.println("aaaaaaaadafsagg");
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		JsonArray Jarray = parser.parse(expression).getAsJsonArray();
+		ArrayList<BoolExpression> bool = new ArrayList<BoolExpression>();
+		for(JsonElement obj : Jarray ){
+			BoolExpression cse = gson.fromJson( obj , BoolExpression.class);
+		    bool.add(cse);  
+		}
+		BoolExpression[] expressions=bool.toArray(new BoolExpression[bool.size()]);;
+		System.out.println(bool);
 		if(page<=0)
 			page=1;
 		try {
@@ -83,6 +100,6 @@ public class AdvancedSearchController {
 		modelAndView.addObject("time_to", timeTo);
 		modelAndView.addObject("number",result.getHitsNum());
 		
-		return null;
+		return modelAndView;
 	}
 }
