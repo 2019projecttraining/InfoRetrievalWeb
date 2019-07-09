@@ -72,8 +72,6 @@ public class RecommendWord {
     	int i=0;
     	List<String> temp=new ArrayList<>();
     	
-    	System.out.println(StopWordsLoader.stopWords);
-    	
         while(temp.size()<N&&i<sortedMap.size()) {
         	String word=sortedMap.get(i++).getKey();
         	if(StopWordsLoader.stopWords.contains(word))

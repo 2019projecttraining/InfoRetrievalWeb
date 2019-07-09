@@ -26,11 +26,11 @@ public class LuceneSearcher{
 	
 	public final static Map<SearchAccuracy,IndexSearcher> indexes;
 	
-	private final static String COARSE_GRAINED_CONFIG_KEY="fuzzy-lucene-index-file-path";
+	private final static String COARSE_GRAINED_CONFIG_KEY="accurate-lucene-index-file-path";
 	
 	public final static String COARSE_GRAINED_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(COARSE_GRAINED_CONFIG_KEY);
 	
-	private final static String FINE_GRAINED_CONFIG_KEY="accurate-lucene-index-file-path";
+	private final static String FINE_GRAINED_CONFIG_KEY="fuzzy-lucene-index-file-path";
 	
 	public final static String FINE_GRAINED_LUCENE_INDEX_FILE_PATH=Configuration.getConfig(FINE_GRAINED_CONFIG_KEY);
 	

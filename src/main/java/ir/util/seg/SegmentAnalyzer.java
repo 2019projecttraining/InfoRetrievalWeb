@@ -169,7 +169,6 @@ public class SegmentAnalyzer {
 		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
 		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
 		
-		
 		Map<SearchAccuracy,Analyzer> tempMap=new HashMap<>();
 		
 		tempMap.put(SearchAccuracy.ACCURATE, coarseGrainedAnaylzer);
@@ -178,9 +177,6 @@ public class SegmentAnalyzer {
 		tempMap.put(SearchAccuracy.DOUBLE_WORD, doubleWordAnalyzer);
 		
 		analyzers=Collections.unmodifiableMap(tempMap);
-		
-		
-		
 	}
 	
 	private static Analyzer hanlpAnalyzer(String modelPath,boolean indexMode) throws IOException {
@@ -233,7 +229,7 @@ public class SegmentAnalyzer {
 					return hanlpAnalyzer(HANLP_DEFAULT_CRF_MODEL_PATH,true);
 					
 				case "jieba":
-					return new JiebaAnalyzer(JiebaSegmenter.SegMode.INDEX);
+					return new JiebaAnalyzer(JiebaSegmenter.SegMode.INDEX,STOP_WORDS);
 					
 				default:
 					System.err.println("警告！配置中使用了未知的分词器，将使用SmartChineseAnalyzer");
