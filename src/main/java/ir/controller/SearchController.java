@@ -134,6 +134,7 @@ public class SearchController {
 		PatentsForView result;
 		try {
 			long startTime=System.currentTimeMillis();
+			System.out.println("执行到这里");
 			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, 
 					typeCode, luceneIndex, analyzer);
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
@@ -155,6 +156,7 @@ public class SearchController {
 		modelAndView.addObject("field",field);
 		modelAndView.addObject("number",result.getHitsNum());
 		modelAndView.addObject("search_accurancy",searchAccuracy);
+		modelAndView.addObject("typeCode",typeCode);
 		
 		modelAndView.addObject("year_back_3",timeBackPush(3));
 		modelAndView.addObject("year_back_5",timeBackPush(5));
