@@ -19,5 +19,10 @@ public class BoolExpression {
 		this.field=field;
 		this.symbol=symbol;
 	}
+
+	@Override
+	public String toString() {
+		return "BoolExpression [symbol=" + symbol + ", keyWords=" + keyWords + ", field=" + field + "]";
+	}
 	
 }
