@@ -49,11 +49,15 @@ public class Configuration {
             Iterator<String> it=prop.stringPropertyNames().iterator();
             
             Map<String,String> temp=new HashMap<>();
+            System.out.println("------------");
+            System.out.println("加载配置文件");
+            System.out.println("------------");
             while(it.hasNext()){
                 String key=it.next();
                 temp.put(key, prop.getProperty(key));
                 System.out.println("加载配置 \'"+key+"\' = \'"+prop.getProperty(key)+"\'");
             }
+            System.out.println();
             in.close();
             
             return Collections.unmodifiableMap(temp);

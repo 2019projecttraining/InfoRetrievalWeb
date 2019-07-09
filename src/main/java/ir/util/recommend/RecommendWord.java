@@ -81,7 +81,7 @@ public class RecommendWord {
         
         // System.out.println(sortedMap.get(i).getKey() + ":" + sortedMap.get(i).getValue());
         
-        System.out.println(temp);
+        System.out.println("共线频率高的词： "+temp);
         return temp;
     }
     //获取所有结果中的相同关键词并按照tf-idf值排序
