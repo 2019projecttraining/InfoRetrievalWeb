@@ -118,7 +118,8 @@
 
             <script>
                 if(sessionStorage.getItem('limHtml') != null) {
-                    document.getElementById("limit1").innerHTML = sessionStorage.getItem('limHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                    document.getElementById("limit1").innerHTML ="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
+                        "                    &nbsp;"+ sessionStorage.getItem('limHtml')+" <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("limit").value = sessionStorage.getItem('limValue');
                 }
             </script>
@@ -165,7 +166,8 @@
 
             <script>
                 if(sessionStorage.getItem('letHtml') != null) {
-                    document.getElementById("FirstLetter1").innerHTML = sessionStorage.getItem('letHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                    document.getElementById("FirstLetter1").innerHTML ="<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
+                        "                    &nbsp;"+ sessionStorage.getItem('letHtml')+" <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("FirstLetter").value = sessionStorage.getItem('letValue');
                 }
             </script>
@@ -188,7 +190,7 @@
 
             <script>
                 if(sessionStorage.getItem('zoneHtml') != null) {
-                    document.getElementById("zone1").innerHTML = sessionStorage.getItem('zoneHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                    document.getElementById("zone1").innerHTML ="<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>&nbsp;"+ sessionStorage.getItem('zoneHtml')+" <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("zone").value = sessionStorage.getItem('zoneValue');
                 }
             </script>
