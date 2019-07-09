@@ -164,6 +164,12 @@ public class SegmentAnalyzer {
 		Analyzer singleWordAnalyzer=configSingleWordAnalyzer();
 		Analyzer doubleWordAnalyzer=configDoubleWordAnalyzer();
 		
+		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
+		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
+		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
+		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
+		
+		
 		Map<SearchAccuracy,Analyzer> tempMap=new HashMap<>();
 		
 		tempMap.put(SearchAccuracy.ACCURATE, coarseGrainedAnaylzer);
@@ -172,6 +178,9 @@ public class SegmentAnalyzer {
 		tempMap.put(SearchAccuracy.DOUBLE_WORD, doubleWordAnalyzer);
 		
 		analyzers=Collections.unmodifiableMap(tempMap);
+		
+		
+		
 	}
 	
 	private static Analyzer hanlpAnalyzer(String modelPath,boolean indexMode) throws IOException {

@@ -12,6 +12,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Service;
+
 import ir.config.Configuration;
 
 /**
@@ -22,6 +24,7 @@ import ir.config.Configuration;
  * @author 余定邦
  *
  */
+
 public class WrongWordAnalyzer {
 	
 	public final static WrongWordAnalyzer DEFAULT_WRONG_WORD_ANALYZER=new WrongWordAnalyzer(
@@ -30,6 +33,8 @@ public class WrongWordAnalyzer {
 			Configuration.getConfig("wrong-word-analyzer-default-enabled-field"));
 	
 	public final static double DEFAULT_THRESHOLD=0.8;
+	
+	public static void init() {}
 	
 	/**
 	 * 略微复杂数据结构，有多层的HashMap，为了提高速度，并且划分字典区域
