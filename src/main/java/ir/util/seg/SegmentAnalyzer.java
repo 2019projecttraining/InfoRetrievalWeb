@@ -10,6 +10,7 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.springframework.stereotype.Service;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.hankcs.hanlp.model.crf.CRFLexicalAnalyzer;
@@ -61,6 +62,7 @@ import ir.util.seg.jieba.JiebaAnalyzer;
  * 
  */
 @SuppressWarnings("resource")
+@Service
 public class SegmentAnalyzer {
 	
 	/**
@@ -74,7 +76,7 @@ public class SegmentAnalyzer {
 	 * @param searchAccuracy
 	 * @return
 	 */
-	public static Analyzer getAnalyzer(SearchAccuracy searchAccuracy) {
+	public Analyzer getAnalyzer(SearchAccuracy searchAccuracy) {
 		
 		Analyzer res=analyzers.get(searchAccuracy);
 		

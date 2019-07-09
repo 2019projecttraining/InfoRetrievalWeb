@@ -45,10 +45,10 @@ import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
-import ir.util.fieldDetection.ApplicantDetection;
-import ir.util.fieldDetection.ApplicationPublishNumberDetection;
-import ir.util.fieldDetection.InventorDetection;
-import ir.util.recommend.Recommend;
+import ir.util.fieldDetection.ApplicantDetector;
+import ir.util.fieldDetection.ApplicationPublishNumberDetector;
+import ir.util.fieldDetection.InventorDetector;
+import ir.util.recommend.RecommendWord;
 import ir.util.seg.AnalyzerToken;
 import ir.util.ssc_fix.WrongWordAnalyzer;
 import ir.util.w2v.WordEntry;
@@ -65,6 +65,18 @@ public class SearchServiceImpl implements SearchService{
 
 	@Autowired
 	private WordHashMap wordHashMap;
+	
+	@Autowired
+	private ApplicantDetector applicantDetector;
+	
+	@Autowired
+	private ApplicationPublishNumberDetector applicationPublishNumberDetector;
+	
+	@Autowired
+	private InventorDetector inventorDetector;
+
+	@Autowired
+	private RecommendWord wordRecommender;
 	
 	private static final int pageSize=10;
 
@@ -161,18 +173,18 @@ public class SearchServiceImpl implements SearchService{
 			System.out.println(words);
 			int lock1=0,lock2=0,lock3=0,lock4=0;
 			for(String word:words) {
-				if(InventorDetection.isInventor(word)) {
+				if(inventorDetector.isInventor(word)) {
 					lock1=1;
 					b1.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
-				}else if(ApplicationPublishNumberDetection.isApplicationPublishNumber(word)) {
+				}else if(applicationPublishNumberDetector.isApplicationPublishNumber(word)) {
 					lock2=1;
 					b2.add(new TermQuery(new Term("application_publish_number", word)),Occur.SHOULD);
-				}else if(ApplicantDetection.isCompanyApplicant(word)){//申请人如果是公司的话，在摘要中也添加查询
+				}else if(applicantDetector.isCompanyApplicant(word)){//申请人如果是公司的话，在摘要中也添加查询
 					lock3=1;
 					b3.add(new FunctionScoreQuery(new TermQuery(new Term("abstract", word)),new MyDoubleValuesSource(1.2f)),Occur.SHOULD);
 					b3.add(new FunctionScoreQuery(new TermQuery(new Term("title", word)),new MyDoubleValuesSource(2.0f)),Occur.SHOULD);
 					b3.add(new FunctionScoreQuery(new WildcardQuery(new Term("applicant", "*"+word+"*")),new MyDoubleValuesSource(0.8f)),Occur.SHOULD);
-				}else if(ApplicantDetection.isPeopleApplicant(word)){
+				}else if(applicantDetector.isPeopleApplicant(word)){
 					lock4=1;
 					b4.add(new TermQuery(new Term("applicant", word)),Occur.SHOULD);
 				}else {//对不是人名或专利号的词再分词
@@ -283,11 +295,14 @@ public class SearchServiceImpl implements SearchService{
 		
         BooleanQuery booleanQuery=builder.build();
         Expression expr = null;
-        long low=481132800000l;
-        long high=1537372800000l;
-        long range=high-low;
+//        long low=481132800000l;
+//        long high=1537372800000l;
+//        long range=high-low;
+        
+        //(( -low)/range)
+        
 		try {
-			expr = JavascriptCompiler.compile("_score * ((application_date_long-low)/range*0.2+0.8)+grant_status_long");
+			expr = JavascriptCompiler.compile("_score + (application_date_long/(365*24*60*60*1000)/(2100-1970))*2 +grant_status_long*2");
 		} catch (java.text.ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -295,9 +310,9 @@ public class SearchServiceImpl implements SearchService{
         bindings.add(new SortField("_score", SortField.Type.SCORE));
         bindings.add(new SortField("application_date_long", SortField.Type.LONG));
         bindings.add(new SortField("grant_status_long", SortField.Type.LONG));
-        bindings.add("low",DoubleValuesSource.constant(low));
-        bindings.add("high",DoubleValuesSource.constant(high));
-        bindings.add("range",DoubleValuesSource.constant(range));
+//        bindings.add("low",DoubleValuesSource.constant(low));
+//        bindings.add("high",DoubleValuesSource.constant(high));
+//        bindings.add("range",DoubleValuesSource.constant(range));
         Query query = new FunctionScoreQuery(booleanQuery,expr.getDoubleValuesSource(bindings));
         
 //        Sort sort=null;
@@ -319,7 +334,7 @@ public class SearchServiceImpl implements SearchService{
 	        topDocs = luceneIndex.search(query, end+1);
 	        
 	        //推荐5个词
-	        List<String> recommendWord=Recommend.allGetTop(topDocs, luceneIndex.getIndexReader(), 5);
+	        List<String> recommendWord=wordRecommender.allGetTop(topDocs, luceneIndex.getIndexReader(), 5);
 	        pv.setRecommendWord(recommendWord);
 	        
 			System.out.println("查询结束");

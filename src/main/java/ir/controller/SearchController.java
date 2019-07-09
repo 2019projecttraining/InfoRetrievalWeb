@@ -33,6 +33,9 @@ public class SearchController {
 	@Autowired
 	private SearchService searchService;
 	
+	@Autowired
+	private SegmentAnalyzer segmentAnalyzer;
+	
 //	@Autowired
 //	private PatentService patentService;
 	
@@ -128,7 +131,7 @@ public class SearchController {
 			return null;
 		}
 		
-		Analyzer analyzer = SegmentAnalyzer.getAnalyzer(searchAccuracy);
+		Analyzer analyzer = segmentAnalyzer.getAnalyzer(searchAccuracy);
 			
 		//PatentsForView result;
 		PatentsForView result;

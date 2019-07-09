@@ -31,8 +31,6 @@ public class Ssc_Similarity {
 		System.out.println("加载完成");
 	}
 	
-	public static void init() {}
-	
 	private static void loadsscCodeDict(String path) {
 		sscCodeDict=new HashMap<>(90000);
 		

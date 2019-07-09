@@ -16,14 +16,15 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
+import org.springframework.stereotype.Service;
 
 import ir.util.seg.StopWordsLoader;
 
-
-public class Recommend {
+@Service
+public class RecommendWord {
 	
 	//获取一篇文章中的关键词及tf-idf值
-    public static Map<String, Integer> oneGetTop(int id ,IndexReader reader) throws IOException{
+    public Map<String, Integer> oneGetTop(int id ,IndexReader reader) throws IOException{
         int Alldoc = reader.maxDoc();
         //int docId = myMap.get(id);
         Terms terms = reader.getTermVector(id,"abstract");
@@ -64,7 +65,7 @@ public class Recommend {
     }
 
 
-    public static List<String> getTopN(List<Map.Entry<String, Integer>> sortedMap, int N) {
+    public List<String> getTopN(List<Map.Entry<String, Integer>> sortedMap, int N) {
     	if(sortedMap.size()<5)
     		N=sortedMap.size();
     	
@@ -86,7 +87,7 @@ public class Recommend {
         return temp;
     }
     //获取所有结果中的相同关键词并按照tf-idf值排序
-    public static List<String> allGetTop(TopDocs topdocs,IndexReader reader,int topN) throws IOException {
+    public List<String> allGetTop(TopDocs topdocs,IndexReader reader,int topN) throws IOException {
         ScoreDoc[] scoredocs=topdocs.scoreDocs;
         //Map<String, Integer> combineResultMap = null;
         Map<String, Integer> combineResultMap = new HashMap<String, Integer>();

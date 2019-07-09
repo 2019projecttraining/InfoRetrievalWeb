@@ -1,5 +1,7 @@
 package ir.util.fieldDetection;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 申请人探测
  * 
@@ -11,21 +13,20 @@ package ir.util.fieldDetection;
  * @author 余定邦
  *
  */
-public class ApplicantDetection {
+@Service
+public class ApplicantDetector {
 	
 	private final static Detector detectorForPeople=new Detector("inventor","field-detection-applicant-people-name-dict");
 	
 	private final static Detector detectorForCompany=new Detector("inventor","field-detection-applicant-company-name-dict");
 
-	public static boolean isPeopleApplicant(String word) {
+	public boolean isPeopleApplicant(String word) {
 		return detectorForPeople.detect(word);
 	}
 	
-	public static boolean isCompanyApplicant(String word) {
+	public boolean isCompanyApplicant(String word) {
 		return detectorForCompany.detect(word);
 	}
-	
-	public static void init() {}
 	
 	
 }

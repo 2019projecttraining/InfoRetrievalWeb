@@ -1,5 +1,7 @@
 package ir.util.fieldDetection;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 姓名检测
  * 
@@ -8,13 +10,14 @@ package ir.util.fieldDetection;
  * @author 余定邦
  *
  */
-public class InventorDetection {
+
+@Service
+public class InventorDetector {
 
 	private final static Detector detector=new Detector("inventor","field-detection-inventor-name-dict");
 	
-	public static boolean isInventor(String word) {
+	public boolean isInventor(String word) {
 		return detector.detect(word);
 	}
 	
-	public static void init() {}
 }

@@ -3,6 +3,8 @@ package ir.util.fieldDetection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 专利文献号的检测
  * 
@@ -11,15 +13,14 @@ import java.util.regex.Pattern;
  * @author 余定邦
  *
  */
-public class ApplicationPublishNumberDetection {
+@Service
+public class ApplicationPublishNumberDetector {
 	
 	public final static Pattern p=Pattern.compile("CN[0-9]{7,9}[A|B|C|U|Y|S]?");
 
-	public static boolean isApplicationPublishNumber(String word) {
+	public boolean isApplicationPublishNumber(String word) {
 		Matcher m=p.matcher(word);
 		return m.matches();
 	}
-	
-	public static void init() {}
 	
 }

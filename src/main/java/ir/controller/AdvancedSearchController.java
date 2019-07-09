@@ -23,6 +23,9 @@ public class AdvancedSearchController {
 	
 	@Autowired
 	private AdvancedSearchService advancedSearchService;
+	
+	@Autowired
+	private SegmentAnalyzer segmentAnalyzer;
 
 	@GetMapping("/advancedSearch")//即什么样的页面会映射到这个方法上
 	@ResponseBody
@@ -60,7 +63,7 @@ public class AdvancedSearchController {
 			// TODO: to error page
 			return null;
 		}
-		Analyzer analyzer = SegmentAnalyzer.getAnalyzer(SearchAccuracy.FUZZY);
+		Analyzer analyzer = segmentAnalyzer.getAnalyzer(SearchAccuracy.FUZZY);
 		
 		PatentsForView result;
 		try {
