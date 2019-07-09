@@ -211,7 +211,7 @@
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs" style="margin-top:10px;margin-bottom:8px">
-                    <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    <button type="button" class="am-btn am-btn-default" onclick="insertrow()"><span class="am-icon-plus"></span> 新增</button>
                     <!--button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>
                     <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
                     <button-- type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button-->
@@ -244,7 +244,7 @@
     <div class="am-g">
         <div class="am-u-sm-12">
             <form class="am-form">
-                <table class="am-table am-table-striped am-table-hover table-main">
+                <table id="tb" class="am-table am-table-striped am-table-hover table-main">
                     <thead>
                     <tr>
                         <!--th class="table-check"><input type="checkbox" /></th><th class="table-id">ID</th><th class="table-title">设置包含</th><th class="table-type">阈值1</th><th class="table-author am-hide-sm-only">信息1</th><th class="table-date am-hide-sm-only">信息2</th><th class="table-set">操作</th-->
@@ -265,7 +265,7 @@
                             </select>
                         </td>
                         <td>
-                            <input  id="bar" class="am-radius  am-input-search am-input-search-box" placeholder="请输入查询字段" required/>
+                            <input  id="bar" class="am-radius  am-input-search am-input-search-box" placeholder="请输入查询字段" />
                         </td>
                         <td>
                             <select id="doc-field" name="doc-field" class="am-input-bar2">
@@ -277,20 +277,23 @@
                             </select>
                         </td>
 
-                        <td>
+                        <!--td>
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <!--button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span class="am-icon-copy"></span> 复制</button-->
-                                    <button class="am-btn am-input-search3 am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span class="am-icon-copy"></span> 复制</button>
+                                    <button class="am-btn am-input-search3 am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="deleterow(this)"><span class="am-icon-trash-o"></span> 删除</button>
                                 </div>
                             </div>
-                        </td>
+                        </td-->
                     </tr>
 
 
                     </tbody>
                 </table>
+                <script>
+
+                </script>
                 <hr />
                 <p>注：.....</p>
             </form>
@@ -345,15 +348,39 @@
 
 <script>
 
-    $('#delete').on('click', function() {
-        //第一种方式按照index进行值的获取，个人不推荐
-        var userName = $(this).parents("tr").children("td:nth-child(2)").text();
-        //第二种方式按照id获取值,推荐
-        //var userName = $(this).parents("tr").find("#userName").text();
-        //第三种方式按照class获取值
-        //var userName = $(this).parents("tr").find(".userName").text();
-    });
+    function insertrow(){
+        table = document.getElementById("tb");
+        row = table.insertRow(table.rows.length);
+        row.insertCell(row.cells.length).innerHTML = "<select id=\"yu\" name=\"search_accurancy\" class=\"am-input-bar2 am-input-search2\">"+
+            "<option value=\"FUZZY\">与</option>"+
+            "<option value=\"ACCURATE\">或</option>"+
+           " <option value=\"SINGLE_WORD\">非</option>"+
+           "</select>";
+        row.insertCell(row.cells.length).innerHTML = "<input  id=\"bar\" class=\"am-radius  am-input-search am-input-search-box\" placeholder=\"请输入查询字段\" />";
+        row.insertCell(row.cells.length).innerHTML = "<select id=\"doc-field\" name=\"doc-field\" class=\"am-input-bar2\">\n" +
+            "                                <option value=\"FUZZY\">标题</option>\n" +
+            "                                <option value=\"ACCURATE\">摘要</option>\n" +
+            "                                <option value=\"SINGLE_WORD\">申请人</option>\n" +
+            "                                <option value=\"SINGLE_WORD\">发明者</option>\n" +
+            "                                <option value=\"SINGLE_WORD\">地区</option>\n" +
+            "                            </select>"
+        row.insertCell(row.cells.length).innerHTML = "<div class=\"am-btn-toolbar\">\n" +
+            "                                <div class=\"am-btn-group am-btn-group-xs\">\n" +
+            "                                    <!--button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\"><span class=\"am-icon-pencil-square-o\"></span> 编辑</button>\n" +
+            "                                    <button class=\"am-btn am-btn-default am-btn-xs am-hide-sm-only\"><span class=\"am-icon-copy\"></span> 复制</button-->\n" +
+            "                                    <button class=\"am-btn am-input-search3 am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick=\"deleterow(this)\">\n" +
+            "                                    <span class=\"am-icon-trash-o\"></span> 删除</button>\n" +
+            "                                </div>\n" +
+            "                            </div>"
+        sessionStorage.setItem("table",document.getElementById("tb"));
+    }
 
+    function deleterow(obj)
+    {
+        tr1 = obj.parentNode("tr");
+        par = tr1.parentNode("table");
+        par.removeChild("tr1");
+    }
     var searchBar = document.getElementById("search-bar");
     // 检测是否存在 autosave 键值
     // (这个会在页面偶然被刷新的情况下存在)
@@ -449,7 +476,7 @@
         opt8.name="is_granted";
         opt8.value=passOrNot;
         temp.appendChild(opt8);
-        
+
         var opt9 = document.createElement("input");
         opt9.name="field";
         opt9.value=field;
