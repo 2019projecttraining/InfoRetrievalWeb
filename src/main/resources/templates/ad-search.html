@@ -82,7 +82,7 @@
     <div class="am-collapse am-topbar-collapse" id="blog-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav">
 
-            <li  class="am-dropdown" data-am-dropdown>
+            <!--li  class="am-dropdown" data-am-dropdown>
 
                 <a id="comprehensive1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;" >
                     综合查询 <span class="am-icon-caret-down"></span>
@@ -93,7 +93,7 @@
                     <li onclick="display(this.innerHTML,this.value)" value="1"><a href="#">相关优先</a></li>
                     <li onclick="display(this.innerHTML,this.value)" value="2"><a href="#">权威优先</a></li>
                 </ul>
-            </li>
+            </li-->
 
             <script>
                 if(sessionStorage.getItem('comHtml') != null) {
@@ -103,8 +103,10 @@
             </script>
 
             <li  class="am-dropdown" data-am-dropdown>
+
                 <a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    授权限制 <span class="am-icon-caret-down"></span>
+                    <img src="../static/i/icon/autho.png" style="width:18px;height:18px;"/>
+                    &nbsp;授权限制 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
                     <li onclick="display2(this.innerHTML,this.value)" value="0"><a href="#">不限授权</a></li>
@@ -124,7 +126,8 @@
 
             <li  class="am-dropdown" data-am-dropdown>
                 <a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    姓名首字母 <span class="am-icon-caret-down"></span>
+                    <img src="../static/i/icon/letter.png" style="width:18px;height:21px;"/>
+                    &nbsp;姓名首字母 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
                     <li onclick="display3(this.innerHTML,this.value)" value="0"><a href="#">不限首字母</a></li>
@@ -169,7 +172,8 @@
 
             <li  class="am-dropdown" data-am-dropdown>
                 <a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    多域 <span class="am-icon-caret-down"></span>
+                    <img src="../static/i/icon/zone.png" style="width:23px;height:18px;"/>
+                    &nbsp;多域 <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
                     <li onclick="display4(this.innerHTML,this.value)" value="0"><a href="#">多域</a></li>
@@ -445,7 +449,8 @@
         //document.getElementById("c1").style.display = none;
     }
     function display2(innerHtml,value){
-        document.getElementById("limit1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
+        document.getElementById("limit1").innerHTML="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" +innerHtml+" <span class=\"am-icon-caret-down\"></span>";
+
         if(value === 0){
             document.getElementById("limit").value="NO_LIMIT";
             sessionStorage.setItem('limValue','NO_LIMIT');
@@ -464,7 +469,7 @@
         sessionStorage.setItem('limHtml',innerHtml);
     }
     function display3(innerHtml,value){
-        document.getElementById("FirstLetter1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
+        document.getElementById("FirstLetter1").innerHTML="<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
         if(value === 0){
             document.getElementById("FirstLetter").value="NO_LIMIT";
             sessionStorage.setItem('letValue','NO_LIMIT');
@@ -578,7 +583,7 @@
         sessionStorage.setItem('letHtml',innerHtml);
     }
     function display4(innerHtml,value){
-        document.getElementById("zone1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
+        document.getElementById("zone1").innerHTML="<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
         if(value === 0){
             document.getElementById("zone").value="ALL";
             sessionStorage.setItem('zoneValue','ALL');
