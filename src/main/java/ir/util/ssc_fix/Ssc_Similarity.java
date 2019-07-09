@@ -22,13 +22,17 @@ public class Ssc_Similarity {
 	private final static String sscCodeDictPath=Configuration.getConfig("ssc-code-file-path");
 	
 	static {
+		
+		System.out.println("------------");
+        System.out.println("加载音形码模块依赖文件");
+        System.out.println("------------");
+		
 		long a=System.currentTimeMillis();
 		
 		loadsscCodeDict(sscCodeDictPath);
 		
-		System.out.println("time："+(System.currentTimeMillis()-a));
-		
-		System.out.println("加载完成");
+		System.out.println("加载完成，花费时间："+(System.currentTimeMillis()-a));
+		System.out.println();
 	}
 	
 	public static void init() {}

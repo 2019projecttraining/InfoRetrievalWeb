@@ -162,36 +162,50 @@ public class SearchServiceImpl implements SearchService{
 		Query keyQuery;
 		switch(field) {//按域查询
 		case ALL:
+			
+			System.out.println("进入全域查询");
+			
 			words=Arrays.asList(keyWords.split(" "));//按空格分词
+			
+			System.out.println("空格分词结果： "+words);
+			
 			words=wordReplace(words,field);//替换错别字
+			
+			System.out.println("替换错别字结果： "+words);
+			
 			List<String> words2=new ArrayList<String>();//再分词存放
 			BooleanQuery.Builder b1 = new BooleanQuery.Builder();
 			BooleanQuery.Builder b2 = new BooleanQuery.Builder();
 			BooleanQuery.Builder b3 = new BooleanQuery.Builder();
 			BooleanQuery.Builder b4 = new BooleanQuery.Builder();
 
-			System.out.println(words);
+			
 			int lock1=0,lock2=0,lock3=0,lock4=0;
 			for(String word:words) {
 				if(inventorDetector.isInventor(word)) {
 					lock1=1;
+					System.out.println("是发明者人名的词： "+word);
 					b1.add(new TermQuery(new Term("inventor", word)),Occur.SHOULD);
 				}else if(applicationPublishNumberDetector.isApplicationPublishNumber(word)) {
 					lock2=1;
+					System.out.println("是专利文章号的词： "+word);
 					b2.add(new TermQuery(new Term("application_publish_number", word)),Occur.SHOULD);
 				}else if(applicantDetector.isCompanyApplicant(word)){//申请人如果是公司的话，在摘要中也添加查询
 					lock3=1;
+					System.out.println("是申请人公司的词： "+word);
 					b3.add(new FunctionScoreQuery(new TermQuery(new Term("abstract", word)),new MyDoubleValuesSource(1.2f)),Occur.SHOULD);
 					b3.add(new FunctionScoreQuery(new TermQuery(new Term("title", word)),new MyDoubleValuesSource(2.0f)),Occur.SHOULD);
 					b3.add(new FunctionScoreQuery(new WildcardQuery(new Term("applicant", "*"+word+"*")),new MyDoubleValuesSource(0.8f)),Occur.SHOULD);
 				}else if(applicantDetector.isPeopleApplicant(word)){
 					lock4=1;
+					System.out.println("是申请人人名的词： "+word);
 					b4.add(new TermQuery(new Term("applicant", word)),Occur.SHOULD);
 				}else {//对不是人名或专利号的词再分词
+					System.out.println("是都不是的词： "+word);
 					words2.addAll(AnalyzerToken.token(word,analyzer));
 				}
 			}
-			System.out.println(words2);
+			System.out.println("再次分词的全部的词： "+words2);
 			if(lock1==1) {
 				BooleanQuery build1=b1.build();
 				builder.add(build1, Occur.MUST);
@@ -340,7 +354,6 @@ public class SearchServiceImpl implements SearchService{
 			System.out.println("查询结束");
 	        System.out.println("查询结果的总数"+topDocs.totalHits);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-			System.out.println(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
 			int totalNum=Integer.parseInt(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
 			if(totalNum/pageSize+1==page)//最后一页不一定有pageSize个
 				end=totalNum%pageSize+start-1;
@@ -352,7 +365,6 @@ public class SearchServiceImpl implements SearchService{
 			
 			for (int i = start; i <= end; i++) {
 				Document doc = luceneIndex.doc(scoreDocs[i].doc);
-				System.out.println(scoreDocs[i].doc);
 				String titleContent=doc.get("abstract");
 				TokenStream tokenstream=analyzer.tokenStream(keyWords, new StringReader(titleContent));
 				try {
@@ -432,7 +444,7 @@ public class SearchServiceImpl implements SearchService{
 			s=wordHashMap.getNearWord(w);
 			wordMap.put(w,s);
 		}
-		System.out.println(wordMap);
+		System.out.println("查询获取的近义词： "+wordMap);
 		return wordMap;
 	}
 	

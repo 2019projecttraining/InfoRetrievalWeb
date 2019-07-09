@@ -22,6 +22,8 @@ import ir.luceneIndex.LuceneSearcher;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
 import ir.util.seg.SegmentAnalyzer;
+import ir.util.ssc_fix.Ssc_Similarity;
+import ir.util.ssc_fix.WrongWordAnalyzer;
 /**
  * web控制器
  * 
@@ -36,6 +38,12 @@ public class SearchController {
 	@Autowired
 	private SegmentAnalyzer segmentAnalyzer;
 	
+	public SearchController() {
+		super();
+		WrongWordAnalyzer.init();
+		Ssc_Similarity.init();
+	}
+
 //	@Autowired
 //	private PatentService patentService;
 	
@@ -137,10 +145,13 @@ public class SearchController {
 		PatentsForView result;
 		try {
 			long startTime=System.currentTimeMillis();
-			System.out.println("执行到这里");
+			System.out.println("------------");
+			System.out.println("进入搜索 keyWord="+keyWords);
+			System.out.println("------------");
 			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, 
 					typeCode, luceneIndex, analyzer);
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
+			System.out.println();
 		}catch (Exception e) {
 			// TODO: handle exception
 			return null;

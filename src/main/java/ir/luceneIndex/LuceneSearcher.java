@@ -47,6 +47,10 @@ public class LuceneSearcher{
 		
 		IndexSearcher tempIndex;
 		
+		System.out.println("------------");
+        System.out.println("加载索引文件");
+        System.out.println("------------");
+		
 		if(COARSE_GRAINED_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("粗粒度",COARSE_GRAINED_LUCENE_INDEX_FILE_PATH))!=null) 
 			temp.put(SearchAccuracy.ACCURATE, tempIndex);
 		
@@ -58,6 +62,8 @@ public class LuceneSearcher{
 		
 		if(DOUBLE_WORD_LUCENE_INDEX_FILE_PATH!=null&&(tempIndex=indexLoad("双字",DOUBLE_WORD_LUCENE_INDEX_FILE_PATH))!=null)
 			temp.put(SearchAccuracy.DOUBLE_WORD, tempIndex);
+		
+		System.out.println();
 		
 		indexes=Collections.unmodifiableMap(temp);
 	}

@@ -164,10 +164,15 @@ public class SegmentAnalyzer {
 		Analyzer singleWordAnalyzer=configSingleWordAnalyzer();
 		Analyzer doubleWordAnalyzer=configDoubleWordAnalyzer();
 		
+		
+		System.out.println("------------");
+        System.out.println("加载分词器配置文件");
+        System.out.println("------------");
 		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
 		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
 		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
 		AnalyzerToken.token("预先加载所有分词器的各种词典模型，所以先分一次词来加载", coarseGrainedAnaylzer);
+		System.out.println();
 		
 		Map<SearchAccuracy,Analyzer> tempMap=new HashMap<>();
 		

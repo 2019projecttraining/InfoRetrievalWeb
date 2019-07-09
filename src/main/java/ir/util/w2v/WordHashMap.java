@@ -55,7 +55,13 @@ public class WordHashMap {
 				m.put(s1[0], l);
 			}
 			bf.close();
+			
+			System.out.println("------------");
+	        System.out.println("加载近义词典");
+	        System.out.println("------------");
 			System.out.println("load nearestWords hashMap time " + (System.currentTimeMillis() - start));
+			System.out.println();
+			
 			return m;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
