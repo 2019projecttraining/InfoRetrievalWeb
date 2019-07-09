@@ -109,27 +109,35 @@ public class SearchServiceImpl implements SearchService{
         case A:
         	q4=new TermQuery(new Term("class", "A"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case B:
         	q4=new TermQuery(new Term("class", "B"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case C:
         	q4=new TermQuery(new Term("class", "C"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case D:
         	q4=new TermQuery(new Term("class", "D"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case E:
         	q4=new TermQuery(new Term("class", "E"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case F:
         	q4=new TermQuery(new Term("class", "F"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case G:
         	q4=new TermQuery(new Term("class", "G"));
         	builder.add(q4, Occur.MUST);
+        	break;
         case H:
         	q4=new TermQuery(new Term("class", "H"));
         	builder.add(q4, Occur.MUST);
+        	break;
         }
         
         //分词存放数据结构
