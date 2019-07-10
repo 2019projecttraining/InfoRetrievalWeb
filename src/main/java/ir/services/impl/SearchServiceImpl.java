@@ -41,6 +41,7 @@ import ir.enumDefine.FieldType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
 import ir.enumDefine.PatentTypeCode;
+import ir.enumDefine.SearchAccuracy;
 import ir.enumDefine.SortedType;
 import ir.models.Patent;
 import ir.models.PatentsForView;
@@ -83,7 +84,7 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public PatentsForView search(FieldType field , String keyWords, int page, FirstLetterOfNamePinyin letter, 
 			String timeFrom, String timeTo,IsGranted isGranted, SortedType sortedType,PatentTypeCode typeCode,
-			IndexSearcher luceneIndex ,Analyzer analyzer){
+			IndexSearcher luceneIndex ,Analyzer analyzer ,SearchAccuracy searchAccuracy){
 		
         BooleanQuery.Builder builder=new BooleanQuery.Builder();
 
@@ -169,7 +170,7 @@ public class SearchServiceImpl implements SearchService{
 			
 			System.out.println("空格分词结果： "+words);
 			
-			words=wordReplace(words,field);//替换错别字
+			words=wordReplace(words,field,searchAccuracy);//替换错别字
 			
 			System.out.println("替换错别字结果： "+words);
 			
@@ -242,7 +243,7 @@ public class SearchServiceImpl implements SearchService{
 			break;			
 		case TITLE:
 			words=AnalyzerToken.token(keyWords,analyzer);//分词
-			words=wordReplace(words,field);//替换错别字
+			words=wordReplace(words,field,searchAccuracy);//替换错别字
 			wordMap=getNearWordMap(words);//生成近义词
 
 			for(String word:words) {//在title中添加近义词查询
@@ -260,7 +261,7 @@ public class SearchServiceImpl implements SearchService{
 			break;
 		case ABSTRACT:
 			words=AnalyzerToken.token(keyWords,analyzer);//分词
-			words=wordReplace(words,field);//替换错别字
+			words=wordReplace(words,field,searchAccuracy);//替换错别字
 			wordMap=getNearWordMap(words);//生成近义词
 			
 			for(String word:words) {//在摘要中添加近义词查询
@@ -279,7 +280,7 @@ public class SearchServiceImpl implements SearchService{
 			
 		case APPLICANT://可查多个申请人（申请人之间是或的关系），因为多数申请人名较长，所以每个申请人使用通配符查询，申请人名不用输入全。
 			words=Arrays.asList(keyWords.split(" "));//分词
-			words=wordReplace(words,field);//替换错别字
+			words=wordReplace(words,field,searchAccuracy);//替换错别字
 			
 			BooleanQuery.Builder applicantBuilder=new BooleanQuery.Builder();
 			for(String word:words) {
@@ -293,7 +294,7 @@ public class SearchServiceImpl implements SearchService{
 			break;
 		case INVENTOR://可查多个发明人（发明人之间是或的关系），发明人名较短不用通配符查。
 			words=Arrays.asList(keyWords.split(" "));//分词
-			words=wordReplace(words,field);//替换错别字
+			words=wordReplace(words,field,searchAccuracy);//替换错别字
 
 			BooleanQuery.Builder inventorBuilder=new BooleanQuery.Builder();
 			for(String word:words) {
@@ -406,9 +407,17 @@ public class SearchServiceImpl implements SearchService{
 		}
 		return pv;
 	}
-	
-	private List<String> wordReplace(List<String> words,FieldType field){
-		//错别字替换
+	/**
+	 * 错别字替换,若searchAccuracy为二切分或单字不替换错别字。
+	 * @param words
+	 * @param field
+	 * @param searchAccuracy
+	 * @return
+	 */
+	private List<String> wordReplace(List<String> words,FieldType field,SearchAccuracy searchAccuracy){
+		if(searchAccuracy==SearchAccuracy.DOUBLE_WORD||searchAccuracy==SearchAccuracy.SINGLE_WORD)
+			return words;
+		
 		WrongWordAnalyzer wwAnalyzer=WrongWordAnalyzer.DEFAULT_WRONG_WORD_ANALYZER;
 		double wwThreshold=WrongWordAnalyzer.DEFAULT_THRESHOLD;
 		
@@ -435,9 +444,12 @@ public class SearchServiceImpl implements SearchService{
 		}
 		return wordsReplace;
 	}
-	
+	/**
+	 * 近义词查询，获取近义词hashmap
+	 * @param words
+	 * @return
+	 */
 	private Map<String,List<WordEntry>> getNearWordMap(List<String> words){
-		//近义词查询，获取近义词
 		Map<String,List<WordEntry>> wordMap=new LinkedHashMap<String,List<WordEntry>>();
 		for(String w:words) {
 			List<WordEntry> s=null;

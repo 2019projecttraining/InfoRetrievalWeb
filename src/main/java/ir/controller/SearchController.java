@@ -150,7 +150,7 @@ public class SearchController {
 			System.out.println("进入搜索 keyWord="+keyWords);
 			System.out.println("------------");
 			result=searchService.search(field,keyWords, page, letter, timeFrom, timeTo, isGranted, sortedType, 
-					typeCode, luceneIndex, analyzer);
+					typeCode, luceneIndex, analyzer ,searchAccuracy);
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
 			System.out.println();
 		}catch (Exception e) {

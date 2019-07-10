@@ -8,6 +8,7 @@ import ir.enumDefine.FieldType;
 import ir.enumDefine.FirstLetterOfNamePinyin;
 import ir.enumDefine.IsGranted;
 import ir.enumDefine.PatentTypeCode;
+import ir.enumDefine.SearchAccuracy;
 import ir.enumDefine.SortedType;
 import ir.models.PatentsForView;
 
@@ -15,6 +16,6 @@ import ir.models.PatentsForView;
 public interface SearchService {
 
 	public PatentsForView search(FieldType field ,String keyWords,int page,FirstLetterOfNamePinyin letter,String timeFrom,//PatentsForView
-			String timeTo,IsGranted isGranted,SortedType sortedType,PatentTypeCode typeCode,IndexSearcher luceneIndex,Analyzer analyzer);
+			String timeTo,IsGranted isGranted,SortedType sortedType,PatentTypeCode typeCode,IndexSearcher luceneIndex,Analyzer analyzer,SearchAccuracy searchAccuracy);
 	
 }
