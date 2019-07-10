@@ -21,6 +21,7 @@ import ir.enumDefine.SortedType;
 import ir.luceneIndex.LuceneSearcher;
 import ir.models.PatentsForView;
 import ir.services.SearchService;
+import ir.util.DateUtil;
 import ir.util.seg.SegmentAnalyzer;
 import ir.util.ssc_fix.Ssc_Similarity;
 import ir.util.ssc_fix.WrongWordAnalyzer;
@@ -172,10 +173,10 @@ public class SearchController {
 		modelAndView.addObject("search_accurancy",searchAccuracy);
 		modelAndView.addObject("typeCode",typeCode);
 		
-		modelAndView.addObject("year_back_3",timeBackPush(3));
-		modelAndView.addObject("year_back_5",timeBackPush(5));
-		modelAndView.addObject("year_back_10",timeBackPush(10));
-		modelAndView.addObject("year_now",timeBackPush(0));
+		modelAndView.addObject("year_back_3",DateUtil.timeBackPush(3));
+		modelAndView.addObject("year_back_5",DateUtil.timeBackPush(5));
+		modelAndView.addObject("year_back_10",DateUtil.timeBackPush(10));
+		modelAndView.addObject("year_now",DateUtil.timeBackPush(0));
 		
 //		modelAndView.addObject("patent_type_code", new PatentTypeCode[] {PatentTypeCode.A,PatentTypeCode.B,PatentTypeCode.C,
 //				PatentTypeCode.D,PatentTypeCode.E,PatentTypeCode.F,PatentTypeCode.G,PatentTypeCode.H});
@@ -183,10 +184,4 @@ public class SearchController {
 		return modelAndView;
 	}
 	
-	public final static long YEAR_TIME=365l*24*60*60*1000;
-	
-	public static String timeBackPush(int yearBackPush) {
-		SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
-		return sdf.format(new Date(System.currentTimeMillis()-yearBackPush*YEAR_TIME));
-	}
 }

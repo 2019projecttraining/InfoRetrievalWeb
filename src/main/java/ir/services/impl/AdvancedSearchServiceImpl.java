@@ -18,6 +18,8 @@ import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.springframework.stereotype.Service;
 
+import ir.enumDefine.IsGranted;
+import ir.enumDefine.PatentTypeCode;
 import ir.models.BoolExpression;
 import ir.models.Patent;
 import ir.models.PatentsForView;
@@ -30,7 +32,7 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService{
 	private static final int pageSize=10;
 	@Override
 	public PatentsForView search(BoolExpression[] expressions, int page, String timeFrom, String timeTo,
-			IndexSearcher luceneIndex,Analyzer analyzer) {
+			IsGranted isGranted,PatentTypeCode typeCode,IndexSearcher luceneIndex,Analyzer analyzer) {
 		BooleanQuery.Builder builder=new BooleanQuery.Builder();
 		
 		Query q=null;//日期范围处理成query
@@ -44,6 +46,55 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService{
         	q=TermRangeQuery.newStringRange("filing_date", timeFrom , timeTo , true, true);//日期范围查询
             builder.add(q, Occur.MUST);
         }
+        
+        Query q1=null;//是否授权
+        if(isGranted==IsGranted.GRANTED) { 
+        	q1=new TermQuery(new Term("grant_status", "1"));
+        	builder.add(q1, Occur.MUST);
+        }
+        else if(isGranted==IsGranted.NOT_GRANTED){
+        	q1=new TermQuery(new Term("grant_status", "0"));//未通过专利查询
+        	builder.add(q1, Occur.MUST);
+        }
+        
+        Query q2=null;//类别限定查询
+        switch(typeCode) {
+        case ALL:
+        	break;
+        case A:
+        	q2=new TermQuery(new Term("class", "A"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case B:
+        	q2=new TermQuery(new Term("class", "B"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case C:
+        	q2=new TermQuery(new Term("class", "C"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case D:
+        	q2=new TermQuery(new Term("class", "D"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case E:
+        	q2=new TermQuery(new Term("class", "E"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case F:
+        	q2=new TermQuery(new Term("class", "F"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case G:
+        	q2=new TermQuery(new Term("class", "G"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        case H:
+        	q2=new TermQuery(new Term("class", "H"));
+        	builder.add(q2, Occur.MUST);
+        	break;
+        }
+        
         //多个与或非表达式处理成query
 		for(int i=0;i<expressions.length;i++) {
 			BooleanQuery.Builder b=new BooleanQuery.Builder();//每行一个Booleanquery

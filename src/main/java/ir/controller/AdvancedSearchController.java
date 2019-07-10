@@ -13,11 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ir.enumDefine.BoolOptionSymbol;
 import ir.enumDefine.FieldType;
+import ir.enumDefine.IsGranted;
+import ir.enumDefine.PatentTypeCode;
 import ir.enumDefine.SearchAccuracy;
 import ir.luceneIndex.LuceneSearcher;
 import ir.models.BoolExpression;
 import ir.models.PatentsForView;
 import ir.services.AdvancedSearchService;
+import ir.util.DateUtil;
 import ir.util.seg.SegmentAnalyzer;
 
 import com.google.gson.Gson;
@@ -40,7 +43,9 @@ public class AdvancedSearchController {
 	public ModelAndView advancedSearch(@RequestParam(value="expressions",required=true)String expression,
 			@RequestParam(defaultValue="1",required=false) int page,//页码
 			@RequestParam(value="time_from",defaultValue="NO_LIMIT",required=false) String timeFrom,//起始时间
-			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo) {
+			@RequestParam(value="time_to",defaultValue="NO_LIMIT",required=false) String timeTo,
+			@RequestParam(value="is_granted",defaultValue="NO_LIMIT",required=false) String isGrantedString,
+			@RequestParam(value="type_code",defaultValue="ALL",required=false) String typeCodeString) {
 		
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
@@ -64,15 +69,32 @@ public class AdvancedSearchController {
 		}
 		FieldType field;
 		BoolOptionSymbol symbol;
+		PatentTypeCode typeCode;
+		IsGranted isGranted;
 		for(int i=0;i<expressions.length;i++) {
 			try {
 				field=FieldType.valueOf(expressions[i].field);
 				symbol=BoolOptionSymbol.valueOf(expressions[i].symbol);
+				expressions[i].keyWords=expressions[i].keyWords.toLowerCase();
 			}catch (Exception e) {
 				// TODO: to error page
 				return null;
 			}
 			
+		}
+		try {
+			isGranted=IsGranted.valueOf(isGrantedString);
+		}catch (Exception e) {
+			// TODO: to error page
+			e.printStackTrace();
+			return null;
+		}
+		try {
+			typeCode=PatentTypeCode.valueOf(typeCodeString);
+		}catch (Exception e) {
+			// TODO: to error page
+			e.printStackTrace();
+			return null;
 		}
 		
 		IndexSearcher luceneIndex = LuceneSearcher.indexes.get(SearchAccuracy.FUZZY);
@@ -85,7 +107,7 @@ public class AdvancedSearchController {
 		PatentsForView result;
 		try {
 			long startTime=System.currentTimeMillis();
-			result=advancedSearchService.search(expressions,page,timeFrom,timeTo, luceneIndex, analyzer);
+			result=advancedSearchService.search(expressions,page,timeFrom,timeTo, isGranted, typeCode, luceneIndex, analyzer);
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -100,6 +122,11 @@ public class AdvancedSearchController {
 		modelAndView.addObject("time_from", timeFrom);
 		modelAndView.addObject("time_to", timeTo);
 		modelAndView.addObject("number",result.getHitsNum());
+		
+		modelAndView.addObject("year_back_3",DateUtil.timeBackPush(3));
+		modelAndView.addObject("year_back_5",DateUtil.timeBackPush(5));
+		modelAndView.addObject("year_back_10",DateUtil.timeBackPush(10));
+		modelAndView.addObject("year_now",DateUtil.timeBackPush(0));
 		
 		return modelAndView;
 	}
