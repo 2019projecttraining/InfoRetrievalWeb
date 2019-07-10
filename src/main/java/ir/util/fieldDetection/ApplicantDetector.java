@@ -16,6 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicantDetector {
 	
+	public ApplicantDetector() {
+		super();
+		System.out.println("------------");
+        System.out.println("加载多域查询申请人探测模块依赖文件");
+        System.out.println("------------");
+	}
+
 	private final static Detector detectorForPeople=new Detector("inventor","field-detection-applicant-people-name-dict");
 	
 	private final static Detector detectorForCompany=new Detector("inventor","field-detection-applicant-company-name-dict");

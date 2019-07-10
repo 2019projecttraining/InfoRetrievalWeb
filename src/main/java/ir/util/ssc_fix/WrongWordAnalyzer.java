@@ -171,6 +171,9 @@ public class WrongWordAnalyzer {
 				
 				Map<String,Integer> dict=wordMapInField.get(len);
 				
+				if(dict==null)
+					continue;
+				
 				for(String dictWord:dict.keySet()) {
 					if(dictWord.equals(word)&&dict.get(dictWord)>1)
 						collector.put(dictWord,10.0);
