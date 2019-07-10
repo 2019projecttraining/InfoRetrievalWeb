@@ -247,18 +247,18 @@
 
 
 		<ul class="am-pagination">
-			<li class="am-pagination-prev"><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}-1,time_from=${time_from},time_to=${time_to})}">&laquo; Prev</a></li>
+			<li class="am-pagination-prev"><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}-1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">&laquo; Prev</a></li>
 			<li class="am-active"><a th:text="${page}" href="#"></a></li>
-			<li><a th:text="${page}+1" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+2" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+2,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+3" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+3,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+4" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+4,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+5" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+5,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+6" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+6,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+7" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+7,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+8" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+8,time_from=${time_from},time_to=${time_to})}"></a></li>
-			<li><a th:text="${page}+9" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+9,time_from=${time_from},time_to=${time_to})}">&raquo;</a></li>
-			<li class="am-pagination-next"><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to})}">Next &raquo;</a></li>
+			<li><a th:text="${page}+1" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+2" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+2,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+3" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+3,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+4" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+4,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+5" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+5,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+6" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+6,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+7" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+7,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+8" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+8,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
+			<li><a th:text="${page}+9" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+9,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">&raquo;</a></li>
+			<li class="am-pagination-next"><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">Next &raquo;</a></li>
 		</ul>
 	</div>
 
@@ -285,9 +285,9 @@
 		<div class="blog-sidebar-widget blog-bor">
 			<h2 class="blog-title"><span>时间</span></h2>
 			<ul class="am-list" style="text-align:left;">
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_3},time_to=${year_now},is_granted=${is_granted},type_code=${typecode})}">最近三年</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_5},time_to=${year_now},is_granted=${is_granted},type_code=${typecode})}">最近五年</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_10},time_to=${year_now},is_granted=${is_granted},type_code=${typecode})}">最近十年</a></li>
+				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_3},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近三年</a></li>
+				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_5},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近五年</a></li>
+				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_10},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近十年</a></li>
 			</ul>
 		</div>
 	</div>
@@ -297,8 +297,8 @@
 		<div class="blog-sidebar-widget blog-bor">
 			<h2 class="blog-title"><span>授权状态</span></h2>
 			<ul class="" style="text-align:left;">
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='GRANTED',type_code=${typecode})}">已授权</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='NOT_GRANTED',type_code=${typecode})}">未授权</a></li>
+				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='GRANTED',type_code=${typeCode})}">已授权</a></li>
+				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='NOT_GRANTED',type_code=${typeCode})}">未授权</a></li>
 			</ul>
 		</div>
 	</div>
