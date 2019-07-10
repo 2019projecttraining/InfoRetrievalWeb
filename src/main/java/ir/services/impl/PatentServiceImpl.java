@@ -9,13 +9,11 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ir.enumDefine.SearchAccuracy;
 import ir.luceneIndex.LuceneSearcher;
 import ir.models.Patent;
-import ir.repositories.PatentRepositoty;
 import ir.services.PatentService;
 
 /**

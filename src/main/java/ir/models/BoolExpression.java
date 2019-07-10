@@ -1,8 +1,5 @@
 package ir.models;
 
-import ir.enumDefine.BoolOptionSymbol;
-import ir.enumDefine.FieldType;
-
 /**
  *此类用来表示一行高级搜索框的值，包括关键词、域值、布尔运算符
  * @author 杨涛

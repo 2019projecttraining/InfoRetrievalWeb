@@ -103,19 +103,19 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService{
 			for(String w:words) {//每个查询语句需分词处理，每个语句中的词得是或关系
 				switch(expressions[i].field) {
 				case "TITLE":
-					b.add(new TermQuery(new Term("title", w)),Occur.SHOULD);
+					b.add(new TermQuery(new Term("title", w)),Occur.MUST);
 					break;
 				case "ABSTRACT":
-					b.add(new TermQuery(new Term("abstract", w)),Occur.SHOULD);
+					b.add(new TermQuery(new Term("abstract", w)),Occur.MUST);
 					break;
 				case "APPLICANT":
-					b.add(new WildcardQuery(new Term("applicant", "*"+w+"*")),Occur.SHOULD);
+					b.add(new WildcardQuery(new Term("applicant", "*"+w+"*")),Occur.MUST);
 					break;
 				case "INVENTOR":
-					b.add(new TermQuery(new Term("inventor", w)),Occur.SHOULD);
+					b.add(new TermQuery(new Term("inventor", w)),Occur.MUST);
 					break;
 				case "ADDRESS":
-					b.add(new WildcardQuery(new Term("address", "*"+w+"*")),Occur.SHOULD);
+					b.add(new WildcardQuery(new Term("address", "*"+w+"*")),Occur.MUST);
 					break;
 				}
 			}
@@ -143,6 +143,14 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService{
 			System.out.println("查询结束，"+"查询结果的总数"+topDocs.totalHits);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 			System.out.println(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
+			
+			if(scoreDocs.length<start) {//越界处理
+				page=(scoreDocs.length-1)/pageSize+1;
+				start = (page - 1) * pageSize;
+				end = start + pageSize-1;
+				pv.setPageWhenOutBound(page);
+			}
+			
 			int totalNum=Integer.parseInt(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
 			if(totalNum/pageSize+1==page)//最后一页不一定有pageSize个
 				end=totalNum%pageSize+start-1;

@@ -355,6 +355,14 @@ public class SearchServiceImpl implements SearchService{
 			System.out.println("查询结束");
 	        System.out.println("查询结果的总数"+topDocs.totalHits);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
+			
+			if(scoreDocs.length<start) {//越界处理
+				page=(scoreDocs.length-1)/pageSize+1;
+				start = (page - 1) * pageSize;
+				end = start + pageSize-1;
+				pv.setPageWhenOutBound(page);
+			}
+			
 			int totalNum=Integer.parseInt(topDocs.totalHits.toString().replaceAll(" hits", "").replaceAll("\\+", ""));
 			if(totalNum/pageSize+1==page)//最后一页不一定有pageSize个
 				end=totalNum%pageSize+start-1;
@@ -510,7 +518,7 @@ public class SearchServiceImpl implements SearchService{
 
 		DoubleValues in;
 		double missingValue;
-		boolean hasValue=false;
+		//boolean hasValue=false;
 		
 		public MyDoubleValues(DoubleValues in,double missingValue) {
 			this.in=in;
@@ -525,7 +533,7 @@ public class SearchServiceImpl implements SearchService{
 
 		@Override
 		public boolean advanceExact(int doc) throws IOException {
-			hasValue = in.advanceExact(doc);
+			//hasValue = in.advanceExact(doc);
 	        return true;
 		}
 		

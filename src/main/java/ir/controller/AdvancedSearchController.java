@@ -63,44 +63,37 @@ public class AdvancedSearchController {
 			timeFrom=timeFrom.replace('-', '.');
 			timeTo=timeTo.replace('-', '.');
 		}catch (Exception e) {
-			// TODO: to error page
-			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("");
 		}
-		FieldType field;
-		BoolOptionSymbol symbol;
 		PatentTypeCode typeCode;
 		IsGranted isGranted;
 		for(int i=0;i<expressions.length;i++) {
 			try {
-				field=FieldType.valueOf(expressions[i].field);
-				symbol=BoolOptionSymbol.valueOf(expressions[i].symbol);
+				FieldType.valueOf(expressions[i].field);
+				BoolOptionSymbol.valueOf(expressions[i].symbol);
 				expressions[i].keyWords=expressions[i].keyWords.toLowerCase();
 			}catch (Exception e) {
-				// TODO: to error page
-				return null;
+				e.printStackTrace();
+				return Error.getErrorPage("高级搜索输入错误");
 			}
 			
 		}
 		try {
 			isGranted=IsGranted.valueOf(isGrantedString);
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("授权条件输入错误");
 		}
 		try {
 			typeCode=PatentTypeCode.valueOf(typeCodeString);
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("类别号输入错误");
 		}
 		
 		IndexSearcher luceneIndex = LuceneSearcher.indexes.get(SearchAccuracy.FUZZY);
 		if(luceneIndex==null) {
-			// TODO: to error page
-			return null;
+			return Error.getErrorPage("该粒度的索引未加载");
 		}
 		Analyzer analyzer = segmentAnalyzer.getAnalyzer(SearchAccuracy.FUZZY);
 		
@@ -110,15 +103,20 @@ public class AdvancedSearchController {
 			result=advancedSearchService.search(expressions,page,timeFrom,timeTo, isGranted, typeCode, luceneIndex, analyzer);
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
 		}catch (Exception e) {
-			// TODO: handle exception
-			return null;
+			e.printStackTrace();
+			return Error.getErrorPage("搜索错误");
 		}
 		
 		ModelAndView modelAndView=new ModelAndView();
 		modelAndView.setViewName("show2");//设置模板名称
 		modelAndView.addObject("patentsForView", result);//加入返回的结果
 		modelAndView.addObject("expression",expression);
-		modelAndView.addObject("page", page);
+
+		if(result.getPageWhenOutBound()==-1)
+			modelAndView.addObject("page", page);
+		else 
+			modelAndView.addObject("page", result.getPageWhenOutBound());
+		
 		modelAndView.addObject("time_from", timeFrom);
 		modelAndView.addObject("time_to", timeTo);
 		modelAndView.addObject("number",result.getHitsNum());

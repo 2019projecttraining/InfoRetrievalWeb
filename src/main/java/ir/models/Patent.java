@@ -8,8 +8,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import lombok.Data;
 /**
  * 专利实体映射类
  * @author 杨涛

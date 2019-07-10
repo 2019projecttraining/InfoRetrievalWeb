@@ -1,8 +1,5 @@
 package ir.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,63 +78,57 @@ public class SearchController {
 		try {
 			field=FieldType.valueOf(fieldString);
 		}catch (Exception e) {
-			// TODO: to error page
-			return null;
+			e.printStackTrace();
+			return Error.getErrorPage("文件域条件输入错误");
 		}
 		
 		try {
 			letter=FirstLetterOfNamePinyin.valueOf(firstLetterOfNamePinyin);
 		}catch (Exception e) {
-			// TODO: to error page
-			return null;
+			e.printStackTrace();
+			return Error.getErrorPage("拼音首字母条件输入错误");
 		}	
 		
 		try {
 			timeFrom=timeFrom.replace('-', '.');
 			timeTo=timeTo.replace('-', '.');
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("时间输入错误");
 		}
 		
 		try {
 			isGranted=IsGranted.valueOf(isGrantedString);
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("授权条件输入错误");
 		}
 		
 		try {
 			sortedType=SortedType.valueOf(sortedTypeString);
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("排序类别输入错误");
 		}
 		
 		try {
 			searchAccuracy=SearchAccuracy.valueOf(searchAccurancy);
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("搜索索引粒度输入错误");
 		}
 		
 		try {
 			typeCode=PatentTypeCode.valueOf(typeCodeString);
 		}catch (Exception e) {
-			// TODO: to error page
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("类别号输入错误");
 		}
 		
 		IndexSearcher luceneIndex = LuceneSearcher.indexes.get(searchAccuracy);
 		
 		if(luceneIndex==null) {
-			// TODO: to error page
-			return null;
+			return Error.getErrorPage("该粒度索引未加载错误");
 		}
 		
 		Analyzer analyzer = segmentAnalyzer.getAnalyzer(searchAccuracy);
@@ -154,15 +145,19 @@ public class SearchController {
 			System.out.println("搜索总共花费时间"+(System.currentTimeMillis()-startTime)+"ms");
 			System.out.println();
 		}catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			return null;
+			return Error.getErrorPage("搜索错误");
 		}
 		
 		ModelAndView modelAndView=new ModelAndView();
 		modelAndView.setViewName("show");//设置模板名称
 		modelAndView.addObject("patentsForView", result);//加入返回的结果
-		modelAndView.addObject("page", page);
+		
+		if(result.getPageWhenOutBound()==-1)
+			modelAndView.addObject("page", page);
+		else 
+			modelAndView.addObject("page", result.getPageWhenOutBound());
+		
 		modelAndView.addObject("pinyin", firstLetterOfNamePinyin);
 		modelAndView.addObject("time_from", timeFrom);
 		modelAndView.addObject("time_to", timeTo);
@@ -178,9 +173,6 @@ public class SearchController {
 		modelAndView.addObject("year_back_5",DateUtil.timeBackPush(5));
 		modelAndView.addObject("year_back_10",DateUtil.timeBackPush(10));
 		modelAndView.addObject("year_now",DateUtil.timeBackPush(0));
-		
-//		modelAndView.addObject("patent_type_code", new PatentTypeCode[] {PatentTypeCode.A,PatentTypeCode.B,PatentTypeCode.C,
-//				PatentTypeCode.D,PatentTypeCode.E,PatentTypeCode.F,PatentTypeCode.G,PatentTypeCode.H});
 		
 		return modelAndView;
 	}

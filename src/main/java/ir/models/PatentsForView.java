@@ -15,6 +15,8 @@ public class PatentsForView {
 	private String hitsNum;
 	
 	private List<String> recommendWord;
+	
+	private int pageWhenOutBound=-1;
 
 	public String getHitsNum() {
 		return hitsNum;
@@ -37,6 +39,14 @@ public class PatentsForView {
 
 	public void setRecommendWord(List<String> recommendWord) {
 		this.recommendWord = recommendWord;
+	}
+
+	public int getPageWhenOutBound() {
+		return pageWhenOutBound;
+	}
+
+	public void setPageWhenOutBound(int pageWhenOutBound) {
+		this.pageWhenOutBound = pageWhenOutBound;
 	}
 
 }
