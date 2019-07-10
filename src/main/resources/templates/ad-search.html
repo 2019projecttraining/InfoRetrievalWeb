@@ -34,23 +34,26 @@ written by coppelia from CCID SDU.
 
 <body id="blog">
 
-
+<!--网页标题头部-->
 <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
     <!--div style="width: 100%">
         <img src="../static/i/sdu.jpg" alt="" class="am-img-sdu">
     </div>
     <br-->
+    <!--搜索引擎png-->
     <div style="text-align:left">
         <img src="../static/i/head.png" alt="" class="am-img-sdu">
     </div>
 
+    <!--搜索框-->
     <div class=" am-u-lg-12 am-u-md-7 am-u-sm-8 am-u-sm-centered">
         <!--img width="200" src="http://s.amazeui.org/media/i/brand/amazeui-b.png" alt="Amaze UI Logo"/-->
 
         <div class="am-radius">
 
             <br>
-            <div style="display:block" >
+            <!--搜索工具啦左侧下拉框-->
+            <div style="display:block">
                 <select id="wordCutGrade" name="search_accurancy" class="am-input-bar2">
                     <option value="FUZZY">模糊</option>
                     <option value="ACCURATE">精确</option>
@@ -68,29 +71,33 @@ written by coppelia from CCID SDU.
                     }
 
                 </script-->
-
-                <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
-                <button type="button" onclick="allsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
+                <!--搜索输入框-->
+                <input id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)"
+                       placeholder="请输入需要搜索的专利关键词" required/>
+                <!--搜索按钮-->
+                <button type="button" onclick="allsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索
+                </button>
             </div>
         </div>
     </div>
 </header>
+<!--高级工具栏-->
 <hr>
 <nav class="am-g am-g-fixed blog-fixed blog-nav">
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-
-
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button"
+            data-am-collapse="{target: '#blog-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+    <!--这个部分的button标签是用来存储下方li标签无法存储的value信息，可以修改成其他用于存储value信息的标签-->
     <button id="comprehensive" value="COMPREHENSIVENESS" style="display:none"></button>
     <button id="limit" value="NO_LIMIT" class="am-dropdown" style="display:none"></button>
     <button id="FirstLetter" value="NO_LIMIT" style="display:none"></button>
     <button id="zone" value="ALL" style="display:none"></button>
 
 
-
-
+    <!--高级搜索条件筛选-->
     <div class="am-collapse am-topbar-collapse" id="blog-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav">
-
+            <!--综合查询条件狂-->
             <!--li  class="am-dropdown" data-am-dropdown>
 
                 <a id="comprehensive1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;" >
@@ -103,15 +110,16 @@ written by coppelia from CCID SDU.
                     <li onclick="display(this.innerHTML,this.value)" value="2"><a href="#">权威优先</a></li>
                 </ul>
             </li-->
-
+            <!--综合查询sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('comHtml') != null) {
-                    document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                if (sessionStorage.getItem('comHtml') != null) {
+                    document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("comprehensive").value = sessionStorage.getItem('comValue');
                 }
             </script>
 
-            <li  class="am-dropdown" data-am-dropdown>
+            <!--授权限制条件筛选栏-->
+            <li class="am-dropdown" data-am-dropdown>
 
                 <a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/autho.png" style="width:18px;height:18px;"/>
@@ -124,17 +132,17 @@ written by coppelia from CCID SDU.
                 </ul>
             </li>
 
-
+            <!--授权限制sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('limHtml') != null) {
-                    document.getElementById("limit1").innerHTML ="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
-                        "                    &nbsp;"+ sessionStorage.getItem('limHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                if (sessionStorage.getItem('limHtml') != null) {
+                    document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
+                        "                    &nbsp;" + sessionStorage.getItem('limHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("limit").value = sessionStorage.getItem('limValue');
                 }
             </script>
 
-
-            <li  class="am-dropdown" data-am-dropdown>
+            <!--姓名首字母条件筛选栏-->
+            <li class="am-dropdown" data-am-dropdown>
                 <a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/letter.png" style="width:18px;height:21px;"/>
                     &nbsp;姓名首字母 <span class="am-icon-caret-down"></span>
@@ -169,19 +177,20 @@ written by coppelia from CCID SDU.
                     <li onclick="display3(this.innerHTML,this.value)" value="26"><a href="#">Z</a></li>
 
 
-
                 </ul>
             </li>
 
+            <!--姓名首字母sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('letHtml') != null) {
-                    document.getElementById("FirstLetter1").innerHTML ="<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
-                        "                    &nbsp;"+ sessionStorage.getItem('letHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                if (sessionStorage.getItem('letHtml') != null) {
+                    document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
+                        "                    &nbsp;" + sessionStorage.getItem('letHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("FirstLetter").value = sessionStorage.getItem('letValue');
                 }
             </script>
 
-            <li  class="am-dropdown" data-am-dropdown>
+            <!--多域限制条件筛选栏-->
+            <li class="am-dropdown" data-am-dropdown>
                 <a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/zone.png" style="width:23px;height:18px;"/>
                     &nbsp;多域 <span class="am-icon-caret-down"></span>
@@ -197,26 +206,29 @@ written by coppelia from CCID SDU.
                 </ul>
             </li>
 
+            <!--多域限制sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('zoneHtml') != null) {
-                    document.getElementById("zone1").innerHTML ="<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>&nbsp;"+ sessionStorage.getItem('zoneHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                if (sessionStorage.getItem('zoneHtml') != null) {
+                    document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>&nbsp;" + sessionStorage.getItem('zoneHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("zone").value = sessionStorage.getItem('zoneValue');
                 }
             </script>
 
+            <!--开始结束日期条件筛选栏-->
             <li class="am-dropdown" data-am-dropdown>
                 <a id="date1">
-                    <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期"  data-am-datepicker readonly required /> <span class="am-icon-caret-down"></span>
+                    <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期" data-am-datepicker
+                           readonly required/> <span class="am-icon-caret-down"></span>
                 </a>
             </li>
             <li class="am-date2">到</li>
             <li class="am-dropdown" data-am-dropdown>
                 <a id="date2">
-                    <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期"  data-am-datepicker readonly required /><span class="am-icon-caret-down"></span>
+                    <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期" data-am-datepicker
+                           readonly required/><span class="am-icon-caret-down"></span>
                 </a>
             </li>
         </ul>
-
 
 
         <!--form class="am-topbar-form am-topbar-right am-form-inline" role="search">
@@ -228,17 +240,23 @@ written by coppelia from CCID SDU.
 </nav>
 <hr>
 
+<!--高级搜索页面信息标签-->
 <div class="am-g am-g-fixed blog-fixed">
     <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">高级搜索选项</strong> / <small>设置与或非进阶搜索条件</small></div>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">高级搜索选项</strong> /
+            <small>设置与或非进阶搜索条件</small>
+        </div>
     </div>
     <hr>
 
+    <!--新增高级筛选条件的button-->
     <div class="am-g">
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs" style="margin-top:10px;margin-bottom:8px">
-                    <button type="button" class="am-btn am-btn-default" onclick="insertrow()"><span class="am-icon-plus"></span> 新增</button>
+                    <button type="button" class="am-btn am-btn-default" onclick="insertrow()"><span
+                            class="am-icon-plus"></span> 新增
+                    </button>
                     <!--button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>
                     <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
                     <button-- type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button-->
@@ -268,6 +286,7 @@ written by coppelia from CCID SDU.
         </div-->
     </div>
 
+    <!--高级筛选兰的主要table-->
     <div class="am-g">
         <div class="am-u-sm-12">
             <form class="am-form">
@@ -283,7 +302,7 @@ written by coppelia from CCID SDU.
                     </tr>
                     </thead>
                     <tbody id="tbodyid">
-                    <tr >
+                    <tr>
                         <td>
                             <select id="yu" name="search_accurancy" class="am-input-bar2 am-input-search2">
                                 <option value="AND">与</option>
@@ -292,7 +311,8 @@ written by coppelia from CCID SDU.
                             </select>
                         </td>
                         <td>
-                            <input  id="key" class="am-radius  am-input-search am-input-search-box" placeholder="请输入查询字段" />
+                            <input id="key" class="am-radius  am-input-search am-input-search-box"
+                                   placeholder="请输入查询字段"/>
                         </td>
                         <td>
                             <select id="doc-field" class="am-input-bar2">
@@ -322,8 +342,12 @@ written by coppelia from CCID SDU.
                 <script>
 
                 </script>
-                <hr />
-                <p><button type="button" onclick="boolsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button></p>
+                <hr/>
+                <p>
+                    <button type="button" onclick="boolsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">
+                        搜索
+                    </button>
+                </p>
             </form>
         </div>
 
@@ -331,13 +355,12 @@ written by coppelia from CCID SDU.
 </div>
 
 
-
-
+<!--注脚的版权信息-->
 <footer class="blog-footer">
     <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
         <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
             <h3>专利搜索项目简介</h3>
-            <p  >
+            <p>
                 <br>
                 认知计算创新实验室专注于<br>
                 认知机器人关键技术研究与实现，<br>
@@ -376,20 +399,21 @@ written by coppelia from CCID SDU.
         </div>
     </div>
     <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under
-        Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.</div>
+        Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.
+    </div>
 </footer>
 
 
-
+<!--功能脚本-->
 <script>
 
-    function insertrow(){
+    function insertrow() {
         table = document.getElementById("tb");
         row = table.insertRow(table.rows.length);
-        row.insertCell(row.cells.length).innerHTML = "<select id=\"yu\" name=\"search_accurancy\" class=\"am-input-bar2 am-input-search2\">"+
-            "<option value=\"AND\">与</option>"+
-            "<option value=\"OR\">或</option>"+
-            " <option value=\"NOT\">非</option>"+
+        row.insertCell(row.cells.length).innerHTML = "<select id=\"yu\" name=\"search_accurancy\" class=\"am-input-bar2 am-input-search2\">" +
+            "<option value=\"AND\">与</option>" +
+            "<option value=\"OR\">或</option>" +
+            " <option value=\"NOT\">非</option>" +
             "</select>";
         row.insertCell(row.cells.length).innerHTML = "<input  id=\"bar\" class=\"am-radius  am-input-search am-input-search-box\" placeholder=\"请输入查询字段\" />";
         row.insertCell(row.cells.length).innerHTML = "<select id=\"doc-field\" name=\"doc-field\" class=\"am-input-bar2\">\n" +
@@ -407,15 +431,15 @@ written by coppelia from CCID SDU.
             "                                    <span class=\"am-icon-trash-o\"></span> 删除</button>\n" +
             "                                </div>\n" +
             "                            </div>"
-        sessionStorage.setItem("table",document.getElementById("tb"));
+        sessionStorage.setItem("table", document.getElementById("tb"));
     }
 
-    function deleterow(obj)
-    {
+    function deleterow(obj) {
         tr1 = obj.parentNode("tr");
         par = tr1.parentNode("table");
         par.removeChild("tr1");
     }
+
     var searchBar = document.getElementById("search-bar");
     // 检测是否存在 autosave 键值
     // (这个会在页面偶然被刷新的情况下存在)
@@ -425,219 +449,220 @@ written by coppelia from CCID SDU.
 
     }
     // 监听文本输入框的 change 事件
-    searchBar.addEventListener("change", function() {
+    searchBar.addEventListener("change", function () {
         // 保存结果到 sessionStorage 对象中
         sessionStorage.setItem("autosave", searchBar.value);
     });
 
 
+    function display(innerHtml, value) {
 
-
-    function display(innerHtml,value){
-
-        console.log("display1修改前value值"+document.getElementById("comprehensive").value);
-        console.log("元素value"+this.value);
-        document.getElementById("comprehensive1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-        if(value === 0){
-            document.getElementById("comprehensive").value="COMPREHENSIVENESS";
-            sessionStorage.setItem('comValue','COMPREHENSIVENESS');
+        console.log("display1修改前value值" + document.getElementById("comprehensive").value);
+        console.log("元素value" + this.value);
+        document.getElementById("comprehensive1").innerHTML = innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("comprehensive").value = "COMPREHENSIVENESS";
+            sessionStorage.setItem('comValue', 'COMPREHENSIVENESS');
         }
-        if(value === 1){
-            document.getElementById("comprehensive").value="RELEVANCE";
-            sessionStorage.setItem('comValue','RELEVANCE');
+        if (value === 1) {
+            document.getElementById("comprehensive").value = "RELEVANCE";
+            sessionStorage.setItem('comValue', 'RELEVANCE');
         }
-        if(value === 2){
-            document.getElementById("comprehensive").value="PROSPECTIVENESS";
-            sessionStorage.setItem('comValue','PROSPECTIVENESS');
+        if (value === 2) {
+            document.getElementById("comprehensive").value = "PROSPECTIVENESS";
+            sessionStorage.setItem('comValue', 'PROSPECTIVENESS');
         }
 
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("comprehensive").value);
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("comprehensive").value);
 
 
-        sessionStorage.setItem('comHtml',innerHtml);
+        sessionStorage.setItem('comHtml', innerHtml);
         <!--测试代码-->
         //console.log(sessionStorage.getItem('comHtml')+"display方法显示")
         //document.getElementById("c1").style.display = none;
     }
-    function display2(innerHtml,value){
-        document.getElementById("limit1").innerHTML="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" +innerHtml+" <span class=\"am-icon-caret-down\"></span>";
 
-        if(value === 0){
-            document.getElementById("limit").value="NO_LIMIT";
-            sessionStorage.setItem('limValue','NO_LIMIT');
-        }
-        if(value === 1){
-            document.getElementById("limit").value="GRANTED";
-            sessionStorage.setItem('limValue','GRANTED');
-        }
-        if(value === 2){
-            document.getElementById("limit").value="NOT_GRANTED";
-            sessionStorage.setItem('limValue','NOT_GRANTED');
-        }
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("limit").value);
+    function display2(innerHtml, value) {
+        document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
 
-        sessionStorage.setItem('limHtml',innerHtml);
-    }
-    function display3(innerHtml,value){
-        document.getElementById("FirstLetter1").innerHTML="<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-        if(value === 0){
-            document.getElementById("FirstLetter").value="NO_LIMIT";
-            sessionStorage.setItem('letValue','NO_LIMIT');
+        if (value === 0) {
+            document.getElementById("limit").value = "NO_LIMIT";
+            sessionStorage.setItem('limValue', 'NO_LIMIT');
         }
-        if(value === 1){
-            document.getElementById("FirstLetter").value="A";
-            sessionStorage.setItem('letValue','A');
+        if (value === 1) {
+            document.getElementById("limit").value = "GRANTED";
+            sessionStorage.setItem('limValue', 'GRANTED');
         }
-        if(value === 2){
-            document.getElementById("FirstLetter").value="B";
-            sessionStorage.setItem('letValue','B');
+        if (value === 2) {
+            document.getElementById("limit").value = "NOT_GRANTED";
+            sessionStorage.setItem('limValue', 'NOT_GRANTED');
         }
-        if(value === 3){
-            document.getElementById("FirstLetter").value="C";
-            sessionStorage.setItem('letValue','C');
-        }
-        if(value === 4){
-            document.getElementById("FirstLetter").value="D";
-            sessionStorage.setItem('letValue','D');
-        }
-        if(value === 5){
-            document.getElementById("FirstLetter").value="E";
-            sessionStorage.setItem('letValue','E');
-        }
-        if(value === 6){
-            document.getElementById("FirstLetter").value="F";
-            sessionStorage.setItem('letValue','F');
-        }
-        if(value === 7){
-            document.getElementById("FirstLetter").value="G";
-            sessionStorage.setItem('letValue','G');
-        }
-        if(value === 8){
-            document.getElementById("FirstLetter").value="H";
-            sessionStorage.setItem('letValue','H');
-        }
-        if(value === 9){
-            document.getElementById("FirstLetter").value="I";
-            sessionStorage.setItem('letValue','I');
-        }
-        if(value === 10){
-            document.getElementById("FirstLetter").value="J";
-            sessionStorage.setItem('letValue','J');
-        }
-        if(value === 11){
-            document.getElementById("FirstLetter").value="K";
-            sessionStorage.setItem('letValue','K');
-        }
-        if(value === 12){
-            document.getElementById("FirstLetter").value="L";
-            sessionStorage.setItem('letValue','L');
-        }
-        if(value === 13){
-            document.getElementById("FirstLetter").value="M";
-            sessionStorage.setItem('letValue','M');
-        }
-        if(value === 14){
-            document.getElementById("FirstLetter").value="N";
-            sessionStorage.setItem('letValue','N');
-        }
-        if(value === 15){
-            document.getElementById("FirstLetter").value="O";
-            sessionStorage.setItem('letValue','O');
-        }
-        if(value === 16){
-            document.getElementById("FirstLetter").value="P";
-            sessionStorage.setItem('letValue','P');
-        }
-        if(value === 17){
-            document.getElementById("FirstLetter").value="Q";
-            sessionStorage.setItem('letValue','Q');
-        }
-        if(value === 18){
-            document.getElementById("FirstLetter").value="R";
-            sessionStorage.setItem('letValue','R');
-        }
-        if(value === 19){
-            document.getElementById("FirstLetter").value="S";
-            sessionStorage.setItem('letValue','S');
-        }
-        if(value === 20){
-            document.getElementById("FirstLetter").value="T";
-            sessionStorage.setItem('letValue','T');
-        }
-        if(value === 21){
-            document.getElementById("FirstLetter").value="U";
-            sessionStorage.setItem('letValue','U');
-        }
-        if(value === 22){
-            document.getElementById("FirstLetter").value="V";
-            sessionStorage.setItem('letValue','V');
-        }
-        if(value === 23){
-            document.getElementById("FirstLetter").value="W";
-            sessionStorage.setItem('letValue','W');
-        }
-        if(value === 24){
-            document.getElementById("FirstLetter").value="X";
-            sessionStorage.setItem('letValue','X');
-        }
-        if(value === 25){
-            document.getElementById("FirstLetter").value="Y";
-            sessionStorage.setItem('letValue','Y');
-        }
-        if(value === 26){
-            document.getElementById("FirstLetter").value="Z";
-            sessionStorage.setItem('letValue','Z');
-        }
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("FirstLetter").value);
-        sessionStorage.setItem('letHtml',innerHtml);
-    }
-    function display4(innerHtml,value){
-        document.getElementById("zone1").innerHTML="<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-        if(value === 0){
-            document.getElementById("zone").value="ALL";
-            sessionStorage.setItem('zoneValue','ALL');
-        }
-        if(value === 1){
-            document.getElementById("zone").value="TITLE";
-            sessionStorage.setItem('zoneValue','TITLE');
-        }
-        if(value === 2){
-            document.getElementById("zone").value="ABSTRACT";
-            sessionStorage.setItem('zoneValue','ABSTRACT');
-        }
-        if(value === 3){
-            document.getElementById("zone").value="APPLICANT";
-            sessionStorage.setItem('zoneValue','APPLICANT');
-        }
-        if(value === 4){
-            document.getElementById("zone").value="ID";
-            sessionStorage.setItem('zoneValue','ID');
-        }
-        if(value === 5){
-            document.getElementById("zone").value="INVENTOR";
-            sessionStorage.setItem('zoneValue','INVENTOR');
-        }
-        if(value === 6){
-            document.getElementById("zone").value="ADDRESS";
-            sessionStorage.setItem('zoneValue','ADDRESS');
-        }
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("zone").value);
-        sessionStorage.setItem('zoneHtml',innerHtml);
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("limit").value);
+
+        sessionStorage.setItem('limHtml', innerHtml);
     }
 
-    function allsubmit(){
+    function display3(innerHtml, value) {
+        document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("FirstLetter").value = "NO_LIMIT";
+            sessionStorage.setItem('letValue', 'NO_LIMIT');
+        }
+        if (value === 1) {
+            document.getElementById("FirstLetter").value = "A";
+            sessionStorage.setItem('letValue', 'A');
+        }
+        if (value === 2) {
+            document.getElementById("FirstLetter").value = "B";
+            sessionStorage.setItem('letValue', 'B');
+        }
+        if (value === 3) {
+            document.getElementById("FirstLetter").value = "C";
+            sessionStorage.setItem('letValue', 'C');
+        }
+        if (value === 4) {
+            document.getElementById("FirstLetter").value = "D";
+            sessionStorage.setItem('letValue', 'D');
+        }
+        if (value === 5) {
+            document.getElementById("FirstLetter").value = "E";
+            sessionStorage.setItem('letValue', 'E');
+        }
+        if (value === 6) {
+            document.getElementById("FirstLetter").value = "F";
+            sessionStorage.setItem('letValue', 'F');
+        }
+        if (value === 7) {
+            document.getElementById("FirstLetter").value = "G";
+            sessionStorage.setItem('letValue', 'G');
+        }
+        if (value === 8) {
+            document.getElementById("FirstLetter").value = "H";
+            sessionStorage.setItem('letValue', 'H');
+        }
+        if (value === 9) {
+            document.getElementById("FirstLetter").value = "I";
+            sessionStorage.setItem('letValue', 'I');
+        }
+        if (value === 10) {
+            document.getElementById("FirstLetter").value = "J";
+            sessionStorage.setItem('letValue', 'J');
+        }
+        if (value === 11) {
+            document.getElementById("FirstLetter").value = "K";
+            sessionStorage.setItem('letValue', 'K');
+        }
+        if (value === 12) {
+            document.getElementById("FirstLetter").value = "L";
+            sessionStorage.setItem('letValue', 'L');
+        }
+        if (value === 13) {
+            document.getElementById("FirstLetter").value = "M";
+            sessionStorage.setItem('letValue', 'M');
+        }
+        if (value === 14) {
+            document.getElementById("FirstLetter").value = "N";
+            sessionStorage.setItem('letValue', 'N');
+        }
+        if (value === 15) {
+            document.getElementById("FirstLetter").value = "O";
+            sessionStorage.setItem('letValue', 'O');
+        }
+        if (value === 16) {
+            document.getElementById("FirstLetter").value = "P";
+            sessionStorage.setItem('letValue', 'P');
+        }
+        if (value === 17) {
+            document.getElementById("FirstLetter").value = "Q";
+            sessionStorage.setItem('letValue', 'Q');
+        }
+        if (value === 18) {
+            document.getElementById("FirstLetter").value = "R";
+            sessionStorage.setItem('letValue', 'R');
+        }
+        if (value === 19) {
+            document.getElementById("FirstLetter").value = "S";
+            sessionStorage.setItem('letValue', 'S');
+        }
+        if (value === 20) {
+            document.getElementById("FirstLetter").value = "T";
+            sessionStorage.setItem('letValue', 'T');
+        }
+        if (value === 21) {
+            document.getElementById("FirstLetter").value = "U";
+            sessionStorage.setItem('letValue', 'U');
+        }
+        if (value === 22) {
+            document.getElementById("FirstLetter").value = "V";
+            sessionStorage.setItem('letValue', 'V');
+        }
+        if (value === 23) {
+            document.getElementById("FirstLetter").value = "W";
+            sessionStorage.setItem('letValue', 'W');
+        }
+        if (value === 24) {
+            document.getElementById("FirstLetter").value = "X";
+            sessionStorage.setItem('letValue', 'X');
+        }
+        if (value === 25) {
+            document.getElementById("FirstLetter").value = "Y";
+            sessionStorage.setItem('letValue', 'Y');
+        }
+        if (value === 26) {
+            document.getElementById("FirstLetter").value = "Z";
+            sessionStorage.setItem('letValue', 'Z');
+        }
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("FirstLetter").value);
+        sessionStorage.setItem('letHtml', innerHtml);
+    }
+
+    function display4(innerHtml, value) {
+        document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("zone").value = "ALL";
+            sessionStorage.setItem('zoneValue', 'ALL');
+        }
+        if (value === 1) {
+            document.getElementById("zone").value = "TITLE";
+            sessionStorage.setItem('zoneValue', 'TITLE');
+        }
+        if (value === 2) {
+            document.getElementById("zone").value = "ABSTRACT";
+            sessionStorage.setItem('zoneValue', 'ABSTRACT');
+        }
+        if (value === 3) {
+            document.getElementById("zone").value = "APPLICANT";
+            sessionStorage.setItem('zoneValue', 'APPLICANT');
+        }
+        if (value === 4) {
+            document.getElementById("zone").value = "ID";
+            sessionStorage.setItem('zoneValue', 'ID');
+        }
+        if (value === 5) {
+            document.getElementById("zone").value = "INVENTOR";
+            sessionStorage.setItem('zoneValue', 'INVENTOR');
+        }
+        if (value === 6) {
+            document.getElementById("zone").value = "ADDRESS";
+            sessionStorage.setItem('zoneValue', 'ADDRESS');
+        }
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("zone").value);
+        sessionStorage.setItem('zoneHtml', innerHtml);
+    }
+
+    function allsubmit() {
         var timeFrom = $("#d1").val();
         var timeTo = $("#d2").val();
-        var keyWords=$("#search-bar").val();
-        var wordCutGrade=$("#wordCutGrade").val();
-        var comprehensive=$("#comprehensive").attr("value");
-        var firstLetter=$("#FirstLetter").attr("value");
-        var passOrNot=$("#limit").attr("value");
-        var field=$("#zone").attr("value");
+        var keyWords = $("#search-bar").val();
+        var wordCutGrade = $("#wordCutGrade").val();
+        var comprehensive = $("#comprehensive").attr("value");
+        var firstLetter = $("#FirstLetter").attr("value");
+        var passOrNot = $("#limit").attr("value");
+        var field = $("#zone").attr("value");
 
         var temp = document.createElement("form");
         temp.action = "/search?page=1";
@@ -651,52 +676,52 @@ written by coppelia from CCID SDU.
         temp.appendChild(opt1);
 
         var opt2 = document.createElement("input");
-        opt2.name="time_to";
-        opt2.value=timeTo;
+        opt2.name = "time_to";
+        opt2.value = timeTo;
         temp.appendChild(opt2);
 
         var opt3 = document.createElement("input");
-        opt3.name="keyWords";
-        opt3.value=keyWords;
+        opt3.name = "keyWords";
+        opt3.value = keyWords;
         temp.appendChild(opt3);
 
         var opt4 = document.createElement("input");
-        opt4.name="search_accurancy";
-        opt4.value=wordCutGrade;
+        opt4.name = "search_accurancy";
+        opt4.value = wordCutGrade;
         temp.appendChild(opt4);
 
         var opt5 = document.createElement("input");
-        opt5.name="sort_type";
-        opt5.value=comprehensive;
+        opt5.name = "sort_type";
+        opt5.value = comprehensive;
         temp.appendChild(opt5);
 
         var opt7 = document.createElement("input");
-        opt7.name="pinyin";
-        opt7.value=firstLetter;
+        opt7.name = "pinyin";
+        opt7.value = firstLetter;
         temp.appendChild(opt7);
 
         var opt8 = document.createElement("input");
-        opt8.name="is_granted";
-        opt8.value=passOrNot;
+        opt8.name = "is_granted";
+        opt8.value = passOrNot;
         temp.appendChild(opt8);
 
         var opt9 = document.createElement("input");
-        opt9.name="field";
-        opt9.value=field;
+        opt9.name = "field";
+        opt9.value = field;
         temp.appendChild(opt9);
 
         document.body.appendChild(temp);
         temp.submit();
     }
 
-    function boolsubmit(){
+    function boolsubmit() {
         var conditions = [];
         var trList = $("#tbodyid").children("tr")//tbody下所有tr
-        for(var i = 0; i<trList .length; i++ ){
+        for (var i = 0; i < trList.length; i++) {
             var exp = new Object();
             var tdArr = trList.eq(i).find("td");
-            exp.symbol= tdArr.eq(0).find('select').val();
-            exp.keyWords= tdArr.eq(1).find('input').val();
+            exp.symbol = tdArr.eq(0).find('select').val();
+            exp.keyWords = tdArr.eq(1).find('input').val();
             exp.field = tdArr.eq(2).find('select').val();
             conditions.push(exp);
         }
@@ -730,8 +755,8 @@ written by coppelia from CCID SDU.
     }
 
     /*改变搜索框左侧选项的代码*/
-    function onchangeFunc(){
-        sessionStorage.setItem('sBarValue',document.getElementById("sBar").value);
+    function onchangeFunc() {
+        sessionStorage.setItem('sBarValue', document.getElementById("sBar").value);
     }
 
 </script>
