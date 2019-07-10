@@ -14,26 +14,26 @@ written by coppelia from CCID SDU.
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>article no sidebar  | Amaze UI Examples</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
-  <link rel="icon" type="image/png" href="../static/i/favicon.png">
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="192x192" href="../static/i/app-icon72x72@2x.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-  <link rel="apple-touch-icon-precomposed" href="../static/i/app-icon72x72@2x.png">
-  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
-  <meta name="msapplication-TileColor" content="#0e90d2">
-  <link rel="stylesheet" href="../static/css/amazeui.min.css">
-  <link rel="stylesheet" href="../static/css/app.css">
-  <link rel="stylesheet" href="../static/css/extra.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>专利搜索详情展示</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../static/i/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="../static/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="../static/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="../static/css/amazeui.min.css">
+    <link rel="stylesheet" href="../static/css/app.css">
+    <link rel="stylesheet" href="../static/css/extra.css">
 </head>
 
 <body id="blog-article-sidebar">
@@ -55,7 +55,7 @@ written by coppelia from CCID SDU.
 
             <br>
             <!--搜索工具啦左侧下拉框-->
-            <div style="display:block" >
+            <div style="display:block">
                 <select id="wordCutGrade" name="search_accurancy" class="am-input-bar2">
                     <option value="FUZZY">模糊</option>
                     <option value="ACCURATE">精确</option>
@@ -74,7 +74,8 @@ written by coppelia from CCID SDU.
 
                 </script-->
                 <!--搜索输入框-->
-                <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
+                <input id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)"
+                       placeholder="请输入需要搜索的专利关键词" required/>
                 <!--搜索按钮-->
                 <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
             </div>
@@ -85,14 +86,15 @@ written by coppelia from CCID SDU.
 <!--高级工具栏-->
 <hr>
 <nav class="am-g am-g-fixed blog-fixed blog-nav">
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button"
+            data-am-collapse="{target: '#blog-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
 
     <!--这个部分的button标签是用来存储下方li标签无法存储的value信息，可以修改成其他用于存储value信息的标签-->
     <button id="comprehensive" value="COMPREHENSIVENESS" style="display:none"></button>
     <button id="limit" value="NO_LIMIT" class="am-dropdown" style="display:none"></button>
     <button id="FirstLetter" value="NO_LIMIT" style="display:none"></button>
     <button id="zone" value="ALL" style="display:none"></button>
-
 
 
     <!--高级搜索条件筛选条-->
@@ -113,14 +115,14 @@ written by coppelia from CCID SDU.
             </li-->
             <!--综合查询sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('comHtml') != null) {
-                    document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                if (sessionStorage.getItem('comHtml') != null) {
+                    document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("comprehensive").value = sessionStorage.getItem('comValue');
                 }
             </script>
 
             <!--授权限制条件筛选栏-->
-            <li  class="am-dropdown" data-am-dropdown>
+            <li class="am-dropdown" data-am-dropdown>
 
                 <a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/autho.png" style="width:18px;height:18px;"/>
@@ -135,15 +137,15 @@ written by coppelia from CCID SDU.
 
             <!--授权限制sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('limHtml') != null) {
-                    document.getElementById("limit1").innerHTML ="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
-                        "                    &nbsp;"+ sessionStorage.getItem('limHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                if (sessionStorage.getItem('limHtml') != null) {
+                    document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
+                        "                    &nbsp;" + sessionStorage.getItem('limHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("limit").value = sessionStorage.getItem('limValue');
                 }
             </script>
 
             <!--姓名首字母条件筛选栏-->
-            <li  class="am-dropdown" data-am-dropdown>
+            <li class="am-dropdown" data-am-dropdown>
                 <a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/letter.png" style="width:18px;height:21px;"/>
                     &nbsp;姓名首字母 <span class="am-icon-caret-down"></span>
@@ -178,22 +180,21 @@ written by coppelia from CCID SDU.
                     <li onclick="display3(this.innerHTML,this.value)" value="26"><a href="#">Z</a></li>
 
 
-
                 </ul>
             </li>
 
             <!--姓名首字母sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('letHtml') != null) {
+                if (sessionStorage.getItem('letHtml') != null) {
                     document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
                         "                    &nbsp;"
-                    +sessionStorage.getItem('letHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                        + sessionStorage.getItem('letHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("FirstLetter").value = sessionStorage.getItem('letValue');
                 }
             </script>
 
             <!--多域限制条件筛选栏-->
-            <li  class="am-dropdown" data-am-dropdown>
+            <li class="am-dropdown" data-am-dropdown>
                 <a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/zone.png" style="width:23px;height:18px;"/>
                     &nbsp;多域 <span class="am-icon-caret-down"></span>
@@ -211,9 +212,9 @@ written by coppelia from CCID SDU.
 
             <!--多域限制sessionStorage信息存储恢复-->
             <script>
-                if(sessionStorage.getItem('zoneHtml') != null) {
+                if (sessionStorage.getItem('zoneHtml') != null) {
                     document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>\n" +
-                        "                    &nbsp;"+sessionStorage.getItem('zoneHtml')+" <span class=\"am-icon-caret-down\"></span>";
+                        "                    &nbsp;" + sessionStorage.getItem('zoneHtml') + " <span class=\"am-icon-caret-down\"></span>";
                     document.getElementById("zone").value = sessionStorage.getItem('zoneValue');
                 }
             </script>
@@ -221,17 +222,18 @@ written by coppelia from CCID SDU.
             <!--开始结束日期条件筛选栏-->
             <li class="am-dropdown" data-am-dropdown>
                 <a id="date1">
-                    <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期"  data-am-datepicker readonly required /> <span class="am-icon-caret-down"></span>
+                    <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期" data-am-datepicker
+                           readonly required/> <span class="am-icon-caret-down"></span>
                 </a>
             </li>
             <li class="am-date2">到</li>
             <li class="am-dropdown" data-am-dropdown>
                 <a id="date2">
-                    <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期"  data-am-datepicker readonly required /><span class="am-icon-caret-down"></span>
+                    <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期" data-am-datepicker
+                           readonly required/><span class="am-icon-caret-down"></span>
                 </a>
             </li>
         </ul>
-
 
 
         <!--form class="am-topbar-form am-topbar-right am-form-inline" role="search">
@@ -250,51 +252,57 @@ written by coppelia from CCID SDU.
     <!--返回之前查询页面的button-->
     <div class="am-u-sm-12">
         <ul class="am-pagination blog-article-margin">
-            <li class="am-pagination-prev"><a href="#" onclick="javascript:history.back(-1);" class="">&laquo; 返回查询</a></li>
+            <li class="am-pagination-prev"><a href="#" onclick="javascript:history.back(-1);" class="">&laquo; 返回查询</a>
+            </li>
         </ul>
-      <article class="am-article blog-article-p">
-          <table id="tb" class="am-table am-table-striped am-table-hover table-main" style="vertical-align:middle">
-              <thead>
-              <tr>
-                  <!--th class="table-check"><input type="checkbox" /></th><th class="table-id">ID</th><th class="table-title">设置包含</th><th class="table-type">阈值1</th><th class="table-author am-hide-sm-only">信息1</th><th class="table-date am-hide-sm-only">信息2</th><th class="table-set">操作</th-->
-                  <th class="table-title" style="width:100px">属性</th>
-                  <th class="table-type">详细信息</th>
+
+        <!--展示具体查询返回的表格信息的代码，使用springboot与后台交互-->
+        <article class="am-article blog-article-p">
+            <table id="tb" class="am-table am-table-striped am-table-hover table-main" style="vertical-align:middle">
+                <thead>
+                <tr>
+                    <!--th class="table-check"><input type="checkbox" /></th><th class="table-id">ID</th><th class="table-title">设置包含</th><th class="table-type">阈值1</th><th class="table-author am-hide-sm-only">信息1</th><th class="table-date am-hide-sm-only">信息2</th><th class="table-set">操作</th-->
+                    <th class="table-title" style="width:100px">属性</th>
+                    <th class="table-type">详细信息</th>
 
 
-              </tr>
-              </thead>
+                </tr>
+                </thead>
 
-              <tbody>
+                <tbody>
                 <tr>
                     <td>
                         <h1>标题</h1>
                     </td>
                     <td>
-                            <h1 th:text="${PatentDetail.title}" >比特重映射系统</h1>
+                        <h1 th:text="${PatentDetail.title}">比特重映射系统</h1>
 
                     </td>
                 </tr>
                 <tr>
-                  <td>
-                      <span class="am-color1">专利号</span>
+                    <td>
+                        <span class="am-color1">专利号</span>
 
-                  </td>
-                  <td>
-                      <span><a th:text="'专利号：'+${PatentDetail.application_publish_number}+ '&nbsp;'" id="pn" href="" class="am-color1">CN105874434A</a></span>
-                  </td>
+                    </td>
+                    <td>
+                        <span><a th:text="'专利号：'+${PatentDetail.application_publish_number}+ '&nbsp;'" id="pn" href=""
+                                 class="am-color1">CN105874434A</a></span>
+                    </td>
                 </tr>
-              <tr>
-                  <td>
-                      <span class="am-color1">授权状态</span>
-                  </td>
-                  <td>
-                      <span th:text="'授权状态：'+${PatentDetail.grant_status}+ '&nbsp;'" class="am-color1" id="authorization" style="float:left;">未授权 &nbsp;</span>
-                  </td>
-              </tr>
+                <tr>
+                    <td>
+                        <span class="am-color1">授权状态</span>
+                    </td>
+                    <td>
+                        <span th:text="'授权状态：'+${PatentDetail.grant_status}+ '&nbsp;'" class="am-color1"
+                              id="authorization" style="float:left;">未授权 &nbsp;</span>
+                    </td>
+                </tr>
                 <tr>
                     <td style="vertical-align:middle"><span>摘要</span></td>
                     <td style="vertical-align:middle">
-                        <p th:text="${PatentDetail.patent_Abstract}" class="">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
+                        <p th:text="${PatentDetail.patent_Abstract}" class="">
+                            一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
                         </p>
                     </td>
                 </tr>
@@ -306,74 +314,75 @@ written by coppelia from CCID SDU.
                         <span th:text="'年份:'+${PatentDetail.year}+ '&nbsp;'" id="year" style="">2016 &nbsp;</span>
                     </td>
                 </tr>
-              <tr>
-                  <td>
-                      <span>权利人</span>
-                  </td>
-                  <td>
-                      <span th:text="'作者:'+${PatentDetail.inventor}+ '&nbsp;'" id="author" style=""> X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                      <span>地址</span>
-                  </td>
-                  <td>
-                      <span th:text="'地址:'+${PatentDetail.address}">美国加利福尼亚州</span>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                      <span>申请单位</span>
-                  </td>
-                  <td>
-                      <span th:text="'申请人:'+${PatentDetail.applicant}" style="">高通股份有限公司</span>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                      <span>公开日期</span>
-                  </td>
-                  <td>
-                      <span th:text="'公开日期:'+${PatentDetail.application_date}">2016.08.17</span>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
+                <tr>
+                    <td>
+                        <span>权利人</span>
+                    </td>
+                    <td>
+                        <span th:text="'作者:'+${PatentDetail.inventor}+ '&nbsp;'" id="author" style=""> X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>地址</span>
+                    </td>
+                    <td>
+                        <span th:text="'地址:'+${PatentDetail.address}">美国加利福尼亚州</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>申请单位</span>
+                    </td>
+                    <td>
+                        <span th:text="'申请人:'+${PatentDetail.applicant}" style="">高通股份有限公司</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>公开日期</span>
+                    </td>
+                    <td>
+                        <span th:text="'公开日期:'+${PatentDetail.application_date}">2016.08.17</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                       <span>
                           申请日期
                       </span>
-                  </td>
-                  <td>
-                      <span th:text="'申请日期:'+${PatentDetail.filling_date}" style="">2014.12.11</span>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                      <span>分类号</span>
-                  </td>
-                 <td>
-                     <span th:text="'分类号:'+${PatentDetail.classification_number}">G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
-                 </td>
-              </tr>
-              </tbody>
-          </table>
+                    </td>
+                    <td>
+                        <span th:text="'申请日期:'+${PatentDetail.filling_date}" style="">2014.12.11</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>分类号</span>
+                    </td>
+                    <td>
+                        <span th:text="'分类号:'+${PatentDetail.classification_number}">G06F11/10(2006.01)I;G06F12/00(2006.01)I</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
 
-        <div class="am-article-bd">
+            <div class="am-article-bd">
 
 
-        </div>
-      </article>
-        
+            </div>
+        </article>
+        <!--尾注-->
         <div class="am-g blog-article-widget blog-article-margin">
-          <div class="am-u-lg-4 am-u-md-5 am-u-sm-7 am-u-sm-centered blog-text-center">
-            <span class="am-icon-tags"> &nbsp;</span><a href="http://splab-sdu.zrbao.net">认知计算创新实验室</a>
-            <hr>
-            <a href="http://splab-sdu.zrbao.net"><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
-            <a href="http://splab-sdu.zrbao.net"><span class="am-icon-wechat am-icon-fw blog-icon"></span></a>
-            <a href="http://splab-sdu.zrbao.net"><span class="am-icon-weibo am-icon-fw blog-icon"></span></a>
-          </div>
+            <div class="am-u-lg-4 am-u-md-5 am-u-sm-7 am-u-sm-centered blog-text-center">
+                <span class="am-icon-tags"> &nbsp;</span><a href="http://splab-sdu.zrbao.net">认知计算创新实验室</a>
+                <hr>
+                <a href="http://splab-sdu.zrbao.net"><span
+                        class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                <a href="http://splab-sdu.zrbao.net"><span class="am-icon-wechat am-icon-fw blog-icon"></span></a>
+                <a href="http://splab-sdu.zrbao.net"><span class="am-icon-weibo am-icon-fw blog-icon"></span></a>
+            </div>
         </div>
 
         <hr>
@@ -387,11 +396,13 @@ written by coppelia from CCID SDU.
           </div>
         </div>
         <hr-->
+
+        <!--未完成的搜索信息跳转按钮（跳至搜索前一条信息或后一条信息）-->
         <ul class="am-pagination blog-article-margin">
-          <li class="am-pagination-prev"><a href="#" class="">&laquo; Prev</a></li>
-          <li class="am-pagination-next"><a href="">Next &raquo;</a></li>
+            <li class="am-pagination-prev"><a href="#" class="">&laquo; Prev</a></li>
+            <li class="am-pagination-next"><a href="">Next &raquo;</a></li>
         </ul>
-        
+
         <hr>
 
         <!--
@@ -423,6 +434,7 @@ written by coppelia from CCID SDU.
 
 <!-- content end -->
 
+<!--尾注 标注版权信息-->
 <footer class="blog-footer">
     <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
         <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
@@ -467,9 +479,9 @@ written by coppelia from CCID SDU.
         </div>
     </div>
     <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under
-        Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.</div>
+        Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.
+    </div>
 </footer>
-
 
 
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -483,6 +495,8 @@ written by coppelia from CCID SDU.
 <script src="../static/js/amazeui.min.js"></script>
 <!-- <script src="assets/js/app.js"></script> -->
 
+
+<!--功能脚本-->
 <script>
 
 
@@ -495,228 +509,227 @@ written by coppelia from CCID SDU.
 
     }
     // 监听文本输入框的 change 事件
-    searchBar.addEventListener("change", function() {
+    searchBar.addEventListener("change", function () {
         // 保存结果到 sessionStorage 对象中
         sessionStorage.setItem("autosave", searchBar.value);
     });
 
 
+    function display(innerHtml, value) {
 
-
-    function display(innerHtml,value){
-
-        console.log("display1修改前value值"+document.getElementById("comprehensive").value);
-        console.log("元素value"+this.value);
-        document.getElementById("comprehensive1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-        if(value === 0){
-            document.getElementById("comprehensive").value="COMPREHENSIVENESS";
-            sessionStorage.setItem('comValue','COMPREHENSIVENESS');
+        console.log("display1修改前value值" + document.getElementById("comprehensive").value);
+        console.log("元素value" + this.value);
+        document.getElementById("comprehensive1").innerHTML = innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("comprehensive").value = "COMPREHENSIVENESS";
+            sessionStorage.setItem('comValue', 'COMPREHENSIVENESS');
         }
-        if(value === 1){
-            document.getElementById("comprehensive").value="RELEVANCE";
-            sessionStorage.setItem('comValue','RELEVANCE');
+        if (value === 1) {
+            document.getElementById("comprehensive").value = "RELEVANCE";
+            sessionStorage.setItem('comValue', 'RELEVANCE');
         }
-        if(value === 2){
-            document.getElementById("comprehensive").value="PROSPECTIVENESS";
-            sessionStorage.setItem('comValue','PROSPECTIVENESS');
+        if (value === 2) {
+            document.getElementById("comprehensive").value = "PROSPECTIVENESS";
+            sessionStorage.setItem('comValue', 'PROSPECTIVENESS');
         }
 
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("comprehensive").value);
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("comprehensive").value);
 
 
-        sessionStorage.setItem('comHtml',innerHtml);
+        sessionStorage.setItem('comHtml', innerHtml);
         <!--测试代码-->
         //console.log(sessionStorage.getItem('comHtml')+"display方法显示")
         //document.getElementById("c1").style.display = none;
     }
-    function display2(innerHtml,value){
-        document.getElementById("limit1").innerHTML="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" +innerHtml+" <span class=\"am-icon-caret-down\"></span>";
 
-        if(value === 0){
-            document.getElementById("limit").value="NO_LIMIT";
-            sessionStorage.setItem('limValue','NO_LIMIT');
-        }
-        if(value === 1){
-            document.getElementById("limit").value="GRANTED";
-            sessionStorage.setItem('limValue','GRANTED');
-        }
-        if(value === 2){
-            document.getElementById("limit").value="NOT_GRANTED";
-            sessionStorage.setItem('limValue','NOT_GRANTED');
-        }
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("limit").value);
+    function display2(innerHtml, value) {
+        document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
 
-        sessionStorage.setItem('limHtml',innerHtml);
+        if (value === 0) {
+            document.getElementById("limit").value = "NO_LIMIT";
+            sessionStorage.setItem('limValue', 'NO_LIMIT');
+        }
+        if (value === 1) {
+            document.getElementById("limit").value = "GRANTED";
+            sessionStorage.setItem('limValue', 'GRANTED');
+        }
+        if (value === 2) {
+            document.getElementById("limit").value = "NOT_GRANTED";
+            sessionStorage.setItem('limValue', 'NOT_GRANTED');
+        }
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("limit").value);
+
+        sessionStorage.setItem('limHtml', innerHtml);
     }
-    function display3(innerHtml,value){
-        document.getElementById("FirstLetter1").innerHTML="<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-        if(value === 0){
-            document.getElementById("FirstLetter").value="NO_LIMIT";
-            sessionStorage.setItem('letValue','NO_LIMIT');
+
+    function display3(innerHtml, value) {
+        document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("FirstLetter").value = "NO_LIMIT";
+            sessionStorage.setItem('letValue', 'NO_LIMIT');
         }
-        if(value === 1){
-            document.getElementById("FirstLetter").value="A";
-            sessionStorage.setItem('letValue','A');
+        if (value === 1) {
+            document.getElementById("FirstLetter").value = "A";
+            sessionStorage.setItem('letValue', 'A');
         }
-        if(value === 2){
-            document.getElementById("FirstLetter").value="B";
-            sessionStorage.setItem('letValue','B');
+        if (value === 2) {
+            document.getElementById("FirstLetter").value = "B";
+            sessionStorage.setItem('letValue', 'B');
         }
-        if(value === 3){
-            document.getElementById("FirstLetter").value="C";
-            sessionStorage.setItem('letValue','C');
+        if (value === 3) {
+            document.getElementById("FirstLetter").value = "C";
+            sessionStorage.setItem('letValue', 'C');
         }
-        if(value === 4){
-            document.getElementById("FirstLetter").value="D";
-            sessionStorage.setItem('letValue','D');
+        if (value === 4) {
+            document.getElementById("FirstLetter").value = "D";
+            sessionStorage.setItem('letValue', 'D');
         }
-        if(value === 5){
-            document.getElementById("FirstLetter").value="E";
-            sessionStorage.setItem('letValue','E');
+        if (value === 5) {
+            document.getElementById("FirstLetter").value = "E";
+            sessionStorage.setItem('letValue', 'E');
         }
-        if(value === 6){
-            document.getElementById("FirstLetter").value="F";
-            sessionStorage.setItem('letValue','F');
+        if (value === 6) {
+            document.getElementById("FirstLetter").value = "F";
+            sessionStorage.setItem('letValue', 'F');
         }
-        if(value === 7){
-            document.getElementById("FirstLetter").value="G";
-            sessionStorage.setItem('letValue','G');
+        if (value === 7) {
+            document.getElementById("FirstLetter").value = "G";
+            sessionStorage.setItem('letValue', 'G');
         }
-        if(value === 8){
-            document.getElementById("FirstLetter").value="H";
-            sessionStorage.setItem('letValue','H');
+        if (value === 8) {
+            document.getElementById("FirstLetter").value = "H";
+            sessionStorage.setItem('letValue', 'H');
         }
-        if(value === 9){
-            document.getElementById("FirstLetter").value="I";
-            sessionStorage.setItem('letValue','I');
+        if (value === 9) {
+            document.getElementById("FirstLetter").value = "I";
+            sessionStorage.setItem('letValue', 'I');
         }
-        if(value === 10){
-            document.getElementById("FirstLetter").value="J";
-            sessionStorage.setItem('letValue','J');
+        if (value === 10) {
+            document.getElementById("FirstLetter").value = "J";
+            sessionStorage.setItem('letValue', 'J');
         }
-        if(value === 11){
-            document.getElementById("FirstLetter").value="K";
-            sessionStorage.setItem('letValue','K');
+        if (value === 11) {
+            document.getElementById("FirstLetter").value = "K";
+            sessionStorage.setItem('letValue', 'K');
         }
-        if(value === 12){
-            document.getElementById("FirstLetter").value="L";
-            sessionStorage.setItem('letValue','L');
+        if (value === 12) {
+            document.getElementById("FirstLetter").value = "L";
+            sessionStorage.setItem('letValue', 'L');
         }
-        if(value === 13){
-            document.getElementById("FirstLetter").value="M";
-            sessionStorage.setItem('letValue','M');
+        if (value === 13) {
+            document.getElementById("FirstLetter").value = "M";
+            sessionStorage.setItem('letValue', 'M');
         }
-        if(value === 14){
-            document.getElementById("FirstLetter").value="N";
-            sessionStorage.setItem('letValue','N');
+        if (value === 14) {
+            document.getElementById("FirstLetter").value = "N";
+            sessionStorage.setItem('letValue', 'N');
         }
-        if(value === 15){
-            document.getElementById("FirstLetter").value="O";
-            sessionStorage.setItem('letValue','O');
+        if (value === 15) {
+            document.getElementById("FirstLetter").value = "O";
+            sessionStorage.setItem('letValue', 'O');
         }
-        if(value === 16){
-            document.getElementById("FirstLetter").value="P";
-            sessionStorage.setItem('letValue','P');
+        if (value === 16) {
+            document.getElementById("FirstLetter").value = "P";
+            sessionStorage.setItem('letValue', 'P');
         }
-        if(value === 17){
-            document.getElementById("FirstLetter").value="Q";
-            sessionStorage.setItem('letValue','Q');
+        if (value === 17) {
+            document.getElementById("FirstLetter").value = "Q";
+            sessionStorage.setItem('letValue', 'Q');
         }
-        if(value === 18){
-            document.getElementById("FirstLetter").value="R";
-            sessionStorage.setItem('letValue','R');
+        if (value === 18) {
+            document.getElementById("FirstLetter").value = "R";
+            sessionStorage.setItem('letValue', 'R');
         }
-        if(value === 19){
-            document.getElementById("FirstLetter").value="S";
-            sessionStorage.setItem('letValue','S');
+        if (value === 19) {
+            document.getElementById("FirstLetter").value = "S";
+            sessionStorage.setItem('letValue', 'S');
         }
-        if(value === 20){
-            document.getElementById("FirstLetter").value="T";
-            sessionStorage.setItem('letValue','T');
+        if (value === 20) {
+            document.getElementById("FirstLetter").value = "T";
+            sessionStorage.setItem('letValue', 'T');
         }
-        if(value === 21){
-            document.getElementById("FirstLetter").value="U";
-            sessionStorage.setItem('letValue','U');
+        if (value === 21) {
+            document.getElementById("FirstLetter").value = "U";
+            sessionStorage.setItem('letValue', 'U');
         }
-        if(value === 22){
-            document.getElementById("FirstLetter").value="V";
-            sessionStorage.setItem('letValue','V');
+        if (value === 22) {
+            document.getElementById("FirstLetter").value = "V";
+            sessionStorage.setItem('letValue', 'V');
         }
-        if(value === 23){
-            document.getElementById("FirstLetter").value="W";
-            sessionStorage.setItem('letValue','W');
+        if (value === 23) {
+            document.getElementById("FirstLetter").value = "W";
+            sessionStorage.setItem('letValue', 'W');
         }
-        if(value === 24){
-            document.getElementById("FirstLetter").value="X";
-            sessionStorage.setItem('letValue','X');
+        if (value === 24) {
+            document.getElementById("FirstLetter").value = "X";
+            sessionStorage.setItem('letValue', 'X');
         }
-        if(value === 25){
-            document.getElementById("FirstLetter").value="Y";
-            sessionStorage.setItem('letValue','Y');
+        if (value === 25) {
+            document.getElementById("FirstLetter").value = "Y";
+            sessionStorage.setItem('letValue', 'Y');
         }
-        if(value === 26){
-            document.getElementById("FirstLetter").value="Z";
-            sessionStorage.setItem('letValue','Z');
+        if (value === 26) {
+            document.getElementById("FirstLetter").value = "Z";
+            sessionStorage.setItem('letValue', 'Z');
         }
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("FirstLetter").value);
-        sessionStorage.setItem('letHtml',innerHtml);
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("FirstLetter").value);
+        sessionStorage.setItem('letHtml', innerHtml);
     }
-    function display4(innerHtml,value){
-        document.getElementById("zone1").innerHTML="<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-        if(value === 0){
-            document.getElementById("zone").value="ALL";
-            sessionStorage.setItem('zoneValue','ALL');
+
+    function display4(innerHtml, value) {
+        document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("zone").value = "ALL";
+            sessionStorage.setItem('zoneValue', 'ALL');
         }
-        if(value === 1){
-            document.getElementById("zone").value="TITLE";
-            sessionStorage.setItem('zoneValue','TITLE');
+        if (value === 1) {
+            document.getElementById("zone").value = "TITLE";
+            sessionStorage.setItem('zoneValue', 'TITLE');
         }
-        if(value === 2){
-            document.getElementById("zone").value="ABSTRACT";
-            sessionStorage.setItem('zoneValue','ABSTRACT');
+        if (value === 2) {
+            document.getElementById("zone").value = "ABSTRACT";
+            sessionStorage.setItem('zoneValue', 'ABSTRACT');
         }
-        if(value === 3){
-            document.getElementById("zone").value="APPLICANT";
-            sessionStorage.setItem('zoneValue','APPLICANT');
+        if (value === 3) {
+            document.getElementById("zone").value = "APPLICANT";
+            sessionStorage.setItem('zoneValue', 'APPLICANT');
         }
-        if(value === 4){
-            document.getElementById("zone").value="ID";
-            sessionStorage.setItem('zoneValue','ID');
+        if (value === 4) {
+            document.getElementById("zone").value = "ID";
+            sessionStorage.setItem('zoneValue', 'ID');
         }
-        if(value === 5){
-            document.getElementById("zone").value="INVENTOR";
-            sessionStorage.setItem('zoneValue','INVENTOR');
+        if (value === 5) {
+            document.getElementById("zone").value = "INVENTOR";
+            sessionStorage.setItem('zoneValue', 'INVENTOR');
         }
-        if(value === 6){
-            document.getElementById("zone").value="ADDRESS";
-            sessionStorage.setItem('zoneValue','ADDRESS');
+        if (value === 6) {
+            document.getElementById("zone").value = "ADDRESS";
+            sessionStorage.setItem('zoneValue', 'ADDRESS');
         }
-        console.log("display1修改value值"+value);
-        console.log("display1已修改value值"+document.getElementById("zone").value);
-        sessionStorage.setItem('zoneHtml',innerHtml);
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("zone").value);
+        sessionStorage.setItem('zoneHtml', innerHtml);
     }
 
     /*改变搜索框左侧选项的代码*/
-    function onchangeFunc(){
-        sessionStorage.setItem('sBarValue',document.getElementById("sBar").value);
+    function onchangeFunc() {
+        sessionStorage.setItem('sBarValue', document.getElementById("sBar").value);
     }
 
 
-
-
-    function allsubmit(){
+    function allsubmit() {
         var timeFrom = $("#d1").val();
         var timeTo = $("#d2").val();
         //	alert(username+password);
-        var keyWords=$("#search-bar").val();
-        var wordCutGrade=$("#wordCutGrade").val();
+        var keyWords = $("#search-bar").val();
+        var wordCutGrade = $("#wordCutGrade").val();
         //少个域下拉框
-        var comprehensive=$("#comprehensive").attr("value");
-        var firstLetter=$("#FirstLetter").attr("value");
-        var passOrNot=$("#limit").attr("value");
+        var comprehensive = $("#comprehensive").attr("value");
+        var firstLetter = $("#FirstLetter").attr("value");
+        var passOrNot = $("#limit").attr("value");
 
         var temp = document.createElement("form");
         temp.action = "/search?page=1";
@@ -730,33 +743,33 @@ written by coppelia from CCID SDU.
         temp.appendChild(opt1);
 
         var opt2 = document.createElement("input");
-        opt2.name="time_to";
-        opt2.value=timeTo;
+        opt2.name = "time_to";
+        opt2.value = timeTo;
         temp.appendChild(opt2);
 
         var opt3 = document.createElement("input");
-        opt3.name="keyWords";
-        opt3.value=keyWords;
+        opt3.name = "keyWords";
+        opt3.value = keyWords;
         temp.appendChild(opt3);
 
         var opt4 = document.createElement("input");
-        opt4.name="search_accurancy";
-        opt4.value=wordCutGrade;
+        opt4.name = "search_accurancy";
+        opt4.value = wordCutGrade;
         temp.appendChild(opt4);
 
         var opt5 = document.createElement("input");
-        opt5.name="sort_type";
-        opt5.value=comprehensive;
+        opt5.name = "sort_type";
+        opt5.value = comprehensive;
         temp.appendChild(opt5);
 
         var opt7 = document.createElement("input");
-        opt7.name="pinyin";
-        opt7.value=firstLetter;
+        opt7.name = "pinyin";
+        opt7.value = firstLetter;
         temp.appendChild(opt7);
 
         var opt8 = document.createElement("input");
-        opt8.name="is_granted";
-        opt8.value=passOrNot;
+        opt8.name = "is_granted";
+        opt8.value = passOrNot;
         temp.appendChild(opt8);
 
         document.body.appendChild(temp);
@@ -776,8 +789,6 @@ written by coppelia from CCID SDU.
 
 
 </body>
-
-
 
 
 </html>
