@@ -37,22 +37,24 @@ written by coppelia from CCID SDU.
 </head>
 
 <body id="blog-article-sidebar">
-<!-- header start -->
+<!--网页标题头部-->
 <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
     <!--div style="width: 100%">
         <img src="../static/i/sdu.jpg" alt="" class="am-img-sdu">
     </div>
     <br-->
+    <!--搜索引擎png-->
     <div style="text-align:left">
         <img src="../static/i/head.png" alt="" class="am-img-sdu">
     </div>
 
-
+    <!--搜索框-->
     <div class=" am-u-lg-12 am-u-md-7 am-u-sm-8 am-u-sm-centered">
         <!--img width="200" src="http://s.amazeui.org/media/i/brand/amazeui-b.png" alt="Amaze UI Logo"/-->
         <div class="am-radius">
 
             <br>
+            <!--搜索工具啦左侧下拉框-->
             <div style="display:block" >
                 <select id="wordCutGrade" name="search_accurancy" class="am-input-bar2">
                     <option value="FUZZY">模糊</option>
@@ -71,18 +73,21 @@ written by coppelia from CCID SDU.
                     }
 
                 </script-->
-
+                <!--搜索输入框-->
                 <input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
+                <!--搜索按钮-->
                 <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
             </div>
         </div>
     </div>
 </header>
+
+<!--高级工具栏-->
 <hr>
 <nav class="am-g am-g-fixed blog-fixed blog-nav">
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
-
+    <!--这个部分的button标签是用来存储下方li标签无法存储的value信息，可以修改成其他用于存储value信息的标签-->
     <button id="comprehensive" value="COMPREHENSIVENESS" style="display:none"></button>
     <button id="limit" value="NO_LIMIT" class="am-dropdown" style="display:none"></button>
     <button id="FirstLetter" value="NO_LIMIT" style="display:none"></button>
@@ -90,10 +95,10 @@ written by coppelia from CCID SDU.
 
 
 
-
+    <!--高级搜索条件筛选条-->
     <div class="am-collapse am-topbar-collapse" id="blog-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav">
-
+            <!--综合查询条件狂-->
             <!--li  class="am-dropdown" data-am-dropdown>
 
                 <a id="comprehensive1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;" >
@@ -106,7 +111,7 @@ written by coppelia from CCID SDU.
                     <li onclick="display(this.innerHTML,this.value)" value="2"><a href="#">权威优先</a></li>
                 </ul>
             </li-->
-
+            <!--综合查询sessionStorage信息存储恢复-->
             <script>
                 if(sessionStorage.getItem('comHtml') != null) {
                     document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml')+" <span class=\"am-icon-caret-down\"></span>";
