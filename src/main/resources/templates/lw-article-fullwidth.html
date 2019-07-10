@@ -119,6 +119,7 @@ written by coppelia from CCID SDU.
                 }
             </script>
 
+            <!--授权限制条件筛选栏-->
             <li  class="am-dropdown" data-am-dropdown>
 
                 <a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -132,7 +133,7 @@ written by coppelia from CCID SDU.
                 </ul>
             </li>
 
-
+            <!--授权限制sessionStorage信息存储恢复-->
             <script>
                 if(sessionStorage.getItem('limHtml') != null) {
                     document.getElementById("limit1").innerHTML ="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
@@ -141,7 +142,7 @@ written by coppelia from CCID SDU.
                 }
             </script>
 
-
+            <!--姓名首字母条件筛选栏-->
             <li  class="am-dropdown" data-am-dropdown>
                 <a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/letter.png" style="width:18px;height:21px;"/>
@@ -181,6 +182,7 @@ written by coppelia from CCID SDU.
                 </ul>
             </li>
 
+            <!--姓名首字母sessionStorage信息存储恢复-->
             <script>
                 if(sessionStorage.getItem('letHtml') != null) {
                     document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
@@ -190,6 +192,7 @@ written by coppelia from CCID SDU.
                 }
             </script>
 
+            <!--多域限制条件筛选栏-->
             <li  class="am-dropdown" data-am-dropdown>
                 <a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                     <img src="../static/i/icon/zone.png" style="width:23px;height:18px;"/>
@@ -206,6 +209,7 @@ written by coppelia from CCID SDU.
                 </ul>
             </li>
 
+            <!--多域限制sessionStorage信息存储恢复-->
             <script>
                 if(sessionStorage.getItem('zoneHtml') != null) {
                     document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>\n" +
@@ -214,6 +218,7 @@ written by coppelia from CCID SDU.
                 }
             </script>
 
+            <!--开始结束日期条件筛选栏-->
             <li class="am-dropdown" data-am-dropdown>
                 <a id="date1">
                     <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期"  data-am-datepicker readonly required /> <span class="am-icon-caret-down"></span>
@@ -239,10 +244,10 @@ written by coppelia from CCID SDU.
 <hr>
 <!-- content srart -->
 
-
+<!--高级搜索页面信息标签-->
 <div class="am-g am-g-fixed blog-fixed blog-content">
 
-
+    <!--返回之前查询页面的button-->
     <div class="am-u-sm-12">
         <ul class="am-pagination blog-article-margin">
             <li class="am-pagination-prev"><a href="#" onclick="javascript:history.back(-1);" class="">&laquo; 返回查询</a></li>
