@@ -1,64 +1,66 @@
 <!------------------------------------------------------------------------------
 页面说明：
-本页面创建了专利技术弹性语义搜索引擎的“初始搜索界面”
+本页面创建了专利技术弹性语义搜索引擎的“高级搜索结果界面”
 使用了HTML5标准，利用css实现了静态样式，利用js实现动态样式和网页交互代码
 引入了AmazeUI的一部分模板样式，部分class的信息参考amazeui.css/amazeui.js
 剩余样式保存在app.css及extra.css中，建议利用ctrl+F查询具体出现位置
+********************************************************************************
+注释和show.html页面基本相同
 ********************************************************************************
 written by coppelia from CCID SDU.
 -------------------------------------------------------------------------------->
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>专利检索展示</title>
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="Cache-Control" content="no-siteapp"/>
-	<link rel="icon" type="image/png" href="../static/i/favicon.png">
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="icon" sizes="192x192" href="../static/i/app-icon72x72@2x.png">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-	<link rel="apple-touch-icon-precomposed" href="../static/i/app-icon72x72@2x.png">
-	<meta name="msapplication-TileImage" content="../static/i/app-icon72x72@2x.png">
-	<meta name="msapplication-TileColor" content="#0e90d2">
-	<link rel="stylesheet" href="../static/css/amazeui.min.css">
-	<link rel="stylesheet" href="../static/css/app.css">
-	<link rel="stylesheet" href="../static/css/extra.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>专利检索展示</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../static/i/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="../static/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="../static/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileImage" content="../static/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="../static/css/amazeui.min.css">
+    <link rel="stylesheet" href="../static/css/app.css">
+    <link rel="stylesheet" href="../static/css/extra.css">
 </head>
 
 <body id="blog">
 
 <div>
-	<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header" >
-		<div style="text-align:left">
-			<img src="../static/i/head.png" alt="" class="am-img-sdu">
-		</div>
+    <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+        <div style="text-align:left">
+            <img src="../static/i/head.png" alt="" class="am-img-sdu">
+        </div>
 
-		<!--div style="text-align:left">
+        <!--div style="text-align:left">
             <h1 class="am-color">&nbsp;Patent Search&nbsp;专利搜索</h1>
         </div-->
-		<div class=" am-u-lg-12 am-u-md-7 am-u-sm-8 am-u-sm-centered">
-			<!--img width="200" src="http://s.amazeui.org/media/i/brand/amazeui-b.png" alt="Amaze UI Logo"/-->
+        <div class=" am-u-lg-12 am-u-md-7 am-u-sm-8 am-u-sm-centered">
+            <!--img width="200" src="http://s.amazeui.org/media/i/brand/amazeui-b.png" alt="Amaze UI Logo"/-->
 
-			<div class="am-radius">
+            <div class="am-radius">
 
-				<br>
-				<div style="display:block" >
-					<select id="wordCutGrade" name="search_accurancy" class="am-input-bar2">
-						<option value="FUZZY">模糊</option>
-						<option value="ACCURATE">精确</option>
-						<option value="SINGLE_WORD">单字</option>
-						<option value="DOUBLE_WORD">二切分</option>
-					</select>
+                <br>
+                <div style="display:block">
+                    <select id="wordCutGrade" name="search_accurancy" class="am-input-bar2">
+                        <option value="FUZZY">模糊</option>
+                        <option value="ACCURATE">精确</option>
+                        <option value="SINGLE_WORD">单字</option>
+                        <option value="DOUBLE_WORD">二切分</option>
+                    </select>
 
-					<!--下拉框选项保留 -->
-					<!--script>
+                    <!--下拉框选项保留 -->
+                    <!--script>
                         var numbers = $("#sBar").find("option"); //获取select下拉框的所有值
                         for (var j = 0; j < numbers.length; j++) {
                             if ($(numbers[j]).val() === sessionStorage.getItem('sBarValue')) {
@@ -68,30 +70,33 @@ written by coppelia from CCID SDU.
 
                     </script-->
 
-					<input  id="search-bar" class="am-radius am-input-search am-input-search-box" onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
-					<button type="button" onclick="allsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
-				</div>
-			</div>
-		</div>
-	</header>
+                    <input id="search-bar" class="am-radius am-input-search am-input-search-box"
+                           onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
+                    <button type="button" onclick="allsubmit()" class="am-btn am-btn-search am-btn-primary am-radius ">
+                        搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
 
-	<hr>
-	<nav class="am-g am-g-fixed blog-fixed blog-nav">
-		<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-
-
-		<button id="comprehensive" value="COMPREHENSIVENESS" style="display:none"></button>
-		<button id="limit" value="NO_LIMIT" class="am-dropdown" style="display:none"></button>
-		<button id="FirstLetter" value="NO_LIMIT" style="display:none"></button>
-		<button id="zone" value="ALL" style="display:none"></button>
-
+    <hr>
+    <nav class="am-g am-g-fixed blog-fixed blog-nav">
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button"
+                data-am-collapse="{target: '#blog-collapse'}"><span class="am-sr-only">导航切换</span> <span
+                class="am-icon-bars"></span></button>
 
 
+        <button id="comprehensive" value="COMPREHENSIVENESS" style="display:none"></button>
+        <button id="limit" value="NO_LIMIT" class="am-dropdown" style="display:none"></button>
+        <button id="FirstLetter" value="NO_LIMIT" style="display:none"></button>
+        <button id="zone" value="ALL" style="display:none"></button>
 
-		<div class="am-collapse am-topbar-collapse" id="blog-collapse">
-			<ul class="am-nav am-nav-pills am-topbar-nav">
 
-				<!--li  class="am-dropdown" data-am-dropdown>
+        <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav">
+
+                <!--li  class="am-dropdown" data-am-dropdown>
 
                     <a id="comprehensive1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;" >
                         综合查询 <span class="am-icon-caret-down"></span>
@@ -104,261 +109,314 @@ written by coppelia from CCID SDU.
                     </ul>
                 </li-->
 
-				<script>
-					if(sessionStorage.getItem('comHtml') != null) {
-						document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml')+" <span class=\"am-icon-caret-down\"></span>";
-						document.getElementById("comprehensive").value = sessionStorage.getItem('comValue');
-					}
-				</script>
+                <script>
+                    if (sessionStorage.getItem('comHtml') != null) {
+                        document.getElementById("comprehensive1").innerHTML = sessionStorage.getItem('comHtml') + " <span class=\"am-icon-caret-down\"></span>";
+                        document.getElementById("comprehensive").value = sessionStorage.getItem('comValue');
+                    }
+                </script>
 
-				<li  class="am-dropdown" data-am-dropdown>
+                <li class="am-dropdown" data-am-dropdown>
 
-					<a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-						<img src="../static/i/icon/autho.png" style="width:18px;height:18px;"/>
-						&nbsp;授权限制 <span class="am-icon-caret-down"></span>
-					</a>
-					<ul class="am-dropdown-content">
-						<li onclick="display2(this.innerHTML,this.value)" value="0"><a href="#">不限授权</a></li>
-						<li onclick="display2(this.innerHTML,this.value)" value="1"><a href="#">查已授权</a></li>
-						<li onclick="display2(this.innerHTML,this.value)" value="2"><a href="#">查未授权</a></li>
-					</ul>
-				</li>
-
-
-				<script>
-					if(sessionStorage.getItem('limHtml') != null) {
-						document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
-								"&nbsp;"+sessionStorage.getItem('limHtml')+" <span class=\"am-icon-caret-down\"></span>";
-						document.getElementById("limit").value = sessionStorage.getItem('limValue');
-					}
-				</script>
+                    <a id="limit1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                        <img src="../static/i/icon/autho.png" style="width:18px;height:18px;"/>
+                        &nbsp;授权限制 <span class="am-icon-caret-down"></span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                        <li onclick="display2(this.innerHTML,this.value)" value="0"><a href="#">不限授权</a></li>
+                        <li onclick="display2(this.innerHTML,this.value)" value="1"><a href="#">查已授权</a></li>
+                        <li onclick="display2(this.innerHTML,this.value)" value="2"><a href="#">查未授权</a></li>
+                    </ul>
+                </li>
 
 
-				<li  class="am-dropdown" data-am-dropdown>
-					<a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-						<img src="../static/i/icon/letter.png" style="width:18px;height:21px;"/>
-						&nbsp;姓名首字母 <span class="am-icon-caret-down"></span>
-					</a>
-					<ul class="am-dropdown-content">
-						<li onclick="display3(this.innerHTML,this.value)" value="0"><a href="#">不限首字母</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="1"><a href="#">A</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="2"><a href="#">B</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="3"><a href="#">C</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="4"><a href="#">D</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="5"><a href="#">E</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="6"><a href="#">F</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="7"><a href="#">G</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="8"><a href="#">H</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="9"><a href="#">I</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="10"><a href="#">J</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="11"><a href="#">K</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="12"><a href="#">L</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="13"><a href="#">M</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="14"><a href="#">N</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="15"><a href="#">O</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="16"><a href="#">P</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="17"><a href="#">Q</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="18"><a href="#">R</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="19"><a href="#">S</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="20"><a href="#">T</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="21"><a href="#">U</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="22"><a href="#">V</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="23"><a href="#">W</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="24"><a href="#">X</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="25"><a href="#">Y</a></li>
-						<li onclick="display3(this.innerHTML,this.value)" value="26"><a href="#">Z</a></li>
+                <script>
+                    if (sessionStorage.getItem('limHtml') != null) {
+                        document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>\n" +
+                            "&nbsp;" + sessionStorage.getItem('limHtml') + " <span class=\"am-icon-caret-down\"></span>";
+                        document.getElementById("limit").value = sessionStorage.getItem('limValue');
+                    }
+                </script>
 
 
-
-					</ul>
-				</li>
-
-				<script>
-					if(sessionStorage.getItem('letHtml') != null) {
-						document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
-								"\t\t\t\t\t\t&nbsp;"+sessionStorage.getItem('letHtml')+" <span class=\"am-icon-caret-down\"></span>";
-						document.getElementById("FirstLetter").value = sessionStorage.getItem('letValue');
-					}
-				</script>
-
-				<li  class="am-dropdown" data-am-dropdown>
-					<a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-						<img src="../static/i/icon/zone.png" style="width:23px;height:18px;"/>
-						&nbsp;多域 <span class="am-icon-caret-down"></span>
-					</a>
-					<ul class="am-dropdown-content">
-						<li onclick="display4(this.innerHTML,this.value)" value="0"><a href="#">多域</a></li>
-						<li onclick="display4(this.innerHTML,this.value)" value="1"><a href="#">标题</a></li>
-						<li onclick="display4(this.innerHTML,this.value)" value="2"><a href="#">摘要</a></li>
-						<li onclick="display4(this.innerHTML,this.value)" value="3"><a href="#">申请人</a></li>
-						<li onclick="display4(this.innerHTML,this.value)" value="4"><a href="#">专利号</a></li>
-						<li onclick="display4(this.innerHTML,this.value)" value="5"><a href="#">发明者</a></li>
-						<li onclick="display4(this.innerHTML,this.value)" value="6"><a href="#">地区</a></li>
-					</ul>
-				</li>
-
-				<script>
-					if(sessionStorage.getItem('zoneHtml') != null) {
-						document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>\n" +
-								"&nbsp;"+ sessionStorage.getItem('zoneHtml')+" <span class=\"am-icon-caret-down\"></span>";
-						document.getElementById("zone").value = sessionStorage.getItem('zoneValue');
-					}
-				</script>
-
-				<li class="am-dropdown" data-am-dropdown>
-					<a id="date1">
-						<input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期"  data-am-datepicker readonly required /> <span class="am-icon-caret-down"></span>
-					</a>
-				</li>
-				<li class="am-date2">到</li>
-				<li class="am-dropdown" data-am-dropdown>
-					<a id="date2">
-						<input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期"  data-am-datepicker readonly required /><span class="am-icon-caret-down"></span>
-					</a>
-				</li>
-			</ul>
+                <li class="am-dropdown" data-am-dropdown>
+                    <a id="FirstLetter1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                        <img src="../static/i/icon/letter.png" style="width:18px;height:21px;"/>
+                        &nbsp;姓名首字母 <span class="am-icon-caret-down"></span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                        <li onclick="display3(this.innerHTML,this.value)" value="0"><a href="#">不限首字母</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="1"><a href="#">A</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="2"><a href="#">B</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="3"><a href="#">C</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="4"><a href="#">D</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="5"><a href="#">E</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="6"><a href="#">F</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="7"><a href="#">G</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="8"><a href="#">H</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="9"><a href="#">I</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="10"><a href="#">J</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="11"><a href="#">K</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="12"><a href="#">L</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="13"><a href="#">M</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="14"><a href="#">N</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="15"><a href="#">O</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="16"><a href="#">P</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="17"><a href="#">Q</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="18"><a href="#">R</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="19"><a href="#">S</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="20"><a href="#">T</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="21"><a href="#">U</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="22"><a href="#">V</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="23"><a href="#">W</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="24"><a href="#">X</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="25"><a href="#">Y</a></li>
+                        <li onclick="display3(this.innerHTML,this.value)" value="26"><a href="#">Z</a></li>
 
 
+                    </ul>
+                </li>
 
-			<!--form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+                <script>
+                    if (sessionStorage.getItem('letHtml') != null) {
+                        document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:18px;height:21px;\"/>\n" +
+                            "\t\t\t\t\t\t&nbsp;" + sessionStorage.getItem('letHtml') + " <span class=\"am-icon-caret-down\"></span>";
+                        document.getElementById("FirstLetter").value = sessionStorage.getItem('letValue');
+                    }
+                </script>
+
+                <li class="am-dropdown" data-am-dropdown>
+                    <a id="zone1" class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                        <img src="../static/i/icon/zone.png" style="width:23px;height:18px;"/>
+                        &nbsp;多域 <span class="am-icon-caret-down"></span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                        <li onclick="display4(this.innerHTML,this.value)" value="0"><a href="#">多域</a></li>
+                        <li onclick="display4(this.innerHTML,this.value)" value="1"><a href="#">标题</a></li>
+                        <li onclick="display4(this.innerHTML,this.value)" value="2"><a href="#">摘要</a></li>
+                        <li onclick="display4(this.innerHTML,this.value)" value="3"><a href="#">申请人</a></li>
+                        <li onclick="display4(this.innerHTML,this.value)" value="4"><a href="#">专利号</a></li>
+                        <li onclick="display4(this.innerHTML,this.value)" value="5"><a href="#">发明者</a></li>
+                        <li onclick="display4(this.innerHTML,this.value)" value="6"><a href="#">地区</a></li>
+                    </ul>
+                </li>
+
+                <script>
+                    if (sessionStorage.getItem('zoneHtml') != null) {
+                        document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:23px;height:18px;\"/>\n" +
+                            "&nbsp;" + sessionStorage.getItem('zoneHtml') + " <span class=\"am-icon-caret-down\"></span>";
+                        document.getElementById("zone").value = sessionStorage.getItem('zoneValue');
+                    }
+                </script>
+
+                <li class="am-dropdown" data-am-dropdown>
+                    <a id="date1">
+                        <input id="d1" type="text" name="time_from" class="am-date" placeholder="开始日期"
+                               data-am-datepicker readonly required/> <span class="am-icon-caret-down"></span>
+                    </a>
+                </li>
+                <li class="am-date2">到</li>
+                <li class="am-dropdown" data-am-dropdown>
+                    <a id="date2">
+                        <input id="d2" type="text" name="time_to" class="am-date" placeholder="结束日期" data-am-datepicker
+                               readonly required/><span class="am-icon-caret-down"></span>
+                    </a>
+                </li>
+            </ul>
+
+
+            <!--form class="am-topbar-form am-topbar-right am-form-inline" role="search">
               <div class="am-form-group">
                 <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
               </div>
             </form-->
-		</div>
-	</nav>
-	<hr>
+        </div>
+    </nav>
+    <hr>
 </div>
 
 <!-- content srart -->
 <div class="am-g am-g-fixed blog-fixed">
 
-	<div class="am-u-md-8 am-u-sm-12">
-		<div class="am-cf am-padding am-padding-bottom-0" style="margin-bottom: 12px">
-			<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">高级搜索结果</strong> / <small>进阶条件展示</small></div>
-		</div>
-		<hr>
-		<article th:each="m : ${patentsForView.patents}" class="am-g blog-entry-article">
+    <div class="am-u-md-8 am-u-sm-12">
+        <div class="am-cf am-padding am-padding-bottom-0" style="margin-bottom: 12px">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">高级搜索结果</strong> /
+                <small>进阶条件展示</small>
+            </div>
+        </div>
+        <hr>
+        <article th:each="m : ${patentsForView.patents}" class="am-g blog-entry-article">
 
-			<div class="am-u-md-12 am-u-sm-12 blog-entry-text">
-				<strong><span><a th:text="'专利号：'+${m.application_publish_number}+ '&nbsp;'" id="pn" href="" class="am-color1">专利号：CN105874434A &nbsp;</a></span></strong>
-				<strong><span th:text="'授权状态：'+${m.grant_status}+ '&nbsp;'" class="am-color1" id="authorization" style="float:right;">未授权 &nbsp;</span></strong>
-				<span th:text="'年份:'+${m.year}+ '&nbsp;'" id="year" style="float:right;">年份:2016 &nbsp;</span>
+            <div class="am-u-md-12 am-u-sm-12 blog-entry-text">
+                <strong><span><a th:text="'专利号：'+${m.application_publish_number}+ '&nbsp;'" id="pn" href=""
+                                 class="am-color1">专利号：CN105874434A &nbsp;</a></span></strong>
+                <strong><span th:text="'授权状态：'+${m.grant_status}+ '&nbsp;'" class="am-color1" id="authorization"
+                              style="float:right;">未授权 &nbsp;</span></strong>
+                <span th:text="'年份:'+${m.year}+ '&nbsp;'" id="year" style="float:right;">年份:2016 &nbsp;</span>
 
-				<h1><a th:utext="${m.title}" th:href="@{http://localhost:8080/detailSearch(patentId=${m.application_publish_number})}">比特重映射系统</a></h1>
-				<p th:utext="${m.patent_Abstract}" class="am-message">一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
-				</p>
-				<span th:text="'申请人:'+${m.applicant}" style="float:left;">申请单位:高通股份有限公司</span>
-				<span th:text="'作者:'+${m.inventor}+ '&nbsp;'" id="author" style="float:right;">权利人:X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
-			</div>
-		</article>
-
-
-
-		<ul class="am-pagination">
-			<li class="am-pagination-prev"><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}-1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">&laquo; Prev</a></li>
-			<li class="am-active"><a th:text="${page}" href="#"></a></li>
-			<li><a th:text="${page}+1" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+2" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+2,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+3" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+3,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+4" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+4,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+5" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+5,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+6" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+6,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+7" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+7,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+8" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+8,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a></li>
-			<li><a th:text="${page}+9" th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+9,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">&raquo;</a></li>
-			<li class="am-pagination-next"><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">Next &raquo;</a></li>
-		</ul>
-	</div>
+                <h1><a th:utext="${m.title}"
+                       th:href="@{http://localhost:8080/detailSearch(patentId=${m.application_publish_number})}">比特重映射系统</a>
+                </h1>
+                <p th:utext="${m.patent_Abstract}" class="am-message">
+                    一种方法包括在计数器处存储指示在与第一地址相关联的数据中检测到比特差错的读操作的计数的第一值。该方法进一步包括响应于第一值超过第一阈值，使用耦合至存储器阵列的控制器来将第一地址重映射到第二地址。第一地址对应于存储器阵列的第一元件。第二地址对应于被包括在控制器内的存储器处的第二元件。重映射第一地址包括响应于接收到对位于第一地址处的数据的第一读请求，将从第一元件读取的第一值替换成从第二元件读取的第二值。
+                </p>
+                <span th:text="'申请人:'+${m.applicant}" style="float:left;">申请单位:高通股份有限公司</span>
+                <span th:text="'作者:'+${m.inventor}+ '&nbsp;'" id="author" style="float:right;">权利人:X·董;J·P·金;M·赛义夫丁; &nbsp;</span>
+            </div>
+        </article>
 
 
-	<div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-
-		<div class="blog-sidebar-widget blog-bor">
-			<h2 class="blog-title"><span>Refine</span></h2>
-			<ul class="" style="text-align:left;">
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='A')}">&nbspA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人类生活必须</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='B')}">&nbspB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作业·运输</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='C')}">&nbspC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;化学·冶金</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='D')}">&nbspD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纺织·造纸</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='E')}">&nbspE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;固定建筑物</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='F')}">&nbspF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机械工程</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='G')}">&nbspG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物理</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='H')}">&nbspH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电学</a></li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-
-		<div class="blog-sidebar-widget blog-bor">
-			<h2 class="blog-title"><span>时间</span></h2>
-			<ul class="am-list" style="text-align:left;">
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_3},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近三年</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_5},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近五年</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_10},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近十年</a></li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-
-		<div class="blog-sidebar-widget blog-bor">
-			<h2 class="blog-title"><span>授权状态</span></h2>
-			<ul class="" style="text-align:left;">
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='GRANTED',type_code=${typeCode})}">已授权</a></li>
-				<li><a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='NOT_GRANTED',type_code=${typeCode})}">未授权</a></li>
-			</ul>
-		</div>
-	</div>
+        <ul class="am-pagination">
+            <li class="am-pagination-prev"><a
+                    th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}-1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">&laquo;
+                Prev</a></li>
+            <li class="am-active"><a th:text="${page}" href="#"></a></li>
+            <li><a th:text="${page}+1"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+2"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+2,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+3"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+3,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+4"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+4,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+5"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+5,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+6"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+6,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+7"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+7,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+8"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+8,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}"></a>
+            </li>
+            <li><a th:text="${page}+9"
+                   th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+9,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">&raquo;</a>
+            </li>
+            <li class="am-pagination-next"><a
+                    th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=${page}+1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code=${typeCode})}">Next
+                &raquo;</a></li>
+        </ul>
+    </div>
 
 
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
 
-	<!--div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>Refine</span></h2>
+            <ul class="" style="text-align:left;">
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='A')}">&nbspA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人类生活必须</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='B')}">&nbspB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作业·运输</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='C')}">&nbspC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;化学·冶金</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='D')}">&nbspD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纺织·造纸</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='E')}">&nbspE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;固定建筑物</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='F')}">&nbspF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机械工程</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='G')}">&nbspG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物理</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted=${is_granted},type_code='H')}">&nbspH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电学</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>时间</span></h2>
+            <ul class="am-list" style="text-align:left;">
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_3},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近三年</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_5},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近五年</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${year_back_10},time_to=${year_now},is_granted=${is_granted},type_code=${typeCode})}">最近十年</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>授权状态</span></h2>
+            <ul class="" style="text-align:left;">
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='GRANTED',type_code=${typeCode})}">已授权</a>
+                </li>
+                <li>
+                    <a th:href="@{http://localhost:8080/advancedSearch(expressions=${expression},page=1,time_from=${time_from},time_to=${time_to},is_granted='NOT_GRANTED',type_code=${typeCode})}">未授权</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--div class="am-u-md-4 am-u-sm-12 blog-sidebar">
 
 
 
-		<div class="blog-sidebar-widget blog-bor">
-			<h2 class="blog-title"><span>近义搜索结果</span></h2>
-			<ul th:each="m : ${patentsForView.recommendWord}" class="am-list" style="text-align:left;">
-				<li><a th:text=${m}>近义词链接模板1</a></li>
-			</ul>
-		</div>
-	</div-->
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>近义搜索结果</span></h2>
+            <ul th:each="m : ${patentsForView.recommendWord}" class="am-list" style="text-align:left;">
+                <li><a th:text=${m}>近义词链接模板1</a></li>
+            </ul>
+        </div>
+    </div-->
 </div>
 <!-- content end -->
 
 
 <footer class="blog-footer">
-	<div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
-		<div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-			<h3>专利搜索项目简介</h3>
-			<p  >
-				<br>
-				认知计算创新实验室专注于<br>
-				认知机器人关键技术研究与实现，<br>
-				具体课题包括语音识别、知识学习、<br>
-				语义推断、智能问答、增强现实和<br>
-				遥在技术等。通过研究课题，<br>
-				引导学生的科研兴趣，提高学生的<br>
-				学术创新能力、实践能力和团队精神，<br>
-				为培养高素质、宽知识、强能力的<br>
-				优秀科技人才提供学术创新和实践环境。<br>
-			</p>
-		</div>
-		<div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-			<img src="../static/i/logo.png" alt="">
-			<h1>
-				<a href="http://splab-sdu.zrbao.net">认知计算创新实验室</a>
-			</h1>
-			<p>
-				Email：sun_yuqing@sdu.edu.cn<br>
-				联系方式：88391810<br>
-				地址：中国济南高新技术产业开发区舜华路1500号<br>
-				邮编：250101<br>
-			</p>
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <h3>专利搜索项目简介</h3>
+            <p>
+                <br>
+                认知计算创新实验室专注于<br>
+                认知机器人关键技术研究与实现，<br>
+                具体课题包括语音识别、知识学习、<br>
+                语义推断、智能问答、增强现实和<br>
+                遥在技术等。通过研究课题，<br>
+                引导学生的科研兴趣，提高学生的<br>
+                学术创新能力、实践能力和团队精神，<br>
+                为培养高素质、宽知识、强能力的<br>
+                优秀科技人才提供学术创新和实践环境。<br>
+            </p>
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <img src="../static/i/logo.png" alt="">
+            <h1>
+                <a href="http://splab-sdu.zrbao.net">认知计算创新实验室</a>
+            </h1>
+            <p>
+                Email：sun_yuqing@sdu.edu.cn<br>
+                联系方式：88391810<br>
+                地址：中国济南高新技术产业开发区舜华路1500号<br>
+                邮编：250101<br>
+            </p>
 
-			<!--h3>联系方式</h3>
+            <!--h3>联系方式</h3>
             <p>
                 <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
                 <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
@@ -366,309 +424,311 @@ written by coppelia from CCID SDU.
                 <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
                 <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
             </p-->
-		</div>
-		<div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-			<img src="../static/i/banner.png" alt="">
-		</div>
-	</div>
-	<div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under
-		Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.</div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+            <img src="../static/i/banner.png" alt="">
+        </div>
+    </div>
+    <div class="blog-text-center">© 2019 Software Institution, SDU. Licensed under
+        Cognitive Computing Innovation Lab(CCID). Made By COPPELIA Team.
+    </div>
 </footer>
-
 
 
 <script>
 
-	var searchBar = document.getElementById("search-bar");
-	// 检测是否存在 autosave 键值
-	// (这个会在页面偶然被刷新的情况下存在)
-	if (sessionStorage.getItem("autosave")) {
-		// 恢复文本输入框的内容
-		searchBar.value = sessionStorage.getItem("autosave");
+    var searchBar = document.getElementById("search-bar");
+    // 检测是否存在 autosave 键值
+    // (这个会在页面偶然被刷新的情况下存在)
+    if (sessionStorage.getItem("autosave")) {
+        // 恢复文本输入框的内容
+        searchBar.value = sessionStorage.getItem("autosave");
 
-	}
-	// 监听文本输入框的 change 事件
-	searchBar.addEventListener("change", function() {
-		// 保存结果到 sessionStorage 对象中
-		sessionStorage.setItem("autosave", searchBar.value);
-	});
-
-
+    }
+    // 监听文本输入框的 change 事件
+    searchBar.addEventListener("change", function () {
+        // 保存结果到 sessionStorage 对象中
+        sessionStorage.setItem("autosave", searchBar.value);
+    });
 
 
-	function display(innerHtml,value){
+    function display(innerHtml, value) {
 
-		console.log("display1修改前value值"+document.getElementById("comprehensive").value);
-		console.log("元素value"+this.value);
-		document.getElementById("comprehensive1").innerHTML=innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-		if(value === 0){
-			document.getElementById("comprehensive").value="COMPREHENSIVENESS";
-			sessionStorage.setItem('comValue','COMPREHENSIVENESS');
-		}
-		if(value === 1){
-			document.getElementById("comprehensive").value="RELEVANCE";
-			sessionStorage.setItem('comValue','RELEVANCE');
-		}
-		if(value === 2){
-			document.getElementById("comprehensive").value="PROSPECTIVENESS";
-			sessionStorage.setItem('comValue','PROSPECTIVENESS');
-		}
+        console.log("display1修改前value值" + document.getElementById("comprehensive").value);
+        console.log("元素value" + this.value);
+        document.getElementById("comprehensive1").innerHTML = innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("comprehensive").value = "COMPREHENSIVENESS";
+            sessionStorage.setItem('comValue', 'COMPREHENSIVENESS');
+        }
+        if (value === 1) {
+            document.getElementById("comprehensive").value = "RELEVANCE";
+            sessionStorage.setItem('comValue', 'RELEVANCE');
+        }
+        if (value === 2) {
+            document.getElementById("comprehensive").value = "PROSPECTIVENESS";
+            sessionStorage.setItem('comValue', 'PROSPECTIVENESS');
+        }
 
-		console.log("display1修改value值"+value);
-		console.log("display1已修改value值"+document.getElementById("comprehensive").value);
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("comprehensive").value);
 
 
-		sessionStorage.setItem('comHtml',innerHtml);
-		<!--测试代码-->
-		//console.log(sessionStorage.getItem('comHtml')+"display方法显示")
-		//document.getElementById("c1").style.display = none;
-	}
-	function display2(innerHtml,value){
-		document.getElementById("limit1").innerHTML="<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" +innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-		if(value === 0){
-			document.getElementById("limit").value="NO_LIMIT";
-			sessionStorage.setItem('limValue','NO_LIMIT');
-		}
-		if(value === 1){
-			document.getElementById("limit").value="GRANTED";
-			sessionStorage.setItem('limValue','GRANTED');
-		}
-		if(value === 2){
-			document.getElementById("limit").value="NOT_GRANTED";
-			sessionStorage.setItem('limValue','NOT_GRANTED');
-		}
-		console.log("display1修改value值"+value);
-		console.log("display1已修改value值"+document.getElementById("limit").value);
+        sessionStorage.setItem('comHtml', innerHtml);
+        <!--测试代码-->
+        //console.log(sessionStorage.getItem('comHtml')+"display方法显示")
+        //document.getElementById("c1").style.display = none;
+    }
 
-		sessionStorage.setItem('limHtml',innerHtml);
-	}
-	function display3(innerHtml,value){
-		document.getElementById("FirstLetter1").innerHTML="<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-		if(value === 0){
-			document.getElementById("FirstLetter").value="NO_LIMIT";
-			sessionStorage.setItem('letValue','NO_LIMIT');
-		}
-		if(value === 1){
-			document.getElementById("FirstLetter").value="A";
-			sessionStorage.setItem('letValue','A');
-		}
-		if(value === 2){
-			document.getElementById("FirstLetter").value="B";
-			sessionStorage.setItem('letValue','B');
-		}
-		if(value === 3){
-			document.getElementById("FirstLetter").value="C";
-			sessionStorage.setItem('letValue','C');
-		}
-		if(value === 4){
-			document.getElementById("FirstLetter").value="D";
-			sessionStorage.setItem('letValue','D');
-		}
-		if(value === 5){
-			document.getElementById("FirstLetter").value="E";
-			sessionStorage.setItem('letValue','E');
-		}
-		if(value === 6){
-			document.getElementById("FirstLetter").value="F";
-			sessionStorage.setItem('letValue','F');
-		}
-		if(value === 7){
-			document.getElementById("FirstLetter").value="G";
-			sessionStorage.setItem('letValue','G');
-		}
-		if(value === 8){
-			document.getElementById("FirstLetter").value="H";
-			sessionStorage.setItem('letValue','H');
-		}
-		if(value === 9){
-			document.getElementById("FirstLetter").value="I";
-			sessionStorage.setItem('letValue','I');
-		}
-		if(value === 10){
-			document.getElementById("FirstLetter").value="J";
-			sessionStorage.setItem('letValue','J');
-		}
-		if(value === 11){
-			document.getElementById("FirstLetter").value="K";
-			sessionStorage.setItem('letValue','K');
-		}
-		if(value === 12){
-			document.getElementById("FirstLetter").value="L";
-			sessionStorage.setItem('letValue','L');
-		}
-		if(value === 13){
-			document.getElementById("FirstLetter").value="M";
-			sessionStorage.setItem('letValue','M');
-		}
-		if(value === 14){
-			document.getElementById("FirstLetter").value="N";
-			sessionStorage.setItem('letValue','N');
-		}
-		if(value === 15){
-			document.getElementById("FirstLetter").value="O";
-			sessionStorage.setItem('letValue','O');
-		}
-		if(value === 16){
-			document.getElementById("FirstLetter").value="P";
-			sessionStorage.setItem('letValue','P');
-		}
-		if(value === 17){
-			document.getElementById("FirstLetter").value="Q";
-			sessionStorage.setItem('letValue','Q');
-		}
-		if(value === 18){
-			document.getElementById("FirstLetter").value="R";
-			sessionStorage.setItem('letValue','R');
-		}
-		if(value === 19){
-			document.getElementById("FirstLetter").value="S";
-			sessionStorage.setItem('letValue','S');
-		}
-		if(value === 20){
-			document.getElementById("FirstLetter").value="T";
-			sessionStorage.setItem('letValue','T');
-		}
-		if(value === 21){
-			document.getElementById("FirstLetter").value="U";
-			sessionStorage.setItem('letValue','U');
-		}
-		if(value === 22){
-			document.getElementById("FirstLetter").value="V";
-			sessionStorage.setItem('letValue','V');
-		}
-		if(value === 23){
-			document.getElementById("FirstLetter").value="W";
-			sessionStorage.setItem('letValue','W');
-		}
-		if(value === 24){
-			document.getElementById("FirstLetter").value="X";
-			sessionStorage.setItem('letValue','X');
-		}
-		if(value === 25){
-			document.getElementById("FirstLetter").value="Y";
-			sessionStorage.setItem('letValue','Y');
-		}
-		if(value === 26){
-			document.getElementById("FirstLetter").value="Z";
-			sessionStorage.setItem('letValue','Z');
-		}
-		console.log("display1修改value值"+value);
-		console.log("display1已修改value值"+document.getElementById("FirstLetter").value);
-		sessionStorage.setItem('letHtml',innerHtml);
-	}
-	function display4(innerHtml,value){
-		document.getElementById("zone1").innerHTML="<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;"+innerHtml+" <span class=\"am-icon-caret-down\"></span>";
-		if(value === 0){
-			document.getElementById("zone").value="ALL";
-			sessionStorage.setItem('zoneValue','ALL');
-		}
-		if(value === 1){
-			document.getElementById("zone").value="TITLE";
-			sessionStorage.setItem('zoneValue','TITLE');
-		}
-		if(value === 2){
-			document.getElementById("zone").value="ABSTRACT";
-			sessionStorage.setItem('zoneValue','ABSTRACT');
-		}
-		if(value === 3){
-			document.getElementById("zone").value="APPLICANT";
-			sessionStorage.setItem('zoneValue','APPLICANT');
-		}
-		if(value === 4){
-			document.getElementById("zone").value="ID";
-			sessionStorage.setItem('zoneValue','ID');
-		}
-		if(value === 5){
-			document.getElementById("zone").value="INVENTOR";
-			sessionStorage.setItem('zoneValue','INVENTOR');
-		}
-		if(value === 6){
-			document.getElementById("zone").value="ADDRESS";
-			sessionStorage.setItem('zoneValue','ADDRESS');
-		}
-		console.log("display1修改value值"+value);
-		console.log("display1已修改value值"+document.getElementById("zone").value);
-		sessionStorage.setItem('zoneHtml',innerHtml);
-	}
+    function display2(innerHtml, value) {
+        document.getElementById("limit1").innerHTML = "<img src=\"../static/i/icon/autho.png\" style=\"width:18px;height:18px;\"/>&nbsp;\n" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("limit").value = "NO_LIMIT";
+            sessionStorage.setItem('limValue', 'NO_LIMIT');
+        }
+        if (value === 1) {
+            document.getElementById("limit").value = "GRANTED";
+            sessionStorage.setItem('limValue', 'GRANTED');
+        }
+        if (value === 2) {
+            document.getElementById("limit").value = "NOT_GRANTED";
+            sessionStorage.setItem('limValue', 'NOT_GRANTED');
+        }
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("limit").value);
 
-	function allsubmit(){
-		var timeFrom = $("#d1").val();
-		var timeTo = $("#d2").val();
-		var keyWords=$("#search-bar").val();
-		var wordCutGrade=$("#wordCutGrade").val();
-		var comprehensive=$("#comprehensive").attr("value");
-		var firstLetter=$("#FirstLetter").attr("value");
-		var passOrNot=$("#limit").attr("value");
-		var field=$("#zone").attr("value");
+        sessionStorage.setItem('limHtml', innerHtml);
+    }
 
-		var temp = document.createElement("form");
-		temp.action = "/search?page=1";
-		temp.method = "get";
-		temp.style.display = "none";
+    function display3(innerHtml, value) {
+        document.getElementById("FirstLetter1").innerHTML = "<img src=\"../static/i/icon/letter.png\" style=\"width:17px;height:20px;\"/>&nbsp;" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("FirstLetter").value = "NO_LIMIT";
+            sessionStorage.setItem('letValue', 'NO_LIMIT');
+        }
+        if (value === 1) {
+            document.getElementById("FirstLetter").value = "A";
+            sessionStorage.setItem('letValue', 'A');
+        }
+        if (value === 2) {
+            document.getElementById("FirstLetter").value = "B";
+            sessionStorage.setItem('letValue', 'B');
+        }
+        if (value === 3) {
+            document.getElementById("FirstLetter").value = "C";
+            sessionStorage.setItem('letValue', 'C');
+        }
+        if (value === 4) {
+            document.getElementById("FirstLetter").value = "D";
+            sessionStorage.setItem('letValue', 'D');
+        }
+        if (value === 5) {
+            document.getElementById("FirstLetter").value = "E";
+            sessionStorage.setItem('letValue', 'E');
+        }
+        if (value === 6) {
+            document.getElementById("FirstLetter").value = "F";
+            sessionStorage.setItem('letValue', 'F');
+        }
+        if (value === 7) {
+            document.getElementById("FirstLetter").value = "G";
+            sessionStorage.setItem('letValue', 'G');
+        }
+        if (value === 8) {
+            document.getElementById("FirstLetter").value = "H";
+            sessionStorage.setItem('letValue', 'H');
+        }
+        if (value === 9) {
+            document.getElementById("FirstLetter").value = "I";
+            sessionStorage.setItem('letValue', 'I');
+        }
+        if (value === 10) {
+            document.getElementById("FirstLetter").value = "J";
+            sessionStorage.setItem('letValue', 'J');
+        }
+        if (value === 11) {
+            document.getElementById("FirstLetter").value = "K";
+            sessionStorage.setItem('letValue', 'K');
+        }
+        if (value === 12) {
+            document.getElementById("FirstLetter").value = "L";
+            sessionStorage.setItem('letValue', 'L');
+        }
+        if (value === 13) {
+            document.getElementById("FirstLetter").value = "M";
+            sessionStorage.setItem('letValue', 'M');
+        }
+        if (value === 14) {
+            document.getElementById("FirstLetter").value = "N";
+            sessionStorage.setItem('letValue', 'N');
+        }
+        if (value === 15) {
+            document.getElementById("FirstLetter").value = "O";
+            sessionStorage.setItem('letValue', 'O');
+        }
+        if (value === 16) {
+            document.getElementById("FirstLetter").value = "P";
+            sessionStorage.setItem('letValue', 'P');
+        }
+        if (value === 17) {
+            document.getElementById("FirstLetter").value = "Q";
+            sessionStorage.setItem('letValue', 'Q');
+        }
+        if (value === 18) {
+            document.getElementById("FirstLetter").value = "R";
+            sessionStorage.setItem('letValue', 'R');
+        }
+        if (value === 19) {
+            document.getElementById("FirstLetter").value = "S";
+            sessionStorage.setItem('letValue', 'S');
+        }
+        if (value === 20) {
+            document.getElementById("FirstLetter").value = "T";
+            sessionStorage.setItem('letValue', 'T');
+        }
+        if (value === 21) {
+            document.getElementById("FirstLetter").value = "U";
+            sessionStorage.setItem('letValue', 'U');
+        }
+        if (value === 22) {
+            document.getElementById("FirstLetter").value = "V";
+            sessionStorage.setItem('letValue', 'V');
+        }
+        if (value === 23) {
+            document.getElementById("FirstLetter").value = "W";
+            sessionStorage.setItem('letValue', 'W');
+        }
+        if (value === 24) {
+            document.getElementById("FirstLetter").value = "X";
+            sessionStorage.setItem('letValue', 'X');
+        }
+        if (value === 25) {
+            document.getElementById("FirstLetter").value = "Y";
+            sessionStorage.setItem('letValue', 'Y');
+        }
+        if (value === 26) {
+            document.getElementById("FirstLetter").value = "Z";
+            sessionStorage.setItem('letValue', 'Z');
+        }
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("FirstLetter").value);
+        sessionStorage.setItem('letHtml', innerHtml);
+    }
 
-		var opt1 = document.createElement("input");
-		opt1.name = "time_from";
-		opt1.value = timeFrom;
-		//alert(opt.name+":"+opt.value);
-		temp.appendChild(opt1);
+    function display4(innerHtml, value) {
+        document.getElementById("zone1").innerHTML = "<img src=\"../static/i/icon/zone.png\" style=\"width:22px;height:17px;\"/>&nbsp;" + innerHtml + " <span class=\"am-icon-caret-down\"></span>";
+        if (value === 0) {
+            document.getElementById("zone").value = "ALL";
+            sessionStorage.setItem('zoneValue', 'ALL');
+        }
+        if (value === 1) {
+            document.getElementById("zone").value = "TITLE";
+            sessionStorage.setItem('zoneValue', 'TITLE');
+        }
+        if (value === 2) {
+            document.getElementById("zone").value = "ABSTRACT";
+            sessionStorage.setItem('zoneValue', 'ABSTRACT');
+        }
+        if (value === 3) {
+            document.getElementById("zone").value = "APPLICANT";
+            sessionStorage.setItem('zoneValue', 'APPLICANT');
+        }
+        if (value === 4) {
+            document.getElementById("zone").value = "ID";
+            sessionStorage.setItem('zoneValue', 'ID');
+        }
+        if (value === 5) {
+            document.getElementById("zone").value = "INVENTOR";
+            sessionStorage.setItem('zoneValue', 'INVENTOR');
+        }
+        if (value === 6) {
+            document.getElementById("zone").value = "ADDRESS";
+            sessionStorage.setItem('zoneValue', 'ADDRESS');
+        }
+        console.log("display1修改value值" + value);
+        console.log("display1已修改value值" + document.getElementById("zone").value);
+        sessionStorage.setItem('zoneHtml', innerHtml);
+    }
 
-		var opt2 = document.createElement("input");
-		opt2.name="time_to";
-		opt2.value=timeTo;
-		temp.appendChild(opt2);
+    function allsubmit() {
+        var timeFrom = $("#d1").val();
+        var timeTo = $("#d2").val();
+        var keyWords = $("#search-bar").val();
+        var wordCutGrade = $("#wordCutGrade").val();
+        var comprehensive = $("#comprehensive").attr("value");
+        var firstLetter = $("#FirstLetter").attr("value");
+        var passOrNot = $("#limit").attr("value");
+        var field = $("#zone").attr("value");
 
-		var opt3 = document.createElement("input");
-		opt3.name="keyWords";
-		opt3.value=keyWords;
-		temp.appendChild(opt3);
+        var temp = document.createElement("form");
+        temp.action = "/search?page=1";
+        temp.method = "get";
+        temp.style.display = "none";
 
-		var opt4 = document.createElement("input");
-		opt4.name="search_accurancy";
-		opt4.value=wordCutGrade;
-		temp.appendChild(opt4);
+        var opt1 = document.createElement("input");
+        opt1.name = "time_from";
+        opt1.value = timeFrom;
+        //alert(opt.name+":"+opt.value);
+        temp.appendChild(opt1);
 
-		var opt5 = document.createElement("input");
-		opt5.name="sort_type";
-		opt5.value=comprehensive;
-		temp.appendChild(opt5);
+        var opt2 = document.createElement("input");
+        opt2.name = "time_to";
+        opt2.value = timeTo;
+        temp.appendChild(opt2);
 
-		var opt7 = document.createElement("input");
-		opt7.name="pinyin";
-		opt7.value=firstLetter;
-		temp.appendChild(opt7);
+        var opt3 = document.createElement("input");
+        opt3.name = "keyWords";
+        opt3.value = keyWords;
+        temp.appendChild(opt3);
 
-		var opt8 = document.createElement("input");
-		opt8.name="is_granted";
-		opt8.value=passOrNot;
-		temp.appendChild(opt8);
+        var opt4 = document.createElement("input");
+        opt4.name = "search_accurancy";
+        opt4.value = wordCutGrade;
+        temp.appendChild(opt4);
 
-		var opt9 = document.createElement("input");
-		opt9.name="field";
-		opt9.value=field;
-		temp.appendChild(opt9);
+        var opt5 = document.createElement("input");
+        opt5.name = "sort_type";
+        opt5.value = comprehensive;
+        temp.appendChild(opt5);
 
-		document.body.appendChild(temp);
-		temp.submit();
-	}
-	function keyCheck(e) {
-		var keynum;
-		<!-- 把键值转化为‘键码’ -->
-		var keychar;
-		if (window.event) {//IE浏览器下的事件
-			keynum = e.keyCode;
-		} else {//非IE浏览器下的事件
-			keynum = e.which;
-		}
-		keychar = String.fromCharCode(keynum);
-		if (keynum == "13") {
-			allsubmit();
-		}
-	}
+        var opt7 = document.createElement("input");
+        opt7.name = "pinyin";
+        opt7.value = firstLetter;
+        temp.appendChild(opt7);
 
-	/*改变搜索框左侧选项的代码*/
-	function onchangeFunc(){
-		sessionStorage.setItem('sBarValue',document.getElementById("sBar").value);
-	}
+        var opt8 = document.createElement("input");
+        opt8.name = "is_granted";
+        opt8.value = passOrNot;
+        temp.appendChild(opt8);
+
+        var opt9 = document.createElement("input");
+        opt9.name = "field";
+        opt9.value = field;
+        temp.appendChild(opt9);
+
+        document.body.appendChild(temp);
+        temp.submit();
+    }
+
+    function keyCheck(e) {
+        var keynum;
+        <!-- 把键值转化为‘键码’ -->
+        var keychar;
+        if (window.event) {//IE浏览器下的事件
+            keynum = e.keyCode;
+        } else {//非IE浏览器下的事件
+            keynum = e.which;
+        }
+        keychar = String.fromCharCode(keynum);
+        if (keynum == "13") {
+            allsubmit();
+        }
+    }
+
+    /*改变搜索框左侧选项的代码*/
+    function onchangeFunc() {
+        sessionStorage.setItem('sBarValue', document.getElementById("sBar").value);
+    }
 
 </script>
 <!--[if (gte IE 9)|!(IE)]><!-->
