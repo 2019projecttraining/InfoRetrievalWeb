@@ -1,130 +1,160 @@
+<!------------------------------------------------------------------------------
+页面说明：
+本页面创建了专利技术弹性语义搜索引擎的“初始搜索界面”
+使用了HTML5标准，利用css实现了静态样式，利用js实现动态样式和网页交互代码
+引入了AmazeUI的一部分模板样式，部分class的信息参考amazeui.css/amazeui.js
+剩余样式保存在app.css及extra.css中，建议利用ctrl+F查询具体出现位置
+********************************************************************************
+written by coppelia from CCID SDU.
+-------------------------------------------------------------------------------->
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Patent Search</title>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          name="viewport">
+    <title>Patent Search</title>
 
-  <!-- Set render engine for 360 browser -->
-  <meta name="renderer" content="webkit">
+    <!-- Set render engine for 360 browser -->
+    <meta content="webkit" name="renderer">
 
-  <!-- No Baidu Siteapp-->
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!-- No Baidu Siteapp-->
+    <meta content="no-siteapp" http-equiv="Cache-Control"/>
 
-  <link rel="icon" type="image/png" href="../static/i/favicon.png">
+    <link href="../static/i/favicon.png" rel="icon" type="image/png">
 
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="192x192" href="../static/i/app-icon72x72@2x.png">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta content="yes" name="mobile-web-app-capable">
+    <link href="../static/i/app-icon72x72@2x.png" rel="icon" sizes="192x192">
 
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="Amaze UI" name="apple-mobile-web-app-title"/>
+    <link href="assets/i/app-icon72x72@2x.png" rel="apple-touch-icon-precomposed">
 
-  <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
-  <meta name="msapplication-TileColor" content="#0e90d2">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta content="assets/i/app-icon72x72@2x.png" name="msapplication-TileImage">
+    <meta content="#0e90d2" name="msapplication-TileColor">
 
-  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-  <!--
-  <link rel="canonical" href="http://www.example.com/">
-  -->
-  <link rel="stylesheet" href="../static/css/amazeui.min.css">
-  <link rel="stylesheet" href="../static/css/app.css">
-  <link rel="stylesheet" href="../static/css/extra.css">
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+    <link href="../static/css/amazeui.min.css" rel="stylesheet">
+    <link href="../static/css/app.css" rel="stylesheet">
+    <link href="../static/css/extra.css" rel="stylesheet">
 </head>
+
+<!--网页主体内容-->
 <body>
+<!--网页头部信息-->
 <header>
-  <div class="log-header">
-      <h1><a href="/">Amaze UI</a> </h1>
-  </div>
+    <!--左上角AmazeUI Logo + Cognitive Computing Innovation Lab(认知计算创新实验室英文）-->
+    <div class="log-header">
+        <h1><a href="/">CCI Lab</a></h1>
+    </div>
 
-
-  <div class="log-re">
-    <button type="button" class="am-btn am-btn-default am-radius log-button" onclick="location.href='http://splab-sdu.zrbao.net'">帮助 </button>
-  </div>
+    <!--右上角帮助按钮，class包含按钮样式以及响应式动画设计-->
+    <div class="log-re">
+        <button class="am-btn am-btn-default am-radius log-button" onclick="location.href='http://splab-sdu.zrbao.net'"
+                type="button">帮助
+        </button>
+    </div>
 
 </header>
 
-<div class="log"> 
-  <div class="am-g">
-  <div class="am-u-lg-7 am-u-md-7 am-u-sm-8 am-u-sm-centered log-content">
-    <h1 class="log-title am-animation-slide-top">专利技术弹性语义搜索引擎</h1>
-    <br>
-    <br>
-      <div class="am-radius am-animation-slide-left">
+<!--搜索页面中心信息-->
+<div class="log">
+    <div class="am-g">
+        <div class="am-u-lg-7 am-u-md-7 am-u-sm-8 am-u-sm-centered log-content">
+            <!--搜索引擎中心标题-->
+            <h1 class="log-title am-animation-slide-top">专利技术弹性语义搜索引擎</h1>
+            <br>
+            <br>
+            <!--搜索框-->
+            <div class="am-radius am-animation-slide-left">
 
-         <div style="display:inline" >
-			<form id="myform" action="/search?page=0" class="" role="search" method="get">
-                 <select name="field" class="am-input-bar">
-                     <option value="ALL">多域</option>
-			         <option value="TITLE">标题</option>
-			         <option value="ABSTRACT">摘要</option>
-			         <option value="APPLICANT">申请人</option>
-			         <option value="ID">专利号</option>
-			         <option value="INVENTOR">发明者</option>
-			         <option value="ADDRESS">地区</option>
-                 </select>
+                <div style="display:inline">
+                    <input action="/search?page=0" class="" id="myform" method="get" role="search">
+                        <!--搜索框左侧下拉框-->
+                        <select class="am-input-bar" name="field">
+                            <option value="ALL">多域</option>
+                            <option value="TITLE">标题</option>
+                            <option value="ABSTRACT">摘要</option>
+                            <option value="APPLICANT">申请人</option>
+                            <option value="ID">专利号</option>
+                            <option value="INVENTOR">发明者</option>
+                            <option value="ADDRESS">地区</option>
+                        </select>
 
-                 <input  name="keyWords" onkeydown="keyCheck(event)" id="search-bar" class="am-radius am-input-search "  placeholder="请输入需要搜索的专利关键词" required/>
-                 <button type="submit" class="am-btn am-btn-search am-btn-primary am-radius ">搜索</button>
-            </form>
+                        <!--搜索框中心输入框-->
+                        <input class="am-radius am-input-search " id="search-bar" name="keyWords"
+                               onkeydown="keyCheck(event)" placeholder="请输入需要搜索的专利关键词" required/>
+
+                        <!--搜索框右侧输入框-->
+                        <button class="am-btn am-btn-search am-btn-primary am-radius " type="submit">搜索</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
-      </div>
+    </div>
 
-  </div>
-  </div>
-  <footer class="log-footer">   
-    © 2019 SOFTWARE, SDU. Licensed under iTai license.
-  </footer>
+    <!--搜索页面下方版权信息-->
+    <footer class="log-footer">
+        © 2019 SOFTWARE, SDU. Licensed under SDU CCI Lab.
+    </footer>
 </div>
 
+
+
+<!--页面主要功能性脚本-->
 <script>
 
-  var searchBar = document.getElementById("search-bar");
-  // 检测是否存在 autosave 键值
-  // (这个会在页面偶然被刷新的情况下存在)
-  if (sessionStorage.getItem("autosave")) {
-    // 恢复文本输入框的内容
-    searchBar.value = sessionStorage.getItem("autosave");
+    var searchBar = document.getElementById("search-bar");
+    // 检测是否存在 autosave 键值
+    // (这个会在页面偶然被刷新的情况下存在)
+    if (sessionStorage.getItem("autosave")) {
+        // 恢复文本输入框的内容
+        searchBar.value = sessionStorage.getItem("autosave");
 
-  }
-  // 监听文本输入框的 change 事件
-  searchBar.addEventListener("change", function() {
-    // 保存结果到 sessionStorage 对象中
-    sessionStorage.setItem("autosave", searchBar.value);
-  });
+    }
+    // 监听文本输入框的 change 事件
+    searchBar.addEventListener("change", function () {
+        // 保存结果到 sessionStorage 对象中
+        sessionStorage.setItem("autosave", searchBar.value);
+    });
 
-  function inputsubmit(){
-    document.getElementById('myform').submit()
-    //下面为用jquery方法提交，不过需要引入js文件
-    //$('#myform').submit();
-  }
+    function inputsubmit() {
+        document.getElementById('myform').submit()
+        //下面为用jquery方法提交，不过需要引入js文件
+        //$('#myform').submit();
+    }
 
-  function keyCheck(e){
-    var keynum;
-    <!-- 把键值转化为‘键码’ -->
-    var keychar;
-    if(window.event){//IE浏览器下的事件
-      keynum=e.keyCode;
+    //未完成的键入Enter进行搜索的功能
+    function keyCheck(e) {
+        var keynum;
+        <!-- 把键值转化为‘键码’ -->
+        var keychar;
+        if (window.event) {//IE浏览器下的事件
+            keynum = e.keyCode;
+        } else {//非IE浏览器下的事件
+            keynum = e.which;
+        }
+        keychar = String.fromCharCode(keynum);
+        if (keynum === "13") {
+            inputsubmit();
+        }
     }
-    else{//非IE浏览器下的事件
-      keynum=e.which;
-    }
-    keychar = String.fromCharCode(keynum);
-    if(keynum=="13"){
-      inputsubmit();
-    }
-  }
 
 </script>
 
+
+<!--下方为引入配合css样式的动态js交互代码-->
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="assets/js/jquery.min.js"></script>
 <!--<![endif]-->
