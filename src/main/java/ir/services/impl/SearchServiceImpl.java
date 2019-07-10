@@ -99,13 +99,13 @@ public class SearchServiceImpl implements SearchService{
         
         Query q2=null;//日期范围
         if(timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
-        	q2=TermRangeQuery.newStringRange("filing_date", "0000.00.00", timeTo, false, true);//日期范围查询
+        	q2=TermRangeQuery.newStringRange("application_date", "0000.00.00", timeTo, false, true);//日期范围查询
             builder.add(q2, Occur.MUST);
         }else if(!timeFrom.equals("NO_LIMIT")&&timeTo.equals("NO_LIMIT")) {
-        	q2=TermRangeQuery.newStringRange("filing_date", timeFrom , "3000.12.31", true, false);//日期范围查询
+        	q2=TermRangeQuery.newStringRange("application_date", timeFrom , "3000.12.31", true, false);//日期范围查询
             builder.add(q2, Occur.MUST);
         }else if(!timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
-        	q2=TermRangeQuery.newStringRange("filing_date", timeFrom , timeTo , true, false);//日期范围查询
+        	q2=TermRangeQuery.newStringRange("application_date", timeFrom , timeTo , true, false);//日期范围查询
             builder.add(q2, Occur.MUST);
         }
         Query q3=null;//姓名首字母

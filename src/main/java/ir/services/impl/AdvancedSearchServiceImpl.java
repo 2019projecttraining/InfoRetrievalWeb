@@ -37,13 +37,13 @@ public class AdvancedSearchServiceImpl implements AdvancedSearchService{
 		
 		Query q=null;//日期范围处理成query
         if(timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
-        	q=TermRangeQuery.newStringRange("filing_date", "0000.00.00", timeTo, false, true);//日期范围查询
+        	q=TermRangeQuery.newStringRange("application_date", "0000.00.00", timeTo, false, true);//日期范围查询
             builder.add(q, Occur.MUST);
         }else if(!timeFrom.equals("NO_LIMIT")&&timeTo.equals("NO_LIMIT")) {
-        	q=TermRangeQuery.newStringRange("filing_date", timeFrom , "3000.12.31", true, false);//日期范围查询
+        	q=TermRangeQuery.newStringRange("application_date", timeFrom , "3000.12.31", true, false);//日期范围查询
             builder.add(q, Occur.MUST);
         }else if(!timeFrom.equals("NO_LIMIT")&&!timeTo.equals("NO_LIMIT")) {
-        	q=TermRangeQuery.newStringRange("filing_date", timeFrom , timeTo , true, true);//日期范围查询
+        	q=TermRangeQuery.newStringRange("application_date", timeFrom , timeTo , true, true);//日期范围查询
             builder.add(q, Occur.MUST);
         }
         

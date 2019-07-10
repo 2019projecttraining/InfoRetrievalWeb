@@ -122,6 +122,7 @@ public class AdvancedSearchController {
 		modelAndView.addObject("time_from", timeFrom);
 		modelAndView.addObject("time_to", timeTo);
 		modelAndView.addObject("number",result.getHitsNum());
+		modelAndView.addObject("typeCode",typeCode);
 		
 		modelAndView.addObject("year_back_3",DateUtil.timeBackPush(3));
 		modelAndView.addObject("year_back_5",DateUtil.timeBackPush(5));
