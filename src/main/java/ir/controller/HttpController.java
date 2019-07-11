@@ -15,4 +15,12 @@ public class HttpController {
 		modelAndView.setViewName("ad-search");//设置模板名称
 		return modelAndView;
 	}
+	
+	@GetMapping("/jumpUp")//即什么样的页面会映射到这个方法上
+	@ResponseBody
+	public ModelAndView getHelp() {
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.setViewName("help");//设置模板名称
+		return modelAndView;
+	}
 }
