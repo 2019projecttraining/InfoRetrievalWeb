@@ -1,4 +1,4 @@
-package ir.util.ssc_fix;
+package ir.util.sscFix;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -178,7 +178,7 @@ public class WrongWordAnalyzer {
 					if(dictWord.equals(word)&&dict.get(dictWord)>1)
 						collector.put(dictWord,10.0);
 					else {
-						double sim=Ssc_Similarity.getSimilarity(word,dictWord);
+						double sim=SscSimilarity.getSimilarity(word,dictWord);
 						if(sim<threshold)
 							continue;
 						double sim2=sim*(1+(Math.log10(dict.get(dictWord)+1)/10));

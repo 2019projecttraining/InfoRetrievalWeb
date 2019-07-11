@@ -11,7 +11,7 @@ import ir.models.Patent;
 import ir.services.PatentService;
 
 @Controller
-public class detailController {
+public class DetailController {
 
 	@Autowired
 	private PatentService patentService;

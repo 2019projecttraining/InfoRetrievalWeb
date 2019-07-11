@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 
-public class httpController {
+public class HttpController {
 	@GetMapping("/jump")//即什么样的页面会映射到这个方法上
 	@ResponseBody
 	public ModelAndView getPatentDetail() {

@@ -20,8 +20,8 @@ import ir.models.PatentsForView;
 import ir.services.SearchService;
 import ir.util.DateUtil;
 import ir.util.seg.SegmentAnalyzer;
-import ir.util.ssc_fix.Ssc_Similarity;
-import ir.util.ssc_fix.WrongWordAnalyzer;
+import ir.util.sscFix.SscSimilarity;
+import ir.util.sscFix.WrongWordAnalyzer;
 /**
  * web控制器
  * 
@@ -39,7 +39,7 @@ public class SearchController {
 	public SearchController() {
 		super();
 		WrongWordAnalyzer.init();
-		Ssc_Similarity.init();
+		SscSimilarity.init();
 	}
 
 //	@Autowired

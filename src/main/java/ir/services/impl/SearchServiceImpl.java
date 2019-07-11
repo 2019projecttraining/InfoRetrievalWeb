@@ -51,7 +51,7 @@ import ir.util.fieldDetection.ApplicationPublishNumberDetector;
 import ir.util.fieldDetection.InventorDetector;
 import ir.util.recommend.RecommendWord;
 import ir.util.seg.AnalyzerToken;
-import ir.util.ssc_fix.WrongWordAnalyzer;
+import ir.util.sscFix.WrongWordAnalyzer;
 import ir.util.w2v.WordEntry;
 import ir.util.w2v.WordHashMap;
 

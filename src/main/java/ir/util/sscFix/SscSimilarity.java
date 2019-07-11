@@ -1,4 +1,4 @@
-package ir.util.ssc_fix;
+package ir.util.sscFix;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import ir.config.Configuration;
  * @author 余定邦
  *
  */
-public class Ssc_Similarity {
+public class SscSimilarity {
 
 	private static Map<Character,String> sscCodeDict;
 	
