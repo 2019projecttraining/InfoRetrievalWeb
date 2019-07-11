@@ -54,19 +54,35 @@ public class Indexer {
 	public static void luceneCreateIndex(Analyzer analyzer, String index_path, String csv_path) throws Exception {
 		// 指定索引存放的位置
 		Directory directory = FSDirectory.open(Paths.get(new File(index_path).getPath()));
-		System.out.println("pathname" + Paths.get(new File(index_path).getPath()));
-		// 创建indexwriterConfig(参数分词器)
+		System.out.println("索引文件生成路径:" + Paths.get(new File(index_path).getPath()));
+		// 创建indexwriterConfig
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-		// 创建indexwriter对象(文件对象,索引配置对象)
+		// 创建indexwriter对象
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		// 读csv
+		// 按照title读csv文件
 		String[] headers = new String[] { "id", "abstract", "address", "applicant", "application_date",
 				"application_number", "application_publish_number", "classification_number", "filing_date",
 				"grant_status", "inventor", "title", "year" };
-
 		FileReader reader = new FileReader(csv_path);
 		CSVParser parser = CSVFormat.DEFAULT.withHeader(headers).parse(reader);
 
+		// preserved_type保护域不分词
+		// default_type默认分词
+		// 分词模式DOCS
+		FieldType preserved_type = new FieldType();
+		preserved_type.setTokenized(false);
+		preserved_type.setStored(true);
+
+		preserved_type.setIndexOptions(IndexOptions.DOCS);
+		FieldType default_type = new FieldType();
+		default_type.setTokenized(true);
+		default_type.setStored(true);
+		// 保存分词词项向量
+		default_type.setStoreTermVectors(true);
+		default_type.setStoreTermVectorPositions(true);
+		default_type.setStoreTermVectorOffsets(true);
+		default_type.setIndexOptions(IndexOptions.DOCS);
+		
 		// 记录条目数量(控制测试条目)
 		int i = 0;
 		for (CSVRecord record : parser) {
@@ -81,27 +97,12 @@ public class Indexer {
 			i++;
 			//System.out.println("第" + i + "项:");
 			//System.out.println("title:" + record.get("title"));
-			// preserved_type保护域不分词
-			// default_type默认分词
-			// 分词模式DOCS
-			FieldType preserved_type = new FieldType();
-			preserved_type.setTokenized(false);
-			preserved_type.setStored(true);
 
-			preserved_type.setIndexOptions(IndexOptions.DOCS);
-			FieldType default_type = new FieldType();
-			default_type.setTokenized(true);
-			default_type.setStored(true);
-			default_type.setStoreTermVectors(true);
-			default_type.setStoreTermVectorPositions(true);
-			default_type.setStoreTermVectorOffsets(true);
-			default_type.setIndexOptions(IndexOptions.DOCS);
-
-			// 创建文件域名
+			// 创建各个文件域
 			// Field(域的名称,域的内容,fieldtype)
 			Field id_field = new Field("id", record.get("id"), preserved_type);
-			Field abstract_field = new Field("abstract", record.get("abstract"), default_type);
-			Field address_field = new Field("address", record.get("address"), default_type);
+			Field abstract_field = new Field("abstract", record.get("abstract"), default_type);		//摘要域分词
+			Field address_field = new Field("address", record.get("address"), default_type);		//地址域分词
 			Field applicant_field = new Field("applicant", record.get("applicant"), preserved_type);
 
 			Field application_date_field = new Field("application_date", record.get("application_date"),
@@ -120,9 +121,10 @@ public class Indexer {
 
 			// Field inventor_field = new Field("inventor", record.get("inventor"),
 			// preserved_type);
-			Field title_field = new Field("title", record.get("title"), default_type);
+			Field title_field = new Field("title", record.get("title"), default_type);				//标题域分词
 			Field year_field = new Field("year", record.get("year"), preserved_type);
 
+			// 将各个域加入doc文档中
 			Document indexableFields = new Document();
 			indexableFields.add(id_field);
 			indexableFields.add(abstract_field);
@@ -141,7 +143,7 @@ public class Indexer {
 			indexableFields.add(title_field);
 			indexableFields.add(year_field);
 			
-			//用来排序 年份域(测试用)
+			// 用来排序 年份域(测试用)
 			indexableFields.add(new SortedDocValuesField("yearcla_field", new BytesRef(record.get("year"))));
 
 			// ***新加的numericDocValue域
@@ -163,6 +165,7 @@ public class Indexer {
 			// 姓名域改为多值域
 			String inventorS = record.get("inventor");
 			String inventor[] = inventorS.split(";");
+			// 遍历所有作者分别加入索引
 			for (String out : inventor) {
 				String firstW = "";
 				// System.out.println(out);
@@ -178,9 +181,9 @@ public class Indexer {
 				firstW = firstW.toUpperCase();
 				// 姓名域
 				Field inventor_field = new Field("inventor", out, preserved_type);
-				// 首字母域FirstWorld
+				// 首字母域inventor_firstW
 				Field inventor_firstW_field = new Field("inventor_firstW", firstW, preserved_type);
-
+				// 将当前inventor信息加入Doc文档中
 				indexableFields.add(inventor_field);
 				indexableFields.add(inventor_firstW_field);
 			}
@@ -188,6 +191,7 @@ public class Indexer {
 			// 添加分类域 以及分类排序域 由于分类所以舍弃多值域
             String classfic;
             String class_num = record.get("classification_number");
+            // 提取类别信息中的第一位作为大类信息储存
             String classification[] = class_num.split(";|//|\\(|,");
             if (!classification[0].equals("")) {
                  classfic = classification[0].substring(0,1);
@@ -195,6 +199,7 @@ public class Indexer {
                  classfic = classification[1].substring(0,1);
             }
             //System.out.println(classfic);
+            // 分类域加入doc文档
             Field class_field = new Field("class", classfic, preserved_type);
             indexableFields.add(class_field);
             indexableFields.add(new SortedDocValuesField("classfi", new BytesRef(classfic)));
@@ -255,11 +260,14 @@ public class Indexer {
 		luceneCreateIndex(cjkAnalyzer, path, csv_path);
 	}
 
-	// 多条件查询
+	/**
+	 *  多域单条件查询 (测试用)
+	 *  @param content 查询内容
+	 */
 	public static void boolean_search(String content) throws IOException {
 		// 指定索引库存放路径
-		// E:\Lucene_Path\Lucene_index
-		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index").getPath()));
+		// D:\Lucene_Path\Lucene_index
+		Directory directory = FSDirectory.open(Paths.get(new File("D:\\Lucene_Path\\Lucene_index\\fuzzy_index").getPath()));
 		// 创建indexReader对象
 		IndexReader indexReader = DirectoryReader.open(directory);
 		// 创建indexSearcher对象
@@ -315,7 +323,12 @@ public class Indexer {
 		indexReader.close();
 	}
 
-	// 单域多条件查询
+	/**
+	 *  单域多条件查询 (测试用)
+	 * @param field 域名称
+	 * @param content 查询内容数组
+	 * @param dir 查询索引类型
+	 */
 	public static void multi_search(String field, String[] content, int dir) throws IOException {
 		// 指定索引库存放路径
 		// D:\Lucene_Path\Lucene_index
@@ -374,6 +387,11 @@ public class Indexer {
 		indexReader.close();
 	}
 
+	/**
+	 *  指定域单条件查询 (测试用)
+	 * @param field 域名称
+	 * @param content 查询内容
+	 */
 	public static void single_search(String field, String content) throws IOException {
 		// 制定索引库存放路径
 		Directory directory = FSDirectory
